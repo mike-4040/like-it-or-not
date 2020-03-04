@@ -4,8 +4,6 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.get('/', (req, res) => res.send('Hello World!'));
-
 const path = require('path');
 
 // Setting CORS so that any website can Access our API
@@ -21,16 +19,18 @@ app.use(express.urlencoded({ extended: true }));
 
 // mongoose
 //   .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/appDB', {
-//     useNewUrlParser: true,
-//     useCreateIndex: true
-//   })
-//   .then(() => console.log('MongoDB Connected!'))
-//   .catch(err => console.error(err));
-
-// Serve up static assets (usually on heroku)
-if (process.env.NODE_ENV === 'production')
+  //     useNewUrlParser: true,
+  //     useCreateIndex: true
+  //   })
+  //   .then(() => console.log('MongoDB Connected!'))
+  //   .catch(err => console.error(err));
+  
+  // Serve up static assets (usually on heroku)
+  if (process.env.NODE_ENV === 'production')
   app.use(express.static('client/build'));
-
+  
+  app.get('/api/test', (req, res) => res.send('Hello from the Backend!'));
+  
 // Error handling
 app.use(function(err, req, res, next) {
   if (err.name === 'UnauthorizedError') {

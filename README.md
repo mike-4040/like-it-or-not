@@ -1,6 +1,6 @@
 # Like It or Or Not
 
-Simple app to let User save and retrive their expearience.
+Simple app to let User save and retrive their experience.
 
 ## Stack
 ### Front

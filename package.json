@@ -1,0 +1,19 @@
+{
+  "name": "like-it-or-not",
+  "version": "1.0.0",
+  "description": "Like It Or Not",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mike-4040/like-it-or-not.git"
+  },
+  "author": "Kostas Agapov & Mike Kravtsov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mike-4040/like-it-or-not/issues"
+  },
+  "homepage": "https://github.com/mike-4040/like-it-or-not#readme"
+}

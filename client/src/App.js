@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import CreateRecord from './components/CreateRecord';
+import MainPage from './components/MainPage';
 
-function App() {
+import { AppContext } from './Context';
+
+export default function App() {
+  const { user } = useContext(AppContext);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Switch>
+        <Route path='/signin' component={SignIn} />
+        <Route path='/signup' component={SignUp} />
+        <Route path='/record' component={CreateRecord} />
+        <Route exact path='/' component={MainPage} />
+        {/* <Route component={PageNotFound} /> */}
+      </Switch>
+    </>
   );
 }
-
-export default App;

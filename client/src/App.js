@@ -9,8 +9,8 @@ function App() {
     setApiMessage('Before API');
     api
       .test()
-      .then(({data}) => setApiMessage(data))
-      .catch(err => console.log(err));
+      .then(({data}) => setApiMessage(JSON.stringify(data)))
+      .catch(err => console.log(err))
   }, []);
 
   return <div>Api Message: {apiMessage}</div>;

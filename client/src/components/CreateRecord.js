@@ -27,7 +27,7 @@ export default function CreateRecord() {
       <UserTop />
       <Container component='main' maxWidth='xs'>
         <Grid container className={classes.section}>
-          <Typography component='h1' variant='h4' mb='2'>
+          <Typography component='h1' variant='h4'>
             Like it or not
           </Typography>
           <Form />

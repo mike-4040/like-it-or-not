@@ -80,7 +80,7 @@ export default function Record({ id, name, comment, time, rating, category }) {
           <Grid container justify='space-between' alignItems='center'>
             {/* Here goes the name of the record */}
             <Grid item xs={7}>
-              <Typography component='body1' variant='body1'>
+              <Typography component='h2' variant='body1'>
                 {name}
               </Typography>
             </Grid>
@@ -90,7 +90,7 @@ export default function Record({ id, name, comment, time, rating, category }) {
             </Grid>
             {/* This one is for category */}
             <Grid item xs={2}>
-              <Typography component='subtitle2' variant='subtitle2'>
+              <Typography component='h2' variant='subtitle2'>
                 {category}
               </Typography>
             </Grid>

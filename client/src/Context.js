@@ -1,27 +1,17 @@
 import React, { createContext, useState, useEffect } from 'react';
 
-const AppContext = createContext();
+import Api from './utils/api';
 
-// fake user from DB
-const userDB = {
-  email: 'test@m.c',
-  password: '124sadgasdgsd'
-};
+const AppContext = createContext();
 
 function ContextProvider({ children }) {
   // Getting User
   const [user, setUser] = useState();
 
-  // helper func to get user befor render page
-  const getUser = () => {
-    // no user returned
-    return null;
-    // uncoment to return user
-    // return userDB
-  };
-
   useEffect(() => {
-    setUser(getUser());
+    Api.getUser()
+      .then(({ data }) => setUser(data))
+      .catch(err => console.log(err));
   }, []);
 
   return <AppContext.Provider value={{ user }}>{children}</AppContext.Provider>;

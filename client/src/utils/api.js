@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 export default {
-  test: () => axios.get('/api/user')
+  getUser: () => axios.get('/api/user')
 };

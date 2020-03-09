@@ -9,16 +9,16 @@ import { AppContext } from './Context';
 
 export default function App() {
   const { user } = useContext(AppContext);
-  console.log('user', user);
-  // const user = null;
+  // console.log('user', user);
+
   return (
     <>
       <Switch>
         <Route path='/signin' component={SignIn} />
         <Route path='/signup' component={SignUp} />
         <Route path='/record' component={CreateRecord} />
-        <Route path='/record' component={CreateRecord} />
-        <Route exact path='/' component={user ? MainPage : SignIn} />
+        <Route exact path='/main' component={MainPage} />
+        <Route exact path='/' component={CreateRecord} />
         {/* <Route component={PageNotFound} /> */}
       </Switch>
     </>

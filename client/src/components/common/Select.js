@@ -15,18 +15,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SelectElement() {
+export default function SelectElement({ setValues, value }) {
   const classes = useStyles();
-  const [category, setCategory] = React.useState('');
 
   const inputLabel = React.useRef(null);
   const [labelWidth, setLabelWidth] = React.useState(0);
   React.useEffect(() => {
     setLabelWidth(inputLabel.current.offsetWidth);
   }, []);
-  const handleChange = event => {
-    setCategory(event.target.value);
-  };
+
   return (
     <FormControl
       variant='outlined'
@@ -39,8 +36,9 @@ export default function SelectElement() {
       <Select
         labelId='demo-simple-select-outlined-label'
         id='demo-simple-select-outlined'
-        value={category}
-        onChange={handleChange}
+        name='categoryId'
+        value={value}
+        onChange={setValues}
         labelWidth={labelWidth}
       >
         <MenuItem value=''>

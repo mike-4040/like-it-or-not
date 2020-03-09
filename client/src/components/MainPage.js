@@ -4,6 +4,7 @@ import { CssBaseline, Container, makeStyles } from '@material-ui/core';
 import UserTop from './common/User';
 import SearchBar from './common/SearchBar';
 import Table from './common/Table';
+import ModalComponents from './common/ModalComponents';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,6 +23,8 @@ export default function MainPage() {
         <SearchBar />
         <Table />
       </Container>
+      {/* Modals */}
+      <ModalComponents />
     </div>
   );
 }

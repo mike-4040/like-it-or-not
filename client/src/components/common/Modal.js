@@ -5,7 +5,7 @@ import { Dialog, DialogContent } from '@material-ui/core';
 
 const DialogBox = withStyles(theme => ({
   root: {
-    padding: theme.spacing(3)
+    padding: theme.spacing(5)
   }
 }))(DialogContent);
 

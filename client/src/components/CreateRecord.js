@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 
 import UserTop from './common/User';
-import Form from './common/Form';
+import RecordForm from './common/RecordForm';
 
 const useStyles = makeStyles(theme => ({
   section: {
@@ -30,7 +30,7 @@ export default function CreateRecord() {
           <Typography component='h1' variant='h4'>
             Like it or not
           </Typography>
-          <Form />
+          <RecordForm />
         </Grid>
       </Container>
     </>

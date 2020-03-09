@@ -19,11 +19,13 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
 mongoose
   .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/lion', {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    autoIndex: true // required to enforce unique 
   })
   .then(() => console.log('MongoDB Connected!'))
   .catch(err => console.error(err));
@@ -32,7 +34,6 @@ mongoose
 if (process.env.NODE_ENV === 'production')
   app.use(express.static('client/build'));
 
-// app.get('/api/test', (req, res) => res.send('Hello from the Backend!'));
 app.use(routes);
 
 // Error handling

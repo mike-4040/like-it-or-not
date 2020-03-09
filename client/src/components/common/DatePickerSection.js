@@ -5,11 +5,13 @@ import {
   KeyboardDatePicker
 } from '@material-ui/pickers';
 import { Grid } from '@material-ui/core';
-import { AppContext } from '../../Context';
 
-export default function DatePickerSection() {
-  let { startDate, setStartDate, endDate, setEndDate } = useContext(AppContext);
-
+export default function DatePickerSection({
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate
+}) {
   // startDate = new Date();
   // startDate.setDate(startDate.getDate() - 7);
 

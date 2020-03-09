@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 import Modal from './Modal';
 import FormInputs from './FormInputs';
-import { Grid, Button } from '@material-ui/core';
+import { Grid, Button, Typography } from '@material-ui/core';
 import { AppContext } from '../../Context';
 
 export default function EditModal() {
   const {
     openEdit,
-    handleCloseEdit,
+    setOpenEdit,
+    setEditedRecord,
     editedRecord,
     records,
-    setEditedRecord,
     setRecords
   } = useContext(AppContext);
 
@@ -28,22 +28,34 @@ export default function EditModal() {
     setRecords(records);
     handleCloseEdit();
   };
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+  };
 
   return (
     <Modal open={openEdit} onClose={handleCloseEdit}>
-      <form style={{ width: '100%' }} onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <FormInputs setValues={setEditedValues} {...editedRecord} />
-        <Grid container justify='space-between'>
-          <Button type='submit' variant='contained' color='primary'>
-            Edit Memory
-          </Button>
-          <Button
-            onClick={handleCloseEdit}
-            variant='contained'
-            color='secondary'
-          >
-            Backto List
-          </Button>
+        <Grid container justify='space-between' spacing={1}>
+          <Grid item xs={12} sm={5}>
+            <Button fullWidth type='submit' variant='contained' color='primary'>
+              <Typography component='p' variant='button'>
+                Edit Memory
+              </Typography>
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={5}>
+            <Button
+              fullWidth
+              onClick={handleCloseEdit}
+              variant='contained'
+              color='secondary'
+            >
+              <Typography component='p' variant='button'>
+                Back to List
+              </Typography>
+            </Button>
+          </Grid>
         </Grid>
       </form>
     </Modal>

@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import Record from './Record.js';
-import { AppContext } from '../../Context';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,42 +22,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SimpleExpansionPanel() {
+export default function SimpleExpansionPanel({ records, setRecords }) {
   const classes = useStyles();
-  // FILTERING RECORDS
-  let {
-    records,
-    setRecords,
-    searchText,
-    searchCategory,
-    startDate,
-    endDate
-  } = useContext(AppContext);
-  // filtering by seachtext
-  if (searchText) {
-    records = records.filter(el =>
-      el.subject.toLowerCase().includes(searchText)
-    );
-  }
-  // filtering by seach category
-  if (searchCategory) {
-    records = records.filter(el => el.categoryId === searchCategory);
-  }
-  // filtering by dates
-  if (startDate) {
-    records = records.filter(el => {
-      let time = new Date(el.dateTime);
-      return startDate <= time;
-    });
-  }
-  if (endDate) {
-    records = records.filter(el => {
-      let time = new Date(el.dateTime);
-      console.log('endDate', endDate);
-      console.log('time', time);
-      return endDate >= time;
-    });
-  }
 
   return (
     <div className={classes.root}>

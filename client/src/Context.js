@@ -10,62 +10,42 @@ function ContextProvider({ children }) {
   // Records States
   const [records, setRecords] = useState();
   const [editedRecord, setEditedRecord] = useState();
-  // Searches States
-  const [searchText, setSearchText] = useState('');
-  const [searchCategory, setSearchCategory] = useState('');
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-
-  useEffect(() => {
-    setRecords(dummyRecords);
-  }, []);
-
-  //  MODALS START
+  //  Modals
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  // Categories State
+  const [allCategories, setAllCategories] = useState([]);
 
-  const handleClickOpenEdit = userId => {
-    const edited = records.find(record => record.userId === userId);
-    setEditedRecord(edited);
-    setOpenEdit(true);
+  const getCategories = async () => {
+    try {
+      const { data } = await Api.getCategories();
+      if (data) {
+        setAllCategories(data);
+      }
+    } catch (err) {
+      console.log('err', err);
+    }
   };
 
-  const handleClickOpenDelete = userId => {
-    const edited = records.find(record => record.userId === userId);
-    setEditedRecord(edited);
-    setOpenDelete(true);
-  };
-
-  const handleCloseDelete = () => {
-    setOpenDelete(false);
-  };
-  const handleCloseEdit = () => {
-    setOpenEdit(false);
-  };
-  // MODALS END
+  useEffect(() => {
+    getCategories();
+    setRecords(dummyRecords);
+  }, []);
 
   return (
     <AppContext.Provider
       value={{
         user,
+        allCategories,
+        setAllCategories,
         records,
         setRecords,
         editedRecord,
         setEditedRecord,
-        searchText,
-        setSearchText,
-        searchCategory,
-        setSearchCategory,
-        startDate,
-        setStartDate,
-        endDate,
-        setEndDate,
         openEdit,
+        setOpenEdit,
         openDelete,
-        handleCloseDelete,
-        handleClickOpenDelete,
-        handleClickOpenEdit,
-        handleCloseEdit
+        setOpenDelete
       }}
     >
       {children}

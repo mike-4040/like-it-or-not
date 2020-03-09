@@ -10,11 +10,6 @@ const useStyles = makeStyles(theme => ({
     margin: '5px',
     backgroundColor: theme.palette.secondary.main
   },
-  nav: {
-    position: 'absolute',
-    top: '0',
-    right: '0'
-  },
   user: {
     marginRight: '5%'
   }

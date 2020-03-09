@@ -19,7 +19,8 @@ export default function App() {
         <Route path='/signup' component={SignUp} />
         <Route path='/record' component={CreateRecord} />
         <Route exact path='/main' component={MainPage} />
-        <Route exact path='/' component={AdminPage} />
+        <Route exact path='/admin' component={AdminPage} />
+        <Route exact path='/' component={SignUp} />
         {/* <Route component={PageNotFound} /> */}
       </Switch>
     </>

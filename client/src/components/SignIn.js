@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import TextInput from './common/TextInput';
+import { Link as RouterLink } from 'react-router-dom';
 
 import {
   Avatar,
@@ -93,7 +93,7 @@ export default function SignIn() {
           </Button>
           <Grid container>
             <Grid item>
-              <Link href='#' variant='body2'>
+              <Link component={RouterLink} to='/signup' variant='body2'>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

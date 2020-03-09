@@ -22,89 +22,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const dummyRecords = [
-  {
-    id: '1',
-    name: 'Coffee at "La Crema"',
-    category: 'Restaurant',
-    time: '3/3/2020 11:46 pm',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.',
-    rating: 2
-  },
-  {
-    id: '2',
-    name: 'Coffee at "Ferrari"',
-    category: 'Food',
-    time: '3/3/2020 11:46 pm',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.',
-    rating: 1
-  },
-  {
-    id: '3',
-    name: 'Coffee at "Home"',
-    category: 'Drink',
-    time: '3/3/2020 11:46 pm',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.',
-    rating: 3
-  },
-  {
-    id: '4',
-    name: 'Coffee at "Starbucks"',
-    category: 'Food',
-    time: '3/3/2020 11:46 pm',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.',
-    rating: 1
-  },
-  {
-    id: '5',
-    name: 'Coffee at "Viena"',
-    category: 'Food',
-    time: '3/3/2020 11:46 pm',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.',
-    rating: 5
-  },
-  {
-    id: '6',
-    name: 'Coffee at "Marakesh"',
-    category: 'Food',
-    time: '3/3/2020 11:46 pm',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.',
-    rating: 5
-  },
-  {
-    id: '7',
-    name: 'Coffee at "Marakesh"',
-    category: 'Food',
-    time: '3/3/2020 11:46 pm',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.',
-    rating: 3
-  },
-  {
-    id: '8',
-    name: 'Coffee at "Marakesh"',
-    category: 'Food',
-    time: '3/3/2020 11:46 pm',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.',
-    rating: 4
-  }
-];
-
-export default function SimpleExpansionPanel() {
+export default function SimpleExpansionPanel({ records, setRecords }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      {dummyRecords.map(record => {
-        return <Record key={record.id} {...record} />;
-      })}
+      {records &&
+        records.map(record => {
+          return (
+            <Record key={record.userId} {...record} setRecords={setRecords} />
+          );
+        })}
     </div>
   );
 }

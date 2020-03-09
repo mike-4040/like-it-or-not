@@ -6,13 +6,25 @@ import DatePickerSection from './DatePickerSection';
 
 const useStyles = makeStyles(theme => ({
   section: {
-    alignItems: 'center',
-    marginTop: '5%'
+    alignItems: 'center'
   }
 }));
 
-export default function SearchBar() {
+export default function SearchBar({
+  searchText,
+  setSearchText,
+  searchCategory,
+  setSearchCategory,
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate
+}) {
   const classes = useStyles();
+
+  const handleSelect = e => {
+    setSearchCategory(e.target.value);
+  };
 
   return (
     <>
@@ -24,13 +36,20 @@ export default function SearchBar() {
             label='search'
             autoFocus
             style={{ margin: 0 }}
+            onChange={e => setSearchText(e.target.value)}
+            value={searchText}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Select />
+          <Select value={searchCategory} setValues={handleSelect} />
         </Grid>
       </Grid>
-      <DatePickerSection />
+      <DatePickerSection
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+      />
     </>
   );
 }

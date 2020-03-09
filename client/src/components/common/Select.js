@@ -1,9 +1,7 @@
-import React from 'react';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import { Select, FormControl, InputLabel, MenuItem } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
+import { AppContext } from '../../Context';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -15,18 +13,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SelectElement() {
+export default function SelectElement({ setValues, value }) {
   const classes = useStyles();
-  const [category, setCategory] = React.useState('');
-
-  const inputLabel = React.useRef(null);
-  const [labelWidth, setLabelWidth] = React.useState(0);
-  React.useEffect(() => {
+  const inputLabel = useRef(null);
+  const [labelWidth, setLabelWidth] = useState(0);
+  useEffect(() => {
     setLabelWidth(inputLabel.current.offsetWidth);
   }, []);
-  const handleChange = event => {
-    setCategory(event.target.value);
-  };
+
+  const { allCategories } = useContext(AppContext);
+
   return (
     <FormControl
       variant='outlined'
@@ -39,16 +35,21 @@ export default function SelectElement() {
       <Select
         labelId='demo-simple-select-outlined-label'
         id='demo-simple-select-outlined'
-        value={category}
-        onChange={handleChange}
+        name='categoryId'
+        value={value}
+        onChange={setValues}
         labelWidth={labelWidth}
       >
         <MenuItem value=''>
           <em>None</em>
         </MenuItem>
-        <MenuItem value={'Restaurant'}>Restaurant</MenuItem>
-        <MenuItem value={'Food'}>Food</MenuItem>
-        <MenuItem value={'Drink'}>Drink</MenuItem>
+        {allCategories.map(el => {
+          return (
+            <MenuItem key={el._id} value={el.catName}>
+              {el.catName}
+            </MenuItem>
+          );
+        })}
       </Select>
     </FormControl>
   );

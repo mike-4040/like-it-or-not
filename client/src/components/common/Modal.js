@@ -5,7 +5,7 @@ import { Dialog, DialogContent } from '@material-ui/core';
 
 const DialogBox = withStyles(theme => ({
   root: {
-    padding: theme.spacing(3)
+    margin: theme.spacing(2)
   }
 }))(DialogContent);
 
@@ -21,7 +21,6 @@ export default function SimpleDialog(props) {
       onClose={handleClose}
       aria-labelledby='simple-dialog-title'
       open={open}
-      maxWidth='lg'
     >
       <DialogBox>{children}</DialogBox>
     </Dialog>

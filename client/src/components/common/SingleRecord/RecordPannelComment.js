@@ -8,7 +8,7 @@ import {
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 
-import { AppContext } from '../../Context';
+import { AppContext } from '../../../Context';
 
 export default function RecordPannelComment({ comment, dateTime, userId }) {
   // Open modals

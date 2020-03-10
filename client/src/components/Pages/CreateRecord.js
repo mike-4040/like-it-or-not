@@ -7,15 +7,15 @@ import {
   makeStyles
 } from '@material-ui/core';
 
-import UserTop from './common/User';
-import RecordForm from './common/RecordForm';
+import UserTop from '../common/User';
+import CreateRecordForm from '../common/CreateRecordForm';
 
 const useStyles = makeStyles(theme => ({
   section: {
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: '20%'
+    marginTop: '5%'
   }
 }));
 
@@ -30,7 +30,7 @@ export default function CreateRecord() {
           <Typography component='h1' variant='h4'>
             Like it or not
           </Typography>
-          <RecordForm />
+          <CreateRecordForm />
         </Grid>
       </Container>
     </>

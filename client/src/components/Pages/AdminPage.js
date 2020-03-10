@@ -1,9 +1,8 @@
 import React, { useState, useContext } from 'react';
-import Api from '../utils/api';
-import { AppContext } from '../Context';
+import Api from '../../utils/api';
+import { AppContext } from '../../Context';
 
 export default function AdminPage() {
-  //   const [allCategories, setAllCategories] = useState([]);
   const { allCategories, setAllCategories } = useContext(AppContext);
   const [newCategory, setNewCategory] = useState('');
   const [editCategory, setEditCategory] = useState();

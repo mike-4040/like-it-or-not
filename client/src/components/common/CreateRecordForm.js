@@ -7,19 +7,21 @@ import { useHistory } from 'react-router-dom';
 import useForm from '../costumHooks/useForm';
 import { AppContext } from '../../Context';
 
-import FormInputs from './FormInputs';
+import RecordFormInputs from './inputElements/RecordFormInputs';
+
+const initialState = {
+  rating: 3,
+  subject: '',
+  categoryId: '',
+  comment: ''
+};
 
 export default function RecordForm() {
   const { setRecords } = useContext(AppContext);
   let history = useHistory();
 
   //custom hook to control inputs
-  const [values, setValues, reset] = useForm({
-    rating: 0,
-    subject: '',
-    categoryId: '',
-    comment: ''
-  });
+  const [values, setValues, reset] = useForm(initialState);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -31,18 +33,13 @@ export default function RecordForm() {
     setRecords(records => {
       return [newRecord, ...records];
     });
-    reset({
-      rating: 0,
-      subject: '',
-      categoryId: '',
-      comment: ''
-    });
+    reset(initialState);
     history.push('/main');
   };
 
   return (
     <form style={{ width: '100%' }} onSubmit={handleSubmit}>
-      <FormInputs setValues={setValues} {...values} />
+      <RecordFormInputs setValues={setValues} {...values} />
       <Grid container justify='space-between'>
         <Button type='submit' variant='contained' color='primary'>
           Create memory

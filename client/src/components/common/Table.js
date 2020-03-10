@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
-import Record from './Record.js';
+import Record from './SingleRecord/Record.js';
 
 const useStyles = makeStyles(theme => ({
   root: {

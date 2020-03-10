@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
-import Select from './Select';
-import TextInput from './TextInput';
-import DatePickerSection from './DatePickerSection';
+import Select from './inputElements/Select';
+import TextInput from './inputElements/TextInput';
+import DatePickerSection from './inputElements/DatePickerSection';
 
 const useStyles = makeStyles(theme => ({
   section: {

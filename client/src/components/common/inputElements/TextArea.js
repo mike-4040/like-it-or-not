@@ -5,7 +5,6 @@ export default function MultilineTextFields({ value, setValues }) {
   return (
     <TextField
       margin='normal'
-      id='outlined-multiline-static'
       name='comment'
       label='Add story'
       multiline

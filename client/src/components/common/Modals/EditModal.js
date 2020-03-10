@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import Modal from './Modal';
-import FormInputs from './FormInputs';
+import RecordFormInputs from '../inputElements/RecordFormInputs';
 import { Grid, Button, Typography } from '@material-ui/core';
-import { AppContext } from '../../Context';
+import { AppContext } from '../../../Context';
 
 export default function EditModal() {
   const {
@@ -35,7 +35,7 @@ export default function EditModal() {
   return (
     <Modal open={openEdit} onClose={handleCloseEdit}>
       <form onSubmit={handleSubmit}>
-        <FormInputs setValues={setEditedValues} {...editedRecord} />
+        <RecordFormInputs setValues={setEditedValues} {...editedRecord} />
         <Grid container justify='space-between' spacing={1}>
           <Grid item xs={12} sm={5}>
             <Button fullWidth type='submit' variant='contained' color='primary'>

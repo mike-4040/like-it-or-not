@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Select, FormControl, InputLabel, MenuItem } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppContext } from '../../Context';
+import { AppContext } from '../../../Context';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -17,6 +17,7 @@ export default function SelectElement({ setValues, value }) {
   const classes = useStyles();
   const inputLabel = useRef(null);
   const [labelWidth, setLabelWidth] = useState(0);
+
   useEffect(() => {
     setLabelWidth(inputLabel.current.offsetWidth);
   }, []);

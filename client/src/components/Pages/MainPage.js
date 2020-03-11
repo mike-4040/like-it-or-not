@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { AppContext } from '../Context';
+import { AppContext } from '../../Context';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   CssBaseline,
@@ -10,10 +10,10 @@ import {
 } from '@material-ui/core';
 import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
 
-import UserTop from './common/User';
-import SearchBar from './common/SearchBar';
-import Table from './common/Table';
-import ModalComponents from './common/ModalComponents';
+import UserTop from '../common/User';
+import SearchBar from '../common/SearchBar';
+import Table from '../common/Table';
+import ModalComponents from '../common/Modals/ModalComponents';
 
 const useStyles = makeStyles(theme => ({
   root: {

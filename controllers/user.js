@@ -1,14 +1,12 @@
 /**
  * User controller.
  */
-require('dotenv').config();
+// require('dotenv').config();
+
 
 const db = require('../models');
 const dbErrors = require('../utils/dbErrors');
-const {
-  hashPassword,
-  checkPassword
-} = require('../utils/auth');
+const { hashPassword, checkPassword, createToken } = require('../utils/auth');
 const {
   serverErrorCode,
   registerValidation,
@@ -72,19 +70,17 @@ module.exports = {
       .then(dbUser => res.json(dbUser))
       .catch(err => dbErrors(err, res));
   },
-  auth: (email, password, cb) => {
+  signin: (req, res) => {
+    const { email, password } = req.body;
     db.User.findOne({ email })
       .then(user => {
-        if (!user) cb(null, false, { message: 'Provided email is not found.' });
-        if (bcrypt.compareSync(password, user.password)) {
-          const token = jwt.sign(
-            { id: user.id, email, fisrtName: user.firstName },
-            process.env.SERVER_SECRET,
-            { expiresIn: 129600 }
-          );
-          cb(null, token);
+        if (!user)
+          res.status(400).json({ code: 1, message: 'Email is not found.' });
+        if (checkPassword(password, user.password)) {
+          const token = createToken(user.id, email, user.firstName);
+          res.status(200).json({code: 0, token});
         } else {
-          cb(null, 'Wrong password');
+          res.status(400).json({ code: 2, message: 'Wrong password.' });
         }
       })
       .catch(err => dbErrors(err, res));

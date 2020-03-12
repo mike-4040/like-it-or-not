@@ -2,11 +2,16 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const cors = require('cors');
+const passport = require('passport');
 
 const app = express();
 const routes = require('./routes');
 
-const port = process.env.PORT || 3001;
+const applyPassportStrategy = require('./utils/applyPassportStrategy');
+const {server, mongo} = require('./config/config');
+
+const port = server.port;
 
 // Setting CORS so that any website can Access our API
 app.use((req, res, next) => {
@@ -19,18 +24,22 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+/**
+ * Set up CORS
+ */ 
+app.use(cors());
+
+/**
+ * Apply strategy to passport
+ */ 
+applyPassportStrategy(passport);
 
 mongoose
-  .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/lion', {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    autoIndex: true // required to enforce unique 
-  })
+  .connect(mongo.MONGODB_URI, mongo.options)
   .then(() => console.log('MongoDB Connected!'))
   .catch(err => console.error(err));
 
-// Serve up static assets (usually on heroku)
+// Serve up static assets
 if (process.env.NODE_ENV === 'production')
   app.use(express.static('client/build'));
 

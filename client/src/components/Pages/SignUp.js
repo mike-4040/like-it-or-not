@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
-  TextField,
   Link,
   Grid,
   Avatar,
@@ -13,7 +12,7 @@ import {
 } from '@material-ui/core';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
 
-import { Formik, Field, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import { signUpValidationSchema } from '../common/Validation';
 import FormikFieldInput from '../common/inputElements/FormikFieldInput';
 

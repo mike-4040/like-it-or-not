@@ -26,7 +26,6 @@ export default function RecordForm() {
   const handleSubmit = e => {
     e.preventDefault();
     const newRecord = {
-      userId: new Date().getTime(),
       dateTime: new Date().toLocaleString(),
       ...values
     };

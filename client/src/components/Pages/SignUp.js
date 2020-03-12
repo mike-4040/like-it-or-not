@@ -46,9 +46,9 @@ export default function SignUp() {
   const handleSubmit = async (values, { resetForm, setErrors }) => {
     console.log('values', values);
     try {
-      const { data } = await Api.createUser(values);
-      if (data) {
-        console.log('data', data);
+      const response = await Api.createUser(values);
+      if (response.data) {
+        // localStorage.setItem("id_token", response.headers['Authorization']);x
       }
       //     resetForm();
     } catch (err) {

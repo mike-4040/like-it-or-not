@@ -13,7 +13,7 @@ import FaceIcon from '@material-ui/icons/Face';
 import { makeStyles } from '@material-ui/core/styles';
 import { Formik, Form } from 'formik';
 import { logInValidationSchema } from '../common/Validation';
-import Api from '../../utils/api';
+// import Api from '../../utils/api';
 import FormikFieldInput from '../common/inputElements/FormikFieldInput';
 
 import AuthService from '../../utils/AuthService';

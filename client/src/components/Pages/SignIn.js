@@ -16,6 +16,10 @@ import { logInValidationSchema } from '../common/Validation';
 import Api from '../../utils/api';
 import FormikFieldInput from '../common/inputElements/FormikFieldInput';
 
+import AuthService from '../../utils/AuthService';
+
+const Auth = new AuthService();
+
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -38,13 +42,13 @@ const useStyles = makeStyles(theme => ({
 
 const initialState = { email: '', password: '' };
 
-export default function SignIn() {
+export default function SignIn(props) {
   const classes = useStyles();
 
   const handleSubmit = async (values, { resetForm, setErrors }) => {
     console.log('values', values);
     try {
-      const { data } = await Api.logInUser(values);
+      const { data } = await Auth.signin(values);
       if (data) {
         console.log('data', data);
       }

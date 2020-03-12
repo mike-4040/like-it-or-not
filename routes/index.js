@@ -6,6 +6,6 @@ const authRotes = require('./auth');
 
 router.use('/api/user', userRoutes);
 router.use('/api/category', categoryRoutes);
-router.use('/auth', authRotes);
+router.use('/api/auth', authRotes);
 
 module.exports = router;

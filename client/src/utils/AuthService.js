@@ -3,18 +3,24 @@ import axios from 'axios';
 
 export default class AuthService {
   signin = user => {
-    return axios.post('/auth/signin', user)
-    .then(({data}) => {
+    return axios.post('/auth/signin', user).then(({ data }) => {
       console.log('Data: ', data);
-      if (data.code === 0) 
-        this.setToken(data.token);
+      if (data.code === 0) this.setToken(data.token);
+      return data;
+    });
+  };
+
+  signup = user => {
+    return axios.post('/api/auth/signup', user).then(({ data }) => {
+      console.log(data);
+      this.setToken(data.token);
       return data;
     });
   };
 
   getProfile = () => {
     return decode(this.getToken());
-  }
+  };
 
   loggedIn() {
     // Checks if there is a saved token and it's still valid

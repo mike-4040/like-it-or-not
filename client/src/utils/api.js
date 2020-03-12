@@ -3,7 +3,6 @@ import axios from 'axios';
 export default {
   //User
   getUser: () => axios.get('/api/user'),
-  createUser: user => axios.post('/api/user', user),
 
   // Categories
   createCategory: category => axios.post('/api/category', category),

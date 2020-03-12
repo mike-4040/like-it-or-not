@@ -1,6 +1,7 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { jwtrc } = require('../config/config');
 
 module.exports = {
   /**
@@ -23,7 +24,9 @@ module.exports = {
     bcrypt.compareSync(password, hashedPassword),
 
   createToken: (id, email, firstName) =>
-    jwt.sign({ id, email, firstName }, process.env.SERVER_SECRET, {
-      expiresIn: parseInt(process.env.EXPIRE_IN)
-    })
+    jwt.sign(
+      { id, email, firstName },
+      process.env.SERVER_SECRET,
+      { expiresIn: jwtrc.expireIn}
+    )
 };

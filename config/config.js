@@ -13,5 +13,6 @@ module.exports = {
       useUnifiedTopology: true,
       autoIndex: true // required to enforce unique
     }
-  }
+  },
+  jwtrc: { expireIn: 129600 }
 };

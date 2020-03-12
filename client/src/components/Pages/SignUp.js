@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {
   TextField,
   Link,
@@ -17,7 +18,9 @@ import { Formik, Field, Form } from 'formik';
 import { signUpValidationSchema } from '../common/Validation';
 import FormikFieldInput from '../common/inputElements/FormikFieldInput';
 
-import Api from '../../utils/api';
+import AuthService from '../../utils/AuthService';
+
+const Auth = new AuthService();
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -43,19 +46,19 @@ const initialState = { firstName: '', lastName: '', email: '', password: '' };
 
 export default function SignUp() {
   const classes = useStyles();
+  const history = useHistory();
 
   const handleSubmit = async (values, { resetForm, setErrors }) => {
     console.log('values', values);
     try {
-      const { data } = await Api.createUser(values);
-      if (data) {
-        console.log('data', data);
-      }
-      //     resetForm();
-    } catch (err) {
-      if (err.response && err.response.status === 400) {
-        console.log('err.response.data', err.response.data);
-        setErrors({ email: 'Email already exists' });
+      const { data } = await Auth.signup(values);
+      console.log('data', data);
+      resetForm();
+      history.push('/main');
+    } catch ({response}) {
+      if (response && response.status === 400) {
+        console.log('err.response.data.error: ', response.data.error);
+        setErrors({ email: response.data.message });
       }
     }
   };

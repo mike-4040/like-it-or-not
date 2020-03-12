@@ -44,7 +44,7 @@ module.exports = {
     console.log(user);
     db.User.create(user)
       .then(dbUser => {
-        const token = createToken(dbUser.id, dbUser.firstName);
+        const token = createToken(dbUser.id, dbUser.email, dbUser.firstName);
         res.json({token})})
       .catch(err => dbErrors(err, res));
   },

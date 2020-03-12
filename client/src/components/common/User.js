@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Avatar, Grid, Typography, IconButton } from '@material-ui/core';
 // import FaceIcon from '@material-ui/icons/Face';
 import PersonIcon from '@material-ui/icons/Person';
 
 import { makeStyles } from '@material-ui/core/styles';
+
+import { AppContext } from '../../Context';
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -17,7 +19,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function User() {
   const classes = useStyles();
-
+  const { user, setUser } = useContext(AppContext);
+  
   return (
     <>
       <Grid
@@ -27,7 +30,7 @@ export default function User() {
         className={classes.nav}
       >
         <Grid item>
-          <Typography variant='body1'>UserName</Typography>
+          <Typography variant='body1'>{user.name}</Typography>
         </Grid>
         <Grid item className={classes.user}>
           <Avatar className={classes.avatar}>

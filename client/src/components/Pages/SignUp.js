@@ -52,10 +52,9 @@ export default function SignUp() {
 
   const handleSubmit = async (values, { resetForm, setErrors }) => {
     try {
-      const { data } = await Auth.signup(values);
+      await Auth.signup(values);
       const user = Auth.getProfile();
       setUser({ name: user.firstName, id: user.id });
-      console.log('data', data);
       resetForm();
       history.push('/main');
     } catch ({ response }) {

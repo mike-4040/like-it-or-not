@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {
   Avatar,
   Button,
@@ -13,9 +14,8 @@ import FaceIcon from '@material-ui/icons/Face';
 import { makeStyles } from '@material-ui/core/styles';
 import { Formik, Form } from 'formik';
 import { logInValidationSchema } from '../common/Validation';
-// import Api from '../../utils/api';
 import FormikFieldInput from '../common/inputElements/FormikFieldInput';
-
+import { AppContext } from '../../Context';
 import AuthService from '../../utils/AuthService';
 
 const Auth = new AuthService();
@@ -44,19 +44,20 @@ const initialState = { email: '', password: '' };
 
 export default function SignIn(props) {
   const classes = useStyles();
+  const history = useHistory();
+  const { setUser } = useContext(AppContext);
 
   const handleSubmit = async (values, { resetForm, setErrors }) => {
-    console.log('values', values);
     try {
-      const { data } = await Auth.signin(values);
-      if (data) {
-        console.log('data', data);
-      }
-      //     resetForm();
-    } catch (err) {
-      if (err.response && err.response.status === 400) {
-        console.log('err.response.data', err.response.data);
-        setErrors({ email: 'Such Email does not exist' });
+      await Auth.signin(values);
+      const user = Auth.getProfile();
+      setUser({ name: user.firstName, id: user.id });
+      resetForm();
+      history.push('/main');
+    } catch ({ response }) {
+      if (response && response.status === 400) {
+        console.log('err.response.data.error: ', response.data.error);
+        setErrors({ email: response.data.message });
       }
     }
   };

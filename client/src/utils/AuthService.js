@@ -3,8 +3,7 @@ import axios from 'axios';
 
 export default class AuthService {
   signin = user => {
-    return axios.post('/auth/signin', user).then(({ data }) => {
-      console.log('Data: ', data);
+    return axios.post('api/auth/signin', user).then(({ data }) => {
       if (data.code === 0) this.setToken(data.token);
       return data;
     });
@@ -19,7 +18,9 @@ export default class AuthService {
   };
 
   getProfile = () => {
-    return decode(this.getToken());
+    if (this.getToken()) {
+      return decode(this.getToken());
+    } else return null;
   };
 
   loggedIn() {
@@ -43,6 +44,12 @@ export default class AuthService {
     // Saves user token to localStorage
     axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`;
     localStorage.setItem('id_token', idToken);
+  }
+
+  setTokenToHeader() {
+    axios.defaults.headers.common[
+      'Authorization'
+    ] = `Bearer ${this.getToken()}`;
   }
 
   getToken() {

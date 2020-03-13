@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Avatar,
   Grid,
@@ -11,6 +11,12 @@ import {
 import PersonIcon from '@material-ui/icons/Person';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+
+import { AppContext } from '../../Context';
+
+import AuthService from '../../utils/AuthService';
+
+const Auth = new AuthService();
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -25,13 +31,16 @@ const useStyles = makeStyles(theme => ({
 export default function User() {
   const classes = useStyles();
   let history = useHistory();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const { user, setUser } = useContext(AppContext);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
+    Auth.logout();
     history.push('/');
   };
 
@@ -44,7 +53,7 @@ export default function User() {
         className={classes.nav}
       >
         <Grid item>
-          <Typography variant='body1'>UserName</Typography>
+          <Typography variant='body1'>{user.name}</Typography>
         </Grid>
         <Grid item className={classes.user}>
           <Avatar className={classes.avatar}>

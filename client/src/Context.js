@@ -6,7 +6,7 @@ const AppContext = createContext();
 
 function ContextProvider({ children }) {
   // User States
-  // const [user, setUser] = useState({ user: {}, loading: true });
+  const [user, setUser] = useState({});
   // Records States
   const [records, setRecords] = useState();
   const [editedRecord, setEditedRecord] = useState();
@@ -35,7 +35,8 @@ function ContextProvider({ children }) {
   return (
     <AppContext.Provider
       value={{
-        // user,
+        user,
+        setUser,
         allCategories,
         setAllCategories,
         records,

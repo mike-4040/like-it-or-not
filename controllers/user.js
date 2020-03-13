@@ -1,8 +1,6 @@
 /**
  * User controller.
  */
-// require('dotenv').config();
-
 
 const db = require('../models');
 const dbErrors = require('../utils/dbErrors');
@@ -45,7 +43,9 @@ module.exports = {
     user.password = hashPassword(user.password);
     console.log(user);
     db.User.create(user)
-      .then(dbUser => res.json(dbUser))
+      .then(dbUser => {
+        const token = createToken(dbUser.id, dbUser.email, dbUser.firstName);
+        res.json({token})})
       .catch(err => dbErrors(err, res));
   },
   /**

@@ -18,9 +18,9 @@ export default class AuthService {
   };
 
   getProfile = () => {
-    if (this.getToken()) {
-      return decode(this.getToken());
-    } else return null;
+    let token = this.getToken();
+    let expired = isTokenExpired(token);
+    return !expired ? decode(token) : null;
   };
 
   loggedIn() {

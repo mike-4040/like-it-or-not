@@ -51,7 +51,6 @@ export default function SignUp() {
   const { setUser } = useContext(AppContext);
 
   const handleSubmit = async (values, { resetForm, setErrors }) => {
-    console.log('values', values);
     try {
       const { data } = await Auth.signup(values);
       const user = Auth.getProfile();
@@ -92,7 +91,7 @@ export default function SignUp() {
                     touched={touched}
                     name='firstName'
                     label='First Name'
-                    autoFocus='true'
+                    autoFocus={true}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>

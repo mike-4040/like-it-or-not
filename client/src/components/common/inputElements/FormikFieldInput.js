@@ -8,7 +8,7 @@ export default function FormikFieldInput({
   autoFocus = false,
   touched,
   errors,
-  margin = ''
+  margin = 'none'
 }) {
   return (
     <Field

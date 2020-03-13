@@ -40,8 +40,9 @@ export default function User() {
   };
 
   const handleClose = () => {
+    setUser(null);
     Auth.logout();
-    history.push('/');
+    history.push('/signin');
   };
 
   return (

@@ -2,11 +2,14 @@ import React, { createContext, useState, useEffect } from 'react';
 import { dummyRecords } from './Dummy';
 import Api from './utils/api';
 
+import AuthService from './utils/AuthService';
+const Auth = new AuthService();
+
 const AppContext = createContext();
 
 function ContextProvider({ children }) {
   // User States
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState();
   // Records States
   const [records, setRecords] = useState();
   const [editedRecord, setEditedRecord] = useState();
@@ -28,8 +31,13 @@ function ContextProvider({ children }) {
   };
 
   useEffect(() => {
-    getCategories();
+    const user = Auth.getProfile();
+    if (user) {
+      setUser({ name: user.firstName, id: user.id });
+      Auth.setTokenToHeader();
+    }
     setRecords(dummyRecords);
+    getCategories();
   }, []);
 
   return (

@@ -3,8 +3,7 @@ import axios from 'axios';
 
 export default class AuthService {
   signin = user => {
-    return axios.post('/auth/signin', user).then(({ data }) => {
-      console.log('Data: ', data);
+    return axios.post('api/auth/signin', user).then(({ data }) => {
       if (data.code === 0) this.setToken(data.token);
       return data;
     });
@@ -19,7 +18,9 @@ export default class AuthService {
   };
 
   getProfile = () => {
-    return decode(this.getToken());
+    let token = this.getToken();
+    let expired = isTokenExpired(token);
+    return !expired ? decode(token) : null;
   };
 
   loggedIn() {
@@ -45,6 +46,12 @@ export default class AuthService {
     localStorage.setItem('id_token', idToken);
   }
 
+  setTokenToHeader() {
+    axios.defaults.headers.common[
+      'Authorization'
+    ] = `Bearer ${this.getToken()}`;
+  }
+
   getToken() {
     // Retrieves the user token from localStorage
     return localStorage.getItem('id_token');
@@ -54,7 +61,5 @@ export default class AuthService {
     // Clear user token and profile data from localStorage
     axios.defaults.headers.common['Authorization'] = null;
     localStorage.removeItem('id_token');
-    // this will reload the page and reset the state of the application
-    window.location.reload('/');
   }
 }

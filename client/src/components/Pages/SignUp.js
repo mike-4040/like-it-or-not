@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import {
-  TextField,
   Link,
   Grid,
   Avatar,
@@ -14,7 +13,7 @@ import {
 } from '@material-ui/core';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
 
-import { Formik, Field, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import { signUpValidationSchema } from '../common/Validation';
 import FormikFieldInput from '../common/inputElements/FormikFieldInput';
 
@@ -52,12 +51,10 @@ export default function SignUp() {
   const { setUser } = useContext(AppContext);
 
   const handleSubmit = async (values, { resetForm, setErrors }) => {
-    console.log('values', values);
     try {
-      const { data } = await Auth.signup(values);
+      await Auth.signup(values);
       const user = Auth.getProfile();
       setUser({ name: user.firstName, id: user.id });
-      console.log('data', data);
       resetForm();
       history.push('/main');
     } catch ({ response }) {
@@ -93,7 +90,7 @@ export default function SignUp() {
                     touched={touched}
                     name='firstName'
                     label='First Name'
-                    autoFocus='true'
+                    autoFocus={true}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>

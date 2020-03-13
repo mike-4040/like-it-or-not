@@ -75,7 +75,7 @@ export default function MainPage() {
           <Grid item>
             <IconButton
               color='primary'
-              size='large'
+              size='medium'
               component={RouterLink}
               to='/record'
             >

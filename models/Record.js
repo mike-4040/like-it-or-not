@@ -9,18 +9,19 @@ const Types = Schema.Types;
 const recordSchema = new Schema({
   userId: {
     type: Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    required: true
   },
   categoryId: {
     type: Types.ObjectId,
-    ref: 'Category'
-  },
-  subject: {
-    type: String,
+    ref: 'Category',
     required: true
   },
+  subject: {
+    type: String
+  },
   dateTime: {
-    type: String,
+    type: Date,
     required: true
   },
   comment: String,

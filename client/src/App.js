@@ -8,6 +8,7 @@ import { AppContext } from './Context';
 import AdminPage from './components/Pages/AdminPage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import PageNotFound from './components/Pages/PageNotFound';
+import LandingPage from './components/Pages/LandingPage';
 
 export default function App() {
   const { user } = useContext(AppContext);
@@ -24,7 +25,7 @@ export default function App() {
         <ProtectedRoute path='/record' component={CreateRecord} user={user} />
         <ProtectedRoute path='/main' component={MainPage} user={user} />
         <ProtectedRoute path='/admin' component={AdminPage} user={user} />
-        <Route exact path='/' component={user ? MainPage : SignIn} />
+        <Route exact path='/' component={user ? MainPage : LandingPage} />
         <Route path='*' component={PageNotFound} />
       </Switch>
     </>

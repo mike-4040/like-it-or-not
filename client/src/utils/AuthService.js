@@ -20,7 +20,7 @@ export default class AuthService {
   getProfile = () => {
     let token = this.getToken();
     let expired = this.isTokenExpired(token);
-    return !expired ? decode(token) : null;
+    return !expired && token ? decode(token) : null;
   };
 
   loggedIn() {

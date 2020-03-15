@@ -12,7 +12,9 @@ module.exports = {
       .then(record => {
         Record.findById(record._id)
           .populate('categoryId')
-          .then(populatedCat => res.status(200).json(cleanRecord(populatedCat)));
+          .then(populatedCat =>
+            res.status(200).json(cleanRecord(populatedCat))
+          );
       })
       .catch(err => dbErrors(err, res)),
 
@@ -21,12 +23,32 @@ module.exports = {
       .populate('categoryId')
       .then(populatedCat => res.status(200).json(cleanRecord(populatedCat)))
       .catch(err => dbErrors(err, res));
+  },
+  update: ({ body }, res) => {
+    Record.findByIdAndUpdate(body._id, body)
+      .then(record => {
+        Record.findById(record._id)
+          .populate('categoryId')
+          .then(populatedCat =>
+            res.status(200).json(cleanRecord(populatedCat))
+          );
+      })
+      .catch(err => dbErrors(err, res));
+  },
+  delete: (req, res) => {
+    Record.findByIdAndDelete(req.params.id)
+      .then(record => {
+        if (record) res.status(200).send(record);
+        else res.status(400).send(`Can't find record ${req.params.id}`);
+      })
+      .catch(err => dbErrors(err, res));
   }
 };
 
 cleanRecord = dbRecord => {
-  const { categoryId, rating, dateTime, comment } = dbRecord;
+  const { _id, categoryId, rating, dateTime, comment } = dbRecord;
   const cleanRecord = {
+    _id,
     catName: (categoryId && categoryId.catName) || 'Udefined',
     rating,
     dateTime,

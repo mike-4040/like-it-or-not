@@ -10,34 +10,27 @@ module.exports = {
   create: (req, res) =>
     Record.create(req.body)
       .then(record => {
-        console.log(record._id);
         Record.findById(record._id)
           .populate('categoryId')
-          .then(({ categoryId, rating, dateTime, comment }) => {
-            const cleanRecord = {
-              catName: categoryId.catName,
-              rating,
-              dateTime,
-              comment
-            };
-            res.status(200).json(cleanRecord);
-          });
+          .then(populatedCat => res.status(200).json(cleanRecord(populatedCat)));
       })
       .catch(err => dbErrors(err, res)),
 
   findOne: (req, res) => {
-    console.log('Hello', req.params.id);
     Record.findById(req.params.id)
       .populate('categoryId')
-      .then(({ categoryId, rating, dateTime, comment }) => {
-        const cleanRecord = {
-          catName: categoryId.catName,
-          rating,
-          dateTime,
-          comment
-        };
-        res.status(200).json(cleanRecord);
-      })
+      .then(populatedCat => res.status(200).json(cleanRecord(populatedCat)))
       .catch(err => dbErrors(err, res));
   }
+};
+
+cleanRecord = dbRecord => {
+  const { categoryId, rating, dateTime, comment } = dbRecord;
+  const cleanRecord = {
+    catName: (categoryId && categoryId.catName) || 'Udedefined',
+    rating,
+    dateTime,
+    comment
+  };
+  return cleanRecord;
 };

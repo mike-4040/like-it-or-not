@@ -42,6 +42,15 @@ module.exports = {
         else res.status(400).send(`Can't find record ${req.params.id}`);
       })
       .catch(err => dbErrors(err, res));
+  },
+  findRecordsUser: (req, res) => {
+    Record.find({ userId: req.params.id })
+      .populate('categoryId')
+      .then(records => {
+        cleanRecords = records.map(record => cleanRecord(record));
+        res.status(200).json(cleanRecords);
+      })
+      .catch(err => dbErrors(err, res));
   }
 };
 

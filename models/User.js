@@ -20,10 +20,11 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  recordId: [{
-    type: Types.ObjectId,
-    ref: 'Record'
-  }]
+  /** No sense */
+  // recordId: [{
+  //   type: Types.ObjectId,
+  //   ref: 'Record'
+  // }]
 });
 
 const User = mongoose.model('User', userSchema);

@@ -45,7 +45,8 @@ module.exports = {
     db.User.create(user)
       .then(dbUser => {
         const token = createToken(dbUser.id, dbUser.email, dbUser.firstName);
-        res.json({token})})
+        res.json({ token });
+      })
       .catch(err => dbErrors(err, res));
   },
   /**
@@ -78,11 +79,17 @@ module.exports = {
           res.status(400).json({ code: 1, message: 'Email is not found.' });
         if (checkPassword(password, user.password)) {
           const token = createToken(user.id, email, user.firstName);
-          res.status(200).json({code: 0, token});
+          res.status(200).json({ code: 0, token });
         } else {
           res.status(400).json({ code: 2, message: 'Wrong password.' });
         }
       })
+      .catch(err => dbErrors(err, res));
+  },
+  userRecords: (req, res) => {
+    db.Record.find({ userId: req.params.id })
+      .populate('categoryId')
+      .then(records => res.status(200).json(records))
       .catch(err => dbErrors(err, res));
   }
 };

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { dummyRecords } from './Dummy';
+// import { dummyRecords } from './Dummy';
 import Api from './utils/api';
 
 import AuthService from './utils/AuthService';
@@ -29,14 +29,27 @@ function ContextProvider({ children }) {
       console.log('err', err);
     }
   };
+  /** Get user records and save it to State
+   * @param {string} userId
+   * @returns void
+   */
+  const getUserRecords = async userId => {
+    try {
+      const { data } = await Api.getUserRecords(userId);
+      if (data) setRecords(data);
+    } catch (err) {
+      console.log('err', err);
+    }
+  };
 
   useEffect(() => {
     const user = Auth.getProfile();
     if (user) {
       setUser({ name: user.firstName, id: user.id });
       Auth.setTokenToHeader();
+      getUserRecords(user.id);
     }
-    setRecords(dummyRecords);
+    // setRecords(dummyRecords);
     getCategories();
   }, []);
 

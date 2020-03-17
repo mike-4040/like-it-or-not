@@ -28,11 +28,9 @@ export default function SimpleExpansionPanel({ records, setRecords }) {
   return (
     <div className={classes.root}>
       {records &&
-        records.map(record => {
-          return (
-            <Record key={record.userId} {...record} setRecords={setRecords} />
-          );
-        })}
+        records.map(record => (
+          <Record key={record._id} {...record} setRecords={setRecords} />
+        ))}
     </div>
   );
 }

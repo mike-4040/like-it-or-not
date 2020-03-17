@@ -41,10 +41,7 @@ function ContextProvider({ children }) {
       console.log('err', err);
     }
   };
-
-  console.log('records', records);
-  console.log('categories', allCategories);
-
+  console.log('user', user);
   useEffect(() => {
     const user = Auth.getProfile();
     if (user) {

@@ -1,7 +1,9 @@
 import React, { useContext, useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   Avatar,
   Grid,
+  Link,
   Typography,
   IconButton,
   Menu,
@@ -25,6 +27,13 @@ const useStyles = makeStyles(theme => ({
   },
   user: {
     marginRight: '5%'
+  },
+  link: {
+    color: 'black',
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'none'
+    }
   }
 }));
 
@@ -72,8 +81,24 @@ export default function User() {
               open={Boolean(anchorEl)}
               onClose={() => setAnchorEl(null)}
             >
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>My account</MenuItem>
+              <MenuItem>
+                <Link
+                  component={RouterLink}
+                  to='/main'
+                  className={classes.link}
+                >
+                  {'Profile'}
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link
+                  component={RouterLink}
+                  to='/admin'
+                  className={classes.link}
+                >
+                  {'Admin dashboard'}
+                </Link>
+              </MenuItem>
               <MenuItem onClick={handleClose}>Logout</MenuItem>
             </Menu>
           </Avatar>

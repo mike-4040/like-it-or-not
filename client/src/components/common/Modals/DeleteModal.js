@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Grid, Typography, DialogActions, Button } from '@material-ui/core';
 import Modal from './Modal';
-
+import Api from '../../../utils/api';
 import { AppContext } from '../../../Context';
 
 export default function DeleteModal() {
@@ -13,11 +13,18 @@ export default function DeleteModal() {
     setOpenDelete(false);
   };
 
-  const handleDelete = () => {
-    setRecords(records => {
-      return records.filter(el => el.userId !== editedRecord.userId);
-    });
-    handleCloseDelete();
+  const handleDelete = async () => {
+    try {
+      const { data } = await Api.deleteRecord(editedRecord._id);
+      if (data) {
+        setRecords(records => {
+          return records.filter(el => el._id !== editedRecord._id);
+        });
+        handleCloseDelete();
+      }
+    } catch (err) {
+      console.log('err', err);
+    }
   };
 
   return (

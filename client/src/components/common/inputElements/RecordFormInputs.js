@@ -11,6 +11,7 @@ const useStyles = makeStyles(theme => ({
     padding: '10px'
   }
 }));
+
 export default function FormInputs({
   setValues,
   rating,

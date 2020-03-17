@@ -3,6 +3,7 @@ import Modal from './Modal';
 import RecordFormInputs from '../inputElements/RecordFormInputs';
 import { Grid, Button, Typography } from '@material-ui/core';
 import { AppContext } from '../../../Context';
+import Api from '../../../utils/api';
 
 export default function EditModal() {
   const {
@@ -21,12 +22,20 @@ export default function EditModal() {
     });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    let index = records.findIndex(el => el.userId === editedRecord.userId);
-    records[index] = editedRecord;
-    setRecords(records);
-    handleCloseEdit();
+    editedRecord.dateTime = Date.now();
+    try {
+      const { data } = await Api.editRecord(editedRecord);
+      if (data) {
+        let index = records.findIndex(el => el._id === editedRecord._id);
+        records[index] = data;
+        setRecords(records);
+        handleCloseEdit();
+      }
+    } catch (err) {
+      console.log('err', err);
+    }
   };
   const handleCloseEdit = () => {
     setOpenEdit(false);

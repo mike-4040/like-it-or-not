@@ -42,16 +42,16 @@ export default function MainPage() {
   // filtering by dates
   if (startDate) {
     records = records.filter(el => {
-      let time = new Date(el.dateTime);
-      return startDate <= time;
+      let time = new Date(el.dateTime).setHours(0, 0, 0, 0);
+      let start = startDate.setHours(0, 0, 0, 0);
+      return start <= time;
     });
   }
   if (endDate) {
     records = records.filter(el => {
-      let time = new Date(el.dateTime);
-      console.log('endDate', endDate);
-      console.log('time', time);
-      return endDate >= time;
+      let time = new Date(el.dateTime).setHours(0, 0, 0, 0);
+      let end = endDate.setHours(0, 0, 0, 0);
+      return end >= time;
     });
   }
 

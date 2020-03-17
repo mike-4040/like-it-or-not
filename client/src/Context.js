@@ -18,7 +18,7 @@ function ContextProvider({ children }) {
   const [openDelete, setOpenDelete] = useState(false);
   // Categories State
   const [allCategories, setAllCategories] = useState([]);
-  console.log('records', records);
+
   const getCategories = async () => {
     try {
       const { data } = await Api.getCategories();

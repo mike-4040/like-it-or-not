@@ -6,15 +6,16 @@ import {
 } from '@material-ui/pickers';
 import { Grid } from '@material-ui/core';
 
+// setting Initial date week ago and passing it as default value avoiding state changing.
+let initialDate = new Date();
+initialDate.setDate(initialDate.getDate() + 7);
+
 export default function DatePickerSection({
-  startDate,
+  startDate = initialDate,
   setStartDate,
   endDate,
   setEndDate
 }) {
-  // startDate = new Date();
-  // startDate.setDate(startDate.getDate() - 7);
-
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Grid container spacing={2}>

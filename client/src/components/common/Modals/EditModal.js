@@ -25,6 +25,7 @@ export default function EditModal() {
   const handleSubmit = async e => {
     e.preventDefault();
     editedRecord.dateTime = Date.now();
+    delete editedRecord.catName;
     try {
       const { data } = await Api.editRecord(editedRecord);
       if (data) {

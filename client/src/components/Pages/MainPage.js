@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function MainPage() {
   const classes = useStyles();
-  let { records, setRecords } = useContext(AppContext);
+  let { records, setRecords, allCategories } = useContext(AppContext);
   // Searches States
   const [searchText, setSearchText] = useState('');
   const [searchCategory, setSearchCategory] = useState('');
@@ -37,7 +37,11 @@ export default function MainPage() {
   }
   // filtering by seach category
   if (searchCategory) {
-    records = records.filter(el => el.categoryId === searchCategory);
+    const getCategoryName = () => {
+      const category = allCategories.find(el => el._id === searchCategory);
+      return category.catName;
+    };
+    records = records.filter(el => el.catName === getCategoryName());
   }
   // filtering by dates
   if (startDate) {

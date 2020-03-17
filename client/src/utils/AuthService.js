@@ -11,7 +11,6 @@ export default class AuthService {
 
   signup = user => {
     return axios.post('/api/auth/signup', user).then(({ data }) => {
-      console.log(data);
       this.setToken(data.token);
       return data;
     });

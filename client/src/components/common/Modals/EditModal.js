@@ -7,7 +7,6 @@ import Api from '../../../utils/api';
 
 export default function EditModal() {
   const {
-    allCategories,
     openEdit,
     setOpenEdit,
     setEditedRecord,
@@ -15,13 +14,6 @@ export default function EditModal() {
     records,
     setRecords
   } = useContext(AppContext);
-
-  const getCategoryId = () => {
-    const category = allCategories.find(
-      el => el.catName === editedRecord.catName
-    );
-    return category._id;
-  };
 
   const setEditedValues = e => {
     setEditedRecord({
@@ -52,11 +44,7 @@ export default function EditModal() {
   return (
     <Modal open={openEdit} onClose={handleCloseEdit}>
       <form onSubmit={handleSubmit}>
-        <RecordFormInputs
-          setValues={setEditedValues}
-          {...editedRecord}
-          categoryId={editedRecord && getCategoryId()}
-        />
+        <RecordFormInputs setValues={setEditedValues} {...editedRecord} />
         <Grid container justify='space-between' spacing={1}>
           <Grid item xs={12} sm={5}>
             <Button fullWidth type='submit' variant='contained' color='primary'>

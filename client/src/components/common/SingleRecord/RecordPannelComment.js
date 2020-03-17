@@ -12,12 +12,26 @@ import { AppContext } from '../../../Context';
 
 export default function RecordPannelComment({ comment, dateTime, recordId }) {
   // Open modals
-  const { setEditedRecord, setOpenEdit, records, setOpenDelete } = useContext(
-    AppContext
-  );
+  const {
+    setEditedRecord,
+    setOpenEdit,
+    records,
+    setOpenDelete,
+    allCategories
+  } = useContext(AppContext);
+
+  const getCategoryId = editedRecord => {
+    const category = allCategories.find(
+      el => el.catName === editedRecord.catName
+    );
+    return category._id;
+  };
+
   const handleClickOpenEdit = recordId => {
-    const edited = records.find(record => record._id === recordId);
-    setEditedRecord(edited);
+    const editedRecord = records.find(record => record._id === recordId);
+    editedRecord.categoryId = getCategoryId(editedRecord);
+    delete editedRecord.catName;
+    setEditedRecord(editedRecord);
     setOpenEdit(true);
   };
   const handleClickOpenDelete = recordId => {

@@ -58,7 +58,7 @@ cleanRecord = dbRecord => {
   const cleanRecord = {
     _id,
     catName: (categoryId && categoryId.catName) || 'Undefined',
-    categoryId,
+    categoryId: categoryId ? categoryId._id : undefined,
     rating,
     dateTime,
     subject,

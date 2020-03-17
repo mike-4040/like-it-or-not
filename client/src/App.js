@@ -12,7 +12,6 @@ import LandingPage from './components/Pages/LandingPage';
 
 export default function App() {
   const { user } = useContext(AppContext);
-
   return (
     <>
       <Switch>

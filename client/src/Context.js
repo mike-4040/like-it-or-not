@@ -18,7 +18,7 @@ function ContextProvider({ children }) {
   const [openDelete, setOpenDelete] = useState(false);
   // Categories State
   const [allCategories, setAllCategories] = useState([]);
-
+  console.log('records', records);
   const getCategories = async () => {
     try {
       const { data } = await Api.getCategories();
@@ -41,7 +41,7 @@ function ContextProvider({ children }) {
       console.log('err', err);
     }
   };
-  console.log('user', user);
+
   useEffect(() => {
     const user = Auth.getProfile();
     if (user) {
@@ -49,7 +49,6 @@ function ContextProvider({ children }) {
       Auth.setTokenToHeader();
       getUserRecords(user.id);
     }
-    // setRecords(dummyRecords);
     getCategories();
   }, []);
 

@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
 import { Grid, Button } from '@material-ui/core';
-
 import { Link as RouterLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
-
+import Api from '../../utils/api';
 import useForm from '../costumHooks/useForm';
 import { AppContext } from '../../Context';
 
@@ -17,23 +16,31 @@ const initialState = {
 };
 
 export default function RecordForm() {
-  const { setRecords } = useContext(AppContext);
+  const { setRecords, user } = useContext(AppContext);
   let history = useHistory();
 
   //custom hook to control inputs
   const [values, setValues, reset] = useForm(initialState);
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const newRecord = {
-      dateTime: new Date().toLocaleString(),
+      userId: user.id,
+      dateTime: Date.now(),
       ...values
     };
-    setRecords(records => {
-      return [newRecord, ...records];
-    });
-    reset(initialState);
-    history.push('/main');
+    try {
+      const { data } = await Api.createRecord(newRecord);
+      if (data) {
+        setRecords(records => {
+          return [data, ...records];
+        });
+        reset(initialState);
+        history.push('/main');
+      }
+    } catch (err) {
+      console.log('err', err);
+    }
   };
 
   return (

@@ -10,18 +10,18 @@ import EditRoundedIcon from '@material-ui/icons/EditRounded';
 
 import { AppContext } from '../../../Context';
 
-export default function RecordPannelComment({ comment, dateTime, userId }) {
+export default function RecordPannelComment({ comment, dateTime, recordId }) {
   // Open modals
   const { setEditedRecord, setOpenEdit, records, setOpenDelete } = useContext(
     AppContext
   );
-  const handleClickOpenEdit = userId => {
-    const edited = records.find(record => record.userId === userId);
+  const handleClickOpenEdit = recordId => {
+    const edited = records.find(record => record._id === recordId);
     setEditedRecord(edited);
     setOpenEdit(true);
   };
-  const handleClickOpenDelete = userId => {
-    const edited = records.find(record => record.userId === userId);
+  const handleClickOpenDelete = recordId => {
+    const edited = records.find(record => record._id === recordId);
     setEditedRecord(edited);
     setOpenDelete(true);
   };
@@ -30,7 +30,9 @@ export default function RecordPannelComment({ comment, dateTime, userId }) {
     <>
       <ExpansionPanelDetails style={{ flexDirection: 'column' }}>
         {/* Here goes dateTime and comment */}
-        <Typography style={{ margin: '5px 0' }}>{dateTime}</Typography>
+        <Typography style={{ margin: '5px 0' }}>
+          {new Date(dateTime).toLocaleString()}
+        </Typography>
         <Typography>{comment}</Typography>
         <Grid
           container
@@ -40,12 +42,12 @@ export default function RecordPannelComment({ comment, dateTime, userId }) {
         >
           {/* here goes edit and delete buttons */}
           <Grid item>
-            <IconButton onClick={() => handleClickOpenEdit(userId)}>
+            <IconButton onClick={() => handleClickOpenEdit(recordId)}>
               <EditRoundedIcon color='primary' />
             </IconButton>
           </Grid>
           <Grid item>
-            <IconButton onClick={() => handleClickOpenDelete(userId)}>
+            <IconButton onClick={() => handleClickOpenDelete(recordId)}>
               <DeleteRoundedIcon color='secondary' />
             </IconButton>
           </Grid>

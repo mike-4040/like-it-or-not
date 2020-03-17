@@ -3,7 +3,7 @@ import { Grid, Typography, ExpansionPanelSummary } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-export default function RecordPannelHeadings({ subject, categoryId, rating }) {
+export default function RecordPannelHeadings({ subject, catName, rating }) {
   return (
     <ExpansionPanelSummary
       expandIcon={<ExpandMoreIcon />}
@@ -29,7 +29,7 @@ export default function RecordPannelHeadings({ subject, categoryId, rating }) {
         {/* This one is for category */}
         <Grid item xs={2}>
           <Typography component='h2' variant='subtitle2'>
-            {categoryId}
+            {catName}
           </Typography>
         </Grid>
       </Grid>

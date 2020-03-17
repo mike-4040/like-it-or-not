@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 const useForm = initialValues => {
   const [values, setValues] = useState(initialValues);
-  console.log('values useForm', values);
-  // console.log('initialValues', initialValues);
   return [
     values,
     e => {

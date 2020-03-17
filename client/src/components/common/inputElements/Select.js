@@ -46,7 +46,7 @@ export default function SelectElement({ setValues, value }) {
         </MenuItem>
         {allCategories.map(el => {
           return (
-            <MenuItem key={el._id} value={el.catName}>
+            <MenuItem key={el._id} value={el._id}>
               {el.catName}
             </MenuItem>
           );

@@ -3,9 +3,11 @@ import Modal from './Modal';
 import RecordFormInputs from '../inputElements/RecordFormInputs';
 import { Grid, Button, Typography } from '@material-ui/core';
 import { AppContext } from '../../../Context';
+import Api from '../../../utils/api';
 
 export default function EditModal() {
   const {
+    allCategories,
     openEdit,
     setOpenEdit,
     setEditedRecord,
@@ -14,6 +16,13 @@ export default function EditModal() {
     setRecords
   } = useContext(AppContext);
 
+  const getCategoryId = () => {
+    const category = allCategories.find(
+      el => el.catName === editedRecord.catName
+    );
+    return category._id;
+  };
+
   const setEditedValues = e => {
     setEditedRecord({
       ...editedRecord,
@@ -21,12 +30,20 @@ export default function EditModal() {
     });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    let index = records.findIndex(el => el.userId === editedRecord.userId);
-    records[index] = editedRecord;
-    setRecords(records);
-    handleCloseEdit();
+    editedRecord.dateTime = Date.now();
+    try {
+      const { data } = await Api.editRecord(editedRecord);
+      if (data) {
+        let index = records.findIndex(el => el._id === editedRecord._id);
+        records[index] = data;
+        setRecords(records);
+        handleCloseEdit();
+      }
+    } catch (err) {
+      console.log('err', err);
+    }
   };
   const handleCloseEdit = () => {
     setOpenEdit(false);
@@ -35,7 +52,11 @@ export default function EditModal() {
   return (
     <Modal open={openEdit} onClose={handleCloseEdit}>
       <form onSubmit={handleSubmit}>
-        <RecordFormInputs setValues={setEditedValues} {...editedRecord} />
+        <RecordFormInputs
+          setValues={setEditedValues}
+          {...editedRecord}
+          categoryId={editedRecord && getCategoryId()}
+        />
         <Grid container justify='space-between' spacing={1}>
           <Grid item xs={12} sm={5}>
             <Button fullWidth type='submit' variant='contained' color='primary'>

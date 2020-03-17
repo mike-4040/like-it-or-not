@@ -30,12 +30,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Record({
-  userId,
+  _id,
   subject,
   comment,
   dateTime,
   rating,
-  categoryId
+  catName
 }) {
   const classes = useStyles();
 
@@ -45,12 +45,12 @@ export default function Record({
         <RecordPannelHeadings
           subject={subject}
           rating={rating}
-          categoryId={categoryId}
+          catName={catName}
         />
         <RecordPannelComment
           comment={comment}
           dateTime={dateTime}
-          userId={userId}
+          recordId={_id}
         />
       </ExpansionPanel>
     </>

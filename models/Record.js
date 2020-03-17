@@ -19,7 +19,8 @@ const recordSchema = new Schema({
     required: true
   },
   subject: {
-    type: String
+    type: String,
+    required: true
   },
   dateTime: {
     type: Date,

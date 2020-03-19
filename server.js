@@ -9,9 +9,9 @@ const app = express();
 const routes = require('./routes');
 
 const applyPassportStrategy = require('./utils/applyPassportStrategy');
-const {server, mongo} = require('./config/config');
+const {serverrc, mongorc} = require('./config/config');
 
-const port = server.port;
+const port = serverrc.port;
 
 // Setting CORS so that any website can Access our API
 app.use((req, res, next) => {
@@ -32,10 +32,10 @@ app.use(cors());
 /**
  * Apply strategy to passport
  */ 
-applyPassportStrategy(passport);
+// applyPassportStrategy(passport);
 
 mongoose
-  .connect(mongo.MONGODB_URI, mongo.options)
+  .connect(mongorc.MONGODB_URI, mongorc.options)
   .then(() => console.log('MongoDB Connected!'))
   .catch(err => console.error(err));
 
@@ -45,13 +45,12 @@ if (process.env.NODE_ENV === 'production')
 
 app.use(routes);
 
-// Error handling
+/** Authorization Error handling */ 
 app.use(function(err, req, res, next) {
-  if (err.name === 'UnauthorizedError') {
-    res.status(401).send(err);
-  } else {
+  if (err.name === 'UnauthorizedError')
+    res.status(401).send({message: `${err.name}: ${err.message}`});
+  else 
     next(err);
-  }
 });
 
 // Send every request to the React app

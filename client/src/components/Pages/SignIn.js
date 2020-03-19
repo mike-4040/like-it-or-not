@@ -47,12 +47,11 @@ export default function SignIn(props) {
   const history = useHistory();
   const { setUser } = useContext(AppContext);
 
-  const handleSubmit = async (values, { resetForm, setErrors }) => {
+  const handleSubmit = async (values, { setErrors }) => {
     try {
       await Auth.signin(values);
       const user = Auth.getProfile();
       setUser({ name: user.firstName, id: user.id });
-      resetForm();
       history.push('/main');
     } catch ({ response }) {
       if (response && response.status === 400) {

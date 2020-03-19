@@ -42,16 +42,27 @@ module.exports = {
         else res.status(400).send(`Can't find record ${req.params.id}`);
       })
       .catch(err => dbErrors(err, res));
+  },
+  findRecordsUser: (req, res) => {
+    Record.find({ userId: req.params.id })
+      .populate('categoryId')
+      .then(records => {
+        cleanRecords = records.map(record => cleanRecord(record));
+        res.status(200).json(cleanRecords);
+      })
+      .catch(err => dbErrors(err, res));
   }
 };
-
 cleanRecord = dbRecord => {
-  const { _id, categoryId, rating, dateTime, comment } = dbRecord;
+  const { _id, categoryId, rating, dateTime, comment, subject } = dbRecord;
+  console.log('categoryId', categoryId)
   const cleanRecord = {
     _id,
-    catName: (categoryId && categoryId.catName) || 'Udefined',
+    catName: (categoryId && categoryId.catName) || 'Undefined',
+    categoryId: categoryId ? categoryId._id : undefined,
     rating,
     dateTime,
+    subject,
     comment
   };
   return cleanRecord;

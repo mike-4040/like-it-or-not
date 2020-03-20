@@ -1,6 +1,5 @@
-require('dotenv').config();
-
 const { check } = require('express-validator');
+
 const {
   PASSWORD_IS_EMPTY,
   PASSWORD_LENGTH_MUST_BE_MORE_THAN_8,

@@ -11,7 +11,8 @@ module.exports = {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,
-      autoIndex: true // required to enforce unique
+      autoIndex: true, // required to enforce unique
+      useFindAndModify: false // Make Mongoose use `findOneAndUpdate()`
     }
   },
   jwtrc: { expireIn: 129600 }

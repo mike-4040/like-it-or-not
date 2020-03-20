@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
 
 const User = require('../models/User');
 const { jwtrc } = require('../config/config');
@@ -30,9 +31,8 @@ module.exports = {
     }),
 
   verifyToken: (payload, done) => {
-    console.log('verifyTocken', payload);
-    User.findOneById(payload._id)
-      .tnen(user => {
+    User.findById(payload.id)
+      .then(user => {
         if (user) {
           return done(null, {
             email: user.email,
@@ -42,5 +42,7 @@ module.exports = {
         return done(null, false);
       })
       .catch(err => done(err, false));
-  }
+  },
+
+  auth: passport.authenticate('jwt', { session: false })
 };

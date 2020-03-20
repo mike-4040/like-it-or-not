@@ -32,7 +32,8 @@ app.use(cors());
 /**
  * Apply strategy to passport
  */ 
-// applyPassportStrategy(passport);
+applyPassportStrategy(passport);
+app.use(passport.initialize());
 
 mongoose
   .connect(mongorc.MONGODB_URI, mongorc.options)

@@ -5,9 +5,13 @@ import Api from '../../../utils/api';
 import { AppContext } from '../../../Context';
 
 export default function DeleteModal() {
-  const { openDelete, setOpenDelete, editedRecord, setRecords } = useContext(
-    AppContext
-  );
+  const {
+    openDelete,
+    setOpenDelete,
+    editedRecord,
+    setRecords,
+    setEditedRecord
+  } = useContext(AppContext);
 
   const handleCloseDelete = () => {
     setOpenDelete(false);
@@ -20,6 +24,7 @@ export default function DeleteModal() {
         setRecords(records => {
           return records.filter(el => el._id !== editedRecord._id);
         });
+        setEditedRecord(null);
         handleCloseDelete();
       }
     } catch (err) {

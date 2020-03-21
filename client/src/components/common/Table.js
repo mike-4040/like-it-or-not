@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, CircularProgress } from '@material-ui/core';
 import Record from './SingleRecord/Record.js';
 
 const useStyles = makeStyles(theme => ({
@@ -19,6 +19,10 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: 'rgba(0,0,0,.1)',
       outline: '1px solid slategrey'
     }
+  },
+  spinner: {
+    display: 'block',
+    margin: '10px auto'
   }
 }));
 
@@ -26,11 +30,16 @@ export default function SimpleExpansionPanel({ records, setRecords }) {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      {records &&
-        records.map(record => (
-          <Record key={record._id} {...record} setRecords={setRecords} />
-        ))}
-    </div>
+    <>
+      <div className={classes.root}>
+        {records &&
+          records.map(record => (
+            <Record key={record._id} {...record} setRecords={setRecords} />
+          ))}
+      </div>
+      {!records && (
+        <CircularProgress color='secondary' className={classes.spinner} />
+      )}
+    </>
   );
 }

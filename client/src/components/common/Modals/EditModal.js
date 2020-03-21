@@ -32,6 +32,7 @@ export default function EditModal() {
         let index = records.findIndex(el => el._id === editedRecord._id);
         records[index] = data;
         setRecords(records);
+        setEditedRecord(null);
         handleCloseEdit();
       }
     } catch (err) {

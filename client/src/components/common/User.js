@@ -41,7 +41,7 @@ export default function User() {
   const classes = useStyles();
   let history = useHistory();
 
-  const { user, setUser } = useContext(AppContext);
+  const { user, setUser, setRecords } = useContext(AppContext);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -50,6 +50,7 @@ export default function User() {
 
   const handleClose = () => {
     setUser(null);
+    setRecords(null);
     Auth.logout();
     history.push('/signin');
   };

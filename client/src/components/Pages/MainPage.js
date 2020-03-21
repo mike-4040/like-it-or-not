@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { AppContext } from '../../Context';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -23,12 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function MainPage() {
   const classes = useStyles();
-  let { records, setRecords, user, getUserRecords } = useContext(AppContext);
-
-  useEffect(() => {
-    getUserRecords(user.id);
-  }, [user, getUserRecords]);
-
+  let { records, setRecords } = useContext(AppContext);
   // Searches States
   const [searchText, setSearchText] = useState('');
   const [searchCategory, setSearchCategory] = useState('');

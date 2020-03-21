@@ -43,6 +43,12 @@ function ContextProvider({ children }) {
   };
 
   useEffect(() => {
+    if (user) {
+      getUserRecords(user.id);
+    }
+  }, [user]);
+
+  useEffect(() => {
     const user = Auth.getProfile();
     if (user) {
       setUser({ name: user.firstName, id: user.id });

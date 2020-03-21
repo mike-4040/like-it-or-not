@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Rating from '@material-ui/lab/Rating';
-import Select from './Select';
+import SelectCategory from './SelectCategory';
 import TextArea from './TextArea';
 import TextInput from './TextInput';
 
@@ -39,7 +39,7 @@ export default function FormInputs({
         label='Tell us what you thinking of'
         autoFocus
       />
-      <Select value={categoryId} setValues={setValues} />
+      <SelectCategory value={categoryId} setValues={setValues} />
       <TextArea value={comment} setValues={setValues} />
     </>
   );

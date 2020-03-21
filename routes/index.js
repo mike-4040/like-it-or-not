@@ -4,8 +4,9 @@ const categoryRoutes = require('./category');
 const userRoutes = require('./user');
 const recordRoures = require('./record');
 const authRotes = require('./auth');
+const { auth } =require('../utils/auth');
 
-router.use('/api/user', userRoutes);
+router.use('/api/user', auth, userRoutes);
 router.use('/api/category', categoryRoutes);
 router.use('/api/record', recordRoures);
 router.use('/api/auth', authRotes);

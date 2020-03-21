@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
-import Select from './inputElements/Select';
+import SelectCategory from './inputElements/SelectCategory';
 import TextInput from './inputElements/TextInput';
 import DatePickerSection from './inputElements/DatePickerSection';
 
@@ -41,7 +41,7 @@ export default function SearchBar({
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Select value={searchCategory} setValues={handleSelect} />
+          <SelectCategory value={searchCategory} setValues={handleSelect} />
         </Grid>
       </Grid>
       <DatePickerSection

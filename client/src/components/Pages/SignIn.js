@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 
 const initialState = { email: '', password: '' };
 
-export default function SignIn(props) {
+export default function SignIn() {
   const classes = useStyles();
   const history = useHistory();
   const { setUser } = useContext(AppContext);

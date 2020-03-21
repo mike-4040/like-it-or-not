@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
 import SelectCategory from './inputElements/SelectCategory';
-import TextInput from './inputElements/TextInput';
+import SearchTextInput from './inputElements/SearchTextInput';
 import DatePickerSection from './inputElements/DatePickerSection';
 
 const useStyles = makeStyles(theme => ({
@@ -30,10 +30,10 @@ export default function SearchBar({
     <>
       <Grid container className={classes.section} spacing={2}>
         <Grid item xs={12} sm={6}>
-          <TextInput
+          <SearchTextInput
             size='small'
             name='search'
-            label='search'
+            label='Search'
             autoFocus
             style={{ margin: 0 }}
             onChange={e => setSearchText(e.target.value)}

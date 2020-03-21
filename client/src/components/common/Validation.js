@@ -23,3 +23,8 @@ export const logInValidationSchema = Yup.object({
     .min(3, 'Must be 3 characters or more')
     .max(15, 'Must be 15 characters or less')
 });
+
+export const recordFormValidationSchema = Yup.object({
+  subject: Yup.string().required('Required'),
+  categoryId: Yup.string().required('Required')
+});

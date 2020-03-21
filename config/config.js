@@ -2,10 +2,10 @@ module.exports = {
   passport: {
     expiresIn: 10000
   },
-  server: {
+  serverrc: {
     port: process.env.PORT || 3001
   },
-  mongo: {
+  mongorc: {
     MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/lion',
     options: {
       useNewUrlParser: true,

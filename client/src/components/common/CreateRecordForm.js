@@ -31,10 +31,9 @@ export default function RecordForm() {
     };
     try {
       const { data } = await Api.createRecord(newRecord);
+      console.log(data);
       if (data) {
-        setRecords(records => {
-          return [data, ...records];
-        });
+        setRecords(records => (records ? [data, ...records] : [data]));
         reset(initialState);
         history.push('/main');
       }

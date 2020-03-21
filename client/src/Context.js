@@ -59,6 +59,7 @@ function ContextProvider({ children }) {
         setUser,
         allCategories,
         setAllCategories,
+        getUserRecords,
         records,
         setRecords,
         editedRecord,

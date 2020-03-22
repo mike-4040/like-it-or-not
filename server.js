@@ -8,7 +8,8 @@ const passport = require('passport');
 const app = express();
 const routes = require('./routes');
 
-const applyPassportStrategy = require('./utils/applyPassportStrategy');
+const applyPassStratJwt = require('./utils/applyPassStratJwt');
+const applyPassStratGoogle = require('./utils/applyPassStratGoogle');
 const {serverrc, mongorc} = require('./config/config');
 
 const port = serverrc.port;
@@ -32,7 +33,8 @@ app.use(cors());
 /**
  * Apply strategy to passport
  */ 
-applyPassportStrategy(passport);
+applyPassStratJwt(passport);
+applyPassStratGoogle(passport);
 app.use(passport.initialize());
 
 mongoose

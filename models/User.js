@@ -18,8 +18,15 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true
+    // required: true
   },
+  provider: {
+    type: String,
+    required: true,
+    default: 'local'
+  },
+  providerId: String,
+
   /** No sense */
   // recordId: [{
   //   type: Types.ObjectId,

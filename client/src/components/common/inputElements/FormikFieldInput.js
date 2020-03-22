@@ -8,7 +8,10 @@ export default function FormikFieldInput({
   autoFocus = false,
   touched,
   errors,
-  margin = 'none'
+  margin = 'none',
+  type,
+  multiline,
+  rows
 }) {
   return (
     <Field
@@ -17,11 +20,13 @@ export default function FormikFieldInput({
       as={TextField}
       name={name}
       variant='outlined'
-      type={name}
+      type={type ? type : name}
       fullWidth
       margin={margin}
       label={label}
       autoFocus={autoFocus}
+      multiline={multiline ? multiline : false}
+      rows={rows ? rows : null}
     />
   );
 }

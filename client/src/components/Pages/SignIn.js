@@ -112,6 +112,20 @@ export default function SignIn() {
             </Form>
           )}
         </Formik>
+        <a
+          href={`${process.env.REACT_APP_SERVER_API_URL}/auth/google`}
+          className={classes.button}
+        >
+          <Button
+            type='submit'
+            fullWidth
+            variant='contained'
+            color='primary'
+            className={classes.submit}
+          >
+            Log In with Google
+          </Button>
+        </a>
       </div>
     </Container>
   );

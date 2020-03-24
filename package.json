@@ -11,7 +11,8 @@
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "jsdoc -c ./jsdocrc.json -r ."
   },
   "repository": {
     "type": "git",
@@ -36,5 +37,8 @@
     "passport-google-oauth": "^2.0.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.6.3"
   }
 }

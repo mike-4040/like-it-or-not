@@ -1,10 +1,13 @@
 const router = require('express').Router();
 const controller = require('../controllers/category');
+const { auth } = require('../utils/auth');
 
+/** Unprotected */
 router.get('/', controller.findAll);
 router.get('/:id', controller.findOne);
-router.post('/', controller.create);
-router.delete('/:id', controller.delete);
-router.put('/:id', controller.update);
+/** The rest routes are protected */
+router.post('/', auth, controller.create);
+router.delete('/:id', auth, controller.delete);
+router.put('/:id', auth, controller.update);
 
 module.exports = router;

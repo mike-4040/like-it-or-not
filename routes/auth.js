@@ -4,6 +4,7 @@ const passport = require('passport');
 const controller = require('../controllers/user');
 
 const { createToken } = require('../utils/auth');
+
 router.post('/signin', controller.signin);
 router.post('/signup', controller.create);
 
@@ -28,10 +29,10 @@ router.get(
   ({ user }, res) => {
     const token = createToken(user.id, user.email, user.firstName);
     return res
-      .status(200)
-      .json({ code: 0, token });
+      // .status(200)
+      // .json({ code: 0, token });
       /** @todo implement redirect somehow */
-      // .redirect('/main');
+      .redirect('/main');
   }
 );
 

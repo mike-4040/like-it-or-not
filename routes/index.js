@@ -7,7 +7,8 @@ const authRotes = require('./auth');
 const { auth } =require('../utils/auth');
 
 router.use('/api/user', auth, userRoutes);
-router.use('/api/category', auth, categoryRoutes);
+/** route level authorization */
+router.use('/api/category', categoryRoutes);
 router.use('/api/record', auth, recordRoures);
 router.use('/api/auth', authRotes);
 

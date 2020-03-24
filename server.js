@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 /**
- * Apply strategy to passport
+ * Apply strategies to passport
  */ 
 applyPassStratJwt(passport);
 applyPassStratGoogle(passport);

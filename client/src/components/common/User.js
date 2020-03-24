@@ -43,12 +43,6 @@ export default function User() {
 
   let { user, setUser, setRecords } = useContext(AppContext);
 
-  // DELETE AFTER DONE
-  // ******************************************
-  user = {
-    name: 'kostas'
-  };
-  // ******************************************
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -89,6 +83,15 @@ export default function User() {
               open={Boolean(anchorEl)}
               onClose={() => setAnchorEl(null)}
             >
+              <MenuItem>
+                <Link
+                  component={RouterLink}
+                  to='/main'
+                  className={classes.link}
+                >
+                  {'Main'}
+                </Link>
+              </MenuItem>
               <MenuItem>
                 <Link
                   component={RouterLink}

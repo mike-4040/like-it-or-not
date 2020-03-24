@@ -1,116 +1,72 @@
 import React from 'react';
 import {
-  Typography,
   Grid,
   CssBaseline,
   makeStyles,
   Paper,
   Avatar,
-  Tab,
-  Tabs,
-  Box
+  Box,
+  Container,
+  Typography
 } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
-import PropTypes from 'prop-types';
 import User from '../common/User';
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-  return (
-    <Typography
-      component='div'
-      role='tabpanel'
-      hidden={value !== index}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </Typography>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
-};
-
-function a11yProps(index) {
-  return {
-    id: `vertical-tab-${index}`,
-    'aria-controls': `vertical-tabpanel-${index}`
-  };
-}
+import ChangeName from '../common/Tabs/ChangeName';
+import ChangeEmail from '../common/Tabs/ChangeEmail';
+import ChangePassword from '../common/Tabs/ChangePassword';
+import TabsHeader from '../common/Tabs/TabsHeader';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    margin: '40px',
-    padding: '30px'
+    marginTop: '2rem ',
+    minHeight: '75vh'
   },
   avatar: {
+    alignSelf: 'center',
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRight: `1px solid ${theme.palette.divider}`
+    alignItems: 'center'
   },
-  tabArea: {
-    padding: ' 0 10px',
-    display: 'flex'
-  },
-  tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`
+
+  tables: {
+    padding: '10px'
   }
 }));
 
 export default function Profile({ user }) {
   const classes = useStyles();
+
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  console.log('user', user);
   return (
     <>
       <CssBaseline />
       <User />
-      <Paper className={classes.root}>
-        <Grid container justify='center' alignItems='center'>
-          <Grid item xs={3} className={classes.avatar}>
-            <Avatar>
-              <PersonIcon />
-            </Avatar>
-            <p>User name</p>
-            <p> user Email</p>
+      <Container>
+        <Paper className={classes.root}>
+          <Grid container justify='center' direction='column'>
+            <Grid item className={classes.avatar}>
+              <Avatar>
+                <PersonIcon />
+              </Avatar>
+              <Box p={3}>
+                <Typography variant='body1' component='p'>
+                  Andrey Kuznetsov <em>andrey@gmail.com</em>
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} className={classes.tables}>
+              <TabsHeader value={value} onChange={handleChange} />
+              <ChangeName value={value} index={0} />
+              <ChangeEmail value={value} index={1} />
+              <ChangePassword value={value} index={2} />
+            </Grid>
           </Grid>
-          <Grid item xs={9} className={classes.tabArea}>
-            <Tabs
-              orientation='vertical'
-              variant='scrollable'
-              value={value}
-              onChange={handleChange}
-              aria-label='Vertical tabs example'
-              className={classes.tabs}
-            >
-              <Tab label='Change name' {...a11yProps(0)} />
-              <Tab label='Change password' {...a11yProps(1)} />
-              <Tab label='Change email' {...a11yProps(2)} />
-            </Tabs>
-            <TabPanel value={value} index={0}>
-              item 1
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              Item Two
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-              Item Three
-            </TabPanel>
-          </Grid>
-        </Grid>
-      </Paper>
+        </Paper>
+      </Container>
     </>
   );
 }

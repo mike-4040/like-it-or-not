@@ -26,10 +26,7 @@ export default function App() {
         <ProtectedRoute path='/main' component={MainPage} user={user} />
         <ProtectedRoute path='/admin' component={AdminPage} user={user} />
         <ProtectedRoute path='/profile' component={Profile} user={user} />
-        {/* <Route exact path='/' component={user ? MainPage : LandingPage} /> */}
-        <Route exact path='/' component={Profile} />
-     
-
+        <Route exact path='/' component={user ? MainPage : LandingPage} />
         <Route path='*' component={PageNotFound} />
       </Switch>
     </>

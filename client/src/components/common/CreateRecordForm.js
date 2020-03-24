@@ -64,46 +64,4 @@ export default function RecordForm() {
       )}
     </Formik>
   );
-
-  // //custom hook to control inputs
-  // const [values, setValues, reset] = useForm(initialState);
-
-  // const handleSubmit = async e => {
-  //   e.preventDefault();
-  //   const newRecord = {
-  //     userId: user.id,
-  //     dateTime: Date.now(),
-  //     ...values
-  //   };
-  //   try {
-  //     const { data } = await Api.createRecord(newRecord);
-  //     console.log(data);
-  //     if (data) {
-  //       setRecords(records => (records ? [data, ...records] : [data]));
-  //       reset(initialState);
-  //       history.push('/main');
-  //     }
-  //   } catch (err) {
-  //     console.log('err', err);
-  //   }
-  // };
-
-  // return (
-  //   <form style={{ width: '100%' }} onSubmit={handleSubmit}>
-  //     <RecordFormInputs setValues={setValues} {...values} />
-  //     <Grid container justify='space-between'>
-  //       <Button type='submit' variant='contained' color='primary'>
-  //         Create memory
-  //       </Button>
-  //       <Button
-  //         component={RouterLink}
-  //         to='/main'
-  //         variant='contained'
-  //         color='secondary'
-  //       >
-  //         Continue
-  //       </Button>
-  //     </Grid>
-  //   </form>
-  // );
 }

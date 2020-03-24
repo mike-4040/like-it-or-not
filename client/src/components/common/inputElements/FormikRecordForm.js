@@ -13,6 +13,7 @@ import {
 import { Select } from 'formik-material-ui';
 import { AppContext } from '../../../Context';
 
+// Formik tranform value in to string but Rating can only take Number. Custom Element will fix it
 const FormikRating = ({ ...props }) => {
   const [field] = useField(props);
   return <Rating {...field} value={Number(field.value)} {...props} />;

@@ -41,7 +41,8 @@ export default function User() {
   const classes = useStyles();
   let history = useHistory();
 
-  const { user, setUser, setRecords } = useContext(AppContext);
+  let { user, setUser, setRecords } = useContext(AppContext);
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -52,7 +53,7 @@ export default function User() {
     setUser(null);
     setRecords(null);
     Auth.logout();
-    history.push('/signin');
+    history.push('/');
   };
 
   return (
@@ -86,6 +87,15 @@ export default function User() {
                 <Link
                   component={RouterLink}
                   to='/main'
+                  className={classes.link}
+                >
+                  {'Main'}
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link
+                  component={RouterLink}
+                  to='/profile'
                   className={classes.link}
                 >
                   {'Profile'}

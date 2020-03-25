@@ -3,7 +3,7 @@ const passport = require('passport');
 
 const controller = require('../controllers/user');
 
-const { createToken } = require('../utils/auth');
+const { shortToken } = require('../utils/auth');
 
 router.post('/signin', controller.signin);
 router.post('/signup', controller.create);
@@ -27,13 +27,15 @@ router.get(
     session: false
   }),
   ({ user }, res) => {
-    const token = createToken(user.id, user.email, user.firstName);
-    return res
-      // .status(200)
-      // .json({ code: 0, token });
-      /** @todo implement redirect somehow */
-      .redirect('/main');
+    console.log('/google/callback');
+    const token = shortToken(user._id);
+    return (
+      res
+        .redirect(`${process.env.FRONT_URL}/auth/${token}`)
+    );
   }
 );
+
+router.get('/token/:token', controller.exchangeToken);
 
 module.exports = router;

@@ -29,11 +29,33 @@ module.exports = {
    * @param {string} id
    * @param {string} email
    * @param {string} firstName
+   * @param {string} lastName
+   * 
+   * @todo Refactor to consume one object
    */
-  createToken: (id, email, firstName) =>
-    jwt.sign({ id, email, firstName }, process.env.SERVER_SECRET, {
+  createToken: (id, email, firstName, lastName) =>
+    jwt.sign({ id, email, firstName, lastName }, process.env.SERVER_SECRET, {
       expiresIn: jwtrc.expiresIn
     }),
+
+  /** Create a short living JWT  */
+  shortToken: id =>
+    jwt.sign({ id }, process.env.SERVER_SECRET, {
+      expiresIn: 10
+    }),
+
+  /** Verify Token
+   * @param {string} token
+   * @returns {Object|boolean} payload if token is valid or false if not
+   */
+  checkToken: token => {
+    try {
+      const payload = jwt.verify(token, process.env.SERVER_SECRET);
+      return payload;
+    } catch {
+      return false;
+    }
+  },
 
   verifyToken: (payload, done) => {
     User.findById(payload.id)
@@ -52,7 +74,6 @@ module.exports = {
   auth: passport.authenticate('jwt', { session: false }),
 
   verifyCbGoogle: async (accessToken, refreshToken, profile, done) => {
-    console.log(profile);
     try {
       const user = await User.findOne({ providerId: profile.id });
       if (user) return done(null, { email: user.email, _id: user._id });

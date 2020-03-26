@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Modal from './Modal';
-import { Grid, Button, Typography } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import { AppContext } from '../../../Context';
 import Api from '../../../utils/api';
 import { Formik, Form } from 'formik';

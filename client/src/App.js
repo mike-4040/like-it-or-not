@@ -10,6 +10,7 @@ import { ProtectedRoute } from './components/common/ProtectedRoute';
 import PageNotFound from './components/Pages/PageNotFound';
 import LandingPage from './components/Pages/LandingPage';
 import ShortTokenHandler from './components/ShortTokenHandler';
+import Profile from './components/Pages/Profile';
 
 export default function App() {
   const { user } = useContext(AppContext);
@@ -25,6 +26,7 @@ export default function App() {
         <ProtectedRoute path='/record' component={CreateRecord} user={user} />
         <ProtectedRoute path='/main' component={MainPage} user={user} />
         <ProtectedRoute path='/admin' component={AdminPage} user={user} />
+        <ProtectedRoute path='/profile' component={Profile} user={user} />
         <Route exact path='/' component={user ? MainPage : LandingPage} />
         <Route path='/auth/:token' component={ShortTokenHandler} />
         <Route path='*' component={PageNotFound} />

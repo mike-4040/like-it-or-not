@@ -23,7 +23,7 @@ export default function ShortTokenHandler() {
 
   useEffect(() => {
     getToken();
-  }, []);
+  });
   /** @todo:
    * 1.send token to /api/auth/token as param
    * 2. Accept real token and save it in local storage

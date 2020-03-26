@@ -49,7 +49,12 @@ module.exports = {
     console.log(user);
     db.User.create(user)
       .then(dbUser => {
-        const token = createToken(dbUser.id, dbUser.email, dbUser.firstName, dbUser.lastName);
+        const token = createToken(
+          dbUser.id,
+          dbUser.email,
+          dbUser.firstName,
+          dbUser.lastName
+        );
         res.json({ token });
       })
       .catch(err => dbErrors(err, res));
@@ -83,7 +88,12 @@ module.exports = {
         if (!user)
           res.status(400).json({ code: 1, message: 'Email is not found.' });
         if (checkPassword(password, user.password)) {
-          const token = createToken(user.id, email, user.firstName, lastName);
+          const token = createToken(
+            user.id,
+            email,
+            user.firstName,
+            user.lastName
+          );
           res.status(200).json({ code: 0, token });
         } else {
           res.status(400).json({ code: 2, message: 'Wrong password.' });
@@ -100,17 +110,20 @@ module.exports = {
 
   exchangeToken: (req, res) => {
     const payload = checkToken(req.params.token);
-    if (!payload) 
-      return res.status(400).send('Wrong token');
-    
+    if (!payload) return res.status(400).send('Wrong token');
+
     console.log(`Route /token: User id: ${JSON.stringify(payload.id)}`);
     db.User.findById(payload.id)
       .then(user => {
-        if (!user)
-          res.status(500).send('Server error at "exchangeToken"');
-        const token = createToken(user.id, user.email, user.firstName, user.lastName);
-        res.status(200).send(token); 
+        if (!user) res.status(500).send('Server error at "exchangeToken"');
+        const token = createToken(
+          user.id,
+          user.email,
+          user.firstName,
+          user.lastName
+        );
+        res.status(200).send(token);
       })
       .catch(err => dbErrors(err, res));
-    }
+  }
 };

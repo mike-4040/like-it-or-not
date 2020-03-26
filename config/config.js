@@ -1,7 +1,4 @@
 module.exports = {
-  passport: {
-    expiresIn: 10000
-  },
   serverrc: {
     port: process.env.PORT || 3001
   },
@@ -15,5 +12,5 @@ module.exports = {
       useFindAndModify: false // Make Mongoose use `findOneAndUpdate()`
     }
   },
-  jwtrc: { expireIn: 129600 }
+  jwtrc: { expiresIn: 129600 }
 };

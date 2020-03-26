@@ -61,4 +61,17 @@ export default class AuthService {
     axios.defaults.headers.common['Authorization'] = null;
     localStorage.removeItem('id_token');
   }
+
+  googlePassportToken(token) {
+    return axios.get(`/api/auth/token/${token}`).then(res => {
+      if (res.status === 400) {
+        throw Error(res.data);
+      }
+      if (res.status === 500) throw Error(res.data);
+      if (res.status === 200) {
+        this.setToken(res.data);
+        return res.data;
+      }
+    });
+  }
 }

@@ -1,6 +1,5 @@
-// require('dotenv').config();
 const { Strategy, ExtractJwt } = require('passport-jwt');
-const { verifyToken } = require('../utils/auth');
+const { verifyToken } = require('./auth');
 
 module.exports = passport => {
   const options = {

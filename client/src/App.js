@@ -9,6 +9,7 @@ import AdminPage from './components/Pages/AdminPage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import PageNotFound from './components/Pages/PageNotFound';
 import LandingPage from './components/Pages/LandingPage';
+import ShortTokenHandler from './components/ShortTokenHandler';
 import Profile from './components/Pages/Profile';
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
         <ProtectedRoute path='/admin' component={AdminPage} user={user} />
         <ProtectedRoute path='/profile' component={Profile} user={user} />
         <Route exact path='/' component={user ? MainPage : LandingPage} />
+        <Route path='/auth/:token' component={ShortTokenHandler} />
         <Route path='*' component={PageNotFound} />
       </Switch>
     </>

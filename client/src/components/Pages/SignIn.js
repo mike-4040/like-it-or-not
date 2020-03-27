@@ -58,7 +58,7 @@ export default function SignIn() {
     try {
       await Auth.signin(values);
       const user = Auth.getProfile();
-      setUser({ name: user.firstName, id: user.id });
+      setUser(user);
       history.push('/main');
     } catch ({ response }) {
       if (response && response.status === 400) {

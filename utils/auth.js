@@ -30,7 +30,7 @@ module.exports = {
    * @param {string} email
    * @param {string} firstName
    * @param {string} lastName
-   * 
+   *
    * @todo Refactor to consume one object
    */
   createToken: (id, email, firstName, lastName) =>
@@ -98,5 +98,18 @@ module.exports = {
     } catch (err) {
       return done(err, false);
     }
-  }
+  },
+
+  passMiddleGoogle: passport.authenticate('google', {
+    scope: [
+      'https://www.googleapis.com/auth/userinfo.profile',
+      'https://www.googleapis.com/auth/userinfo.email'
+    ],
+    session: false
+  }),
+
+  passMiddleGoogleCB: passport.authenticate('google', {
+    failureRedirect: '/login',
+    session: false
+  })
 };

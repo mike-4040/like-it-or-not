@@ -8,7 +8,8 @@ const {
   hashPassword,
   checkPassword,
   createToken,
-  checkToken
+  checkToken,
+  shortToken
 } = require('../utils/auth');
 const {
   serverErrorCode,
@@ -108,11 +109,14 @@ module.exports = {
       .catch(err => dbErrors(err, res));
   },
 
+  /** After succesfull social auth issue and pass to the frontend a short living token */
+  returnShortTocken: ({ user }, res) =>
+    res.redirect(`${process.env.FRONT_URL || ''}/auth/${shortToken(user._id)}`),
+
   exchangeToken: (req, res) => {
     const payload = checkToken(req.params.token);
     if (!payload) return res.status(400).send('Wrong token');
 
-    console.log(`Route /token: User id: ${JSON.stringify(payload.id)}`);
     db.User.findById(payload.id)
       .then(user => {
         if (!user) res.status(500).send('Server error at "exchangeToken"');

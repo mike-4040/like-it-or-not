@@ -3,7 +3,7 @@ import TabPanel from './TabPanel';
 import { Formik, Form } from 'formik';
 import TableForm from './TableForm';
 
-export default function ChangeEmail({ value, index }) {
+export default function ChangeEmail({ value, index, user }) {
   const initialState = {
     oldPassword: '',
     newPassword: '',

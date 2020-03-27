@@ -31,7 +31,7 @@ router.get(
     const token = shortToken(user._id);
     return (
       res
-        .redirect(`${process.env.FRONT_URL}/auth/${token}`)
+        .redirect(`${process.env.FRONT_URL || ''}/api/auth/${token}`)
     );
   }
 );

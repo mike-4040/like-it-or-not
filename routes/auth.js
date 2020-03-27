@@ -27,7 +27,7 @@ router.get(
     session: false
   }),
   ({ user }, res) => {
-    console.log('/google/callback');
+    console.log('/google/callback', JSON.stringify(user));
     const token = shortToken(user._id);
     return (
       res

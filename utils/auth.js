@@ -75,6 +75,7 @@ module.exports = {
 
   verifyCbGoogle: async (accessToken, refreshToken, profile, done) => {
     try {
+      console.log('verifyCDGgoogle', profile);
       const user = await User.findOne({ providerId: profile.id });
       if (user) return done(null, { email: user.email, _id: user._id });
     } catch (err) {

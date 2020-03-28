@@ -8,15 +8,11 @@ const Auth = new AuthService();
 export default function ShortTokenHandler() {
   const { token } = useParams();
   const [error, setError] = useState();
-  
-  console.log('at /auth', token);
-  
+
   const getToken = async () => {
     try {
       const user = await Auth.googlePassportToken(token);
-      if (user) {
-        window.location.replace('/');
-      }
+      if (user) window.location.replace('/');
     } catch (err) {
       setError(err);
       console.log('getToken / error :', error);
@@ -27,11 +23,7 @@ export default function ShortTokenHandler() {
   useEffect(() => {
     getToken();
   });
-  
-  /** @todo:
-   * 1.send token to /api/auth/token as param
-   * 2. Accept real token and save it in local storage
-   */
+
 
   let style = {
     height: '100vh',

@@ -111,7 +111,6 @@ module.exports = {
 
   /** After succesfull social auth issue and pass to the frontend a short living token */
   returnShortTocken: ({ user }, res) => {
-    console.log(`returnShortTocken, redirect to: ${process.env.FRONT_URL || ''}/auth/`);
     res.redirect(`${process.env.FRONT_URL || ''}/auth/${shortToken(user._id)}`);
   },
 

@@ -9,6 +9,5 @@ module.exports = passport => {
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: `${process.env.SERVER_API_URL || 'api'}/auth/google/callback`
   };
-  console.log(`Apply passport strategy: server URL: ${process.env.SERVER_API_URL || 'api'}/auth/google/callback`);
   passport.use(new Strategy(options, verifyCbGoogle));
 };

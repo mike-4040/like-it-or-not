@@ -64,6 +64,7 @@ export default class AuthService {
 
   googlePassportToken(token) {
     return axios.get(`/api/auth/token/${token}`).then(res => {
+      console.log('googlePassportToken: res', JSON.stringify(res));
       if (res.status === 400) {
         throw Error(res.data);
       }

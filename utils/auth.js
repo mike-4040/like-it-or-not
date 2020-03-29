@@ -74,29 +74,54 @@ module.exports = {
   auth: passport.authenticate('jwt', { session: false }),
 
   verifyCbGoogle: async (accessToken, refreshToken, profile, done) => {
-    try {
-      const user = await User.findOne({ providerId: profile.id });
-      if (user) return done(null, { email: user.email, _id: user._id });
-    } catch (err) {
-      return done(err, false);
-    }
     const verifiedEmail =
-      profile.emails.find(email => email.verified) || profile.emails[0];
-
-    const newUser = {
-      provider: profile.provider,
-      providerId: profile.id,
-      firstName: profile.name.givenName,
-      lastName: profile.name.familyName,
-      email: verifiedEmail.value,
-      password: null
-    };
+      profile.emails.find(email => email.verified).value || profile.emails[0];
 
     try {
-      const user = await User.create(newUser);
-      if (user) return done(null, { email: user.email, _id: user._id });
+      const user = await User.findOne({ email: verifiedEmail });
+      if (user) {
+        const dbCreditIndex = user.providers.findIndex(
+          provider => provider.providerName === profile.provider
+        );
+
+        //check if db user has creditential from provider
+        if (dbCreditIndex != -1) {
+          const dbCredit = user.providers[dbCreditIndex];
+          if (dbCredit.providerId != profile.id) {
+            //update providerID
+            user.providers[dbCreditIndex].providerId = profile.id;
+            user.save();
+          }
+        } else {
+          // create a db user creditential from provider
+          user.providers.push({
+            providerName: profile.provider,
+            providerId: profile.id
+          });
+          user.save();
+        }
+        return done(null, { email: user.email, _id: user._id });
+      } else {
+        // create a new user
+        const newUser = {
+          firstName: profile.name.givenName,
+          lastName: profile.name.familyName,
+          email: verifiedEmail.value,
+          password: null,
+          providers: {
+            provider: profile.provider,
+            providerId: profile.id
+          }
+        };
+        const newDbUser = await User.create(newUser);
+        if (newDbUser)
+          return done(null, {
+            email: newDbUser.email,
+            _id: newDbUser._id
+          });
+      }
     } catch (err) {
-      return done(err, false);
+      done(err, false);
     }
   },
 

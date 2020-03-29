@@ -4,6 +4,7 @@
 
 const db = require('../models');
 const dbErrors = require('../utils/dbErrors');
+const { serverrc } = require('../config/config');
 const {
   hashPassword,
   checkPassword,
@@ -110,9 +111,8 @@ module.exports = {
   },
 
   /** After succesfull social auth issue and pass to the frontend a short living token */
-  returnShortTocken: ({ user }, res) => {
-    res.redirect(`${process.env.FRONT_URL || ''}/auth/${shortToken(user._id)}`);
-  },
+  returnShortTocken: ({ user }, res) =>
+    res.redirect(`${serverrc.clientURI}/auth/${shortToken(user._id)}`),
 
   exchangeToken: (req, res) => {
     const payload = checkToken(req.params.token);

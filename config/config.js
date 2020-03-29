@@ -1,6 +1,8 @@
+const localServerPort = 3001;
+
 module.exports = {
   serverrc: {
-    port: process.env.PORT || 3001
+    port: process.env.PORT || localServerPort
   },
   mongorc: {
     MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/lion',
@@ -12,5 +14,10 @@ module.exports = {
       useFindAndModify: false // Make Mongoose use `findOneAndUpdate()`
     }
   },
-  jwtrc: { expiresIn: 129600 }
+  jwtrc: { expiresIn: 129600 },
+  passportrc: {
+    googleCallbackURL: `${
+      process.env.NODE_ENV === 'production' ? '' : `http://localhost:${localServerPort}`
+    }/api/auth/google/callback`
+  }
 };

@@ -42,6 +42,15 @@ function ContextProvider({ children }) {
     }
   };
 
+  const getUser = async userId => {
+    try {
+      const user = await Api.getUser(userId);
+      if (user) setUser(user);
+    } catch (err) {
+      console.log('err', err);
+    }
+  };
+
   useEffect(() => {
     if (user) {
       getUserRecords(user.id);
@@ -49,13 +58,16 @@ function ContextProvider({ children }) {
   }, [user]);
 
   useEffect(() => {
-    const user = Auth.getProfile();
-    if (user) {
-      setUser(user);
-      Auth.setTokenToHeader();
-      getUserRecords(user.id);
-    }
     getCategories();
+    const storageUser = Auth.getProfile();
+    console.log('Context/use effect', storageUser);
+    if (storageUser && storageUser.id) {
+      getUser(storageUser.id);
+      Auth.setTokenToHeader();
+      getUserRecords(storageUser.id);
+      
+    }
+
   }, []);
 
   return (

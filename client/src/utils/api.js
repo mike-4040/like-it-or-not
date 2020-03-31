@@ -2,7 +2,8 @@ import axios from 'axios';
 
 export default {
   //User
-  getUser: () => axios.get('/api/user'),
+  getAllUsers: () => axios.get('/api/user'),
+  getUser: userId => axios.get(`/api/user/${userId}`),
 
   /** Get all records of a User
    * @param {string} userId

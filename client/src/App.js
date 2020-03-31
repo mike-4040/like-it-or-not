@@ -14,6 +14,7 @@ import Profile from './components/Pages/Profile';
 
 export default function App() {
   const { user } = useContext(AppContext);
+  console.log('App:', user)
   return (
     <>
       <Switch>

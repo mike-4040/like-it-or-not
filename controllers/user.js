@@ -13,7 +13,7 @@ module.exports = {
   findAll: (req, res) => {
     db.User.find({})
       .sort({ lastName: 1 })
-      .then(users => res.json(users))
+      .then(users => res.json(users.map(user => userToFront(user))))
       .catch(err => dbErrors(err, res));
   },
   /**
@@ -22,7 +22,7 @@ module.exports = {
    */
   findOne: (req, res) => {
     db.User.findById(req.params.id)
-      .then(user => res.json(user))
+      .then(user => res.json(userToFront(user)))
       .catch(err => dbErrors(err, res));
   },
 
@@ -43,7 +43,7 @@ module.exports = {
    */
   delete: (req, res) => {
     db.User.findByIdAndDelete(req.params.id)
-      .then(dbUser => res.json(dbUser))
+      .then(dbUser => res.json(userToFront(dbUser)))
       .catch(err => dbErrors(err, res));
   },
 

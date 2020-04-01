@@ -1,5 +1,7 @@
 const db = require('../models');
 const dbErrors = require('../utils/dbErrors');
+const { hashPassword } = require('../utils/auth');
+const { userToFront} = require('../utils/mappers');
 
 module.exports = {
   /**
@@ -11,7 +13,7 @@ module.exports = {
   findAll: (req, res) => {
     db.User.find({})
       .sort({ lastName: 1 })
-      .then(users => res.json(users))
+      .then(users => res.json(users.map(user => userToFront(user))))
       .catch(err => dbErrors(err, res));
   },
   /**
@@ -20,21 +22,19 @@ module.exports = {
    */
   findOne: (req, res) => {
     db.User.findById(req.params.id)
-      .then(user => res.json(user))
+      .then(user => res.json(userToFront(user)))
       .catch(err => dbErrors(err, res));
   },
 
-  /**
-   * Update a User
-   * @returns {Object} updated category from db.
-   */
-  update: (req, res) => {
+  update: ({ body }, res) => {
+    if (body.password) body.password = hashPassword(body.password);
+    console.log('Controller / update', body)
     db.User.findOneAndUpdate(
-      { _id: req.params.id },
-      { $set: req.body },
+      { _id: body.id },
+      { $set: body },
       { new: true, useFindAndModify: false }
     )
-      .then(dbUser => res.json(dbUser))
+      .then(dbUser => res.json(userToFront(dbUser)))
       .catch(err => dbErrors(err, res));
   },
   /**
@@ -43,7 +43,7 @@ module.exports = {
    */
   delete: (req, res) => {
     db.User.findByIdAndDelete(req.params.id)
-      .then(dbUser => res.json(dbUser))
+      .then(dbUser => res.json(userToFront(dbUser)))
       .catch(err => dbErrors(err, res));
   },
 

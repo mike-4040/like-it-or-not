@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Like It Or Not",
   "main": "server.js",
+  "engines": {
+    "node": "12.16.x"
+  },
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
     "start:prod": "node server.js",
@@ -11,7 +14,8 @@
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "jsdoc -c ./jsdocrc.json -r ."
   },
   "repository": {
     "type": "git",
@@ -33,7 +37,11 @@
     "if-env": "^1.0.4",
     "mongoose": "^5.9.3",
     "passport": "^0.4.1",
+    "passport-google-oauth": "^2.0.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.6.3"
   }
 }

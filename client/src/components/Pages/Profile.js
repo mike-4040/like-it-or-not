@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Grid,
   CssBaseline,
   makeStyles,
   Paper,
-  Avatar,
-  Box,
-  Container,
-  Typography
+  Container
 } from '@material-ui/core';
-import PersonIcon from '@material-ui/icons/Person';
+import { AppContext } from '../../Context';
+import UserCard from '../common/UserCard';
 import User from '../common/User';
 import ChangeName from '../common/Tabs/ChangeName';
 import ChangeEmail from '../common/Tabs/ChangeEmail';
@@ -18,6 +16,7 @@ import TabsHeader from '../common/Tabs/TabsHeader';
 
 const useStyles = makeStyles(theme => ({
   root: {
+    padding: '20px',
     marginTop: '2rem ',
     minHeight: '75vh'
   },
@@ -32,8 +31,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Profile({ user }) {
+export default function Profile() {
   const classes = useStyles();
+
+  let { user } = useContext(AppContext);
 
   const [value, setValue] = React.useState(0);
 
@@ -46,23 +47,16 @@ export default function Profile({ user }) {
       <CssBaseline />
       <User />
       <Container>
-        <Paper className={classes.root}>
-          <Grid container justify='center' direction='column'>
-            <Grid item className={classes.avatar}>
-              <Avatar>
-                <PersonIcon />
-              </Avatar>
-              <Box p={3}>
-                <Typography variant='body1' component='p'>
-                  Andrey Kuznetsov <em>andrey@gmail.com</em>
-                </Typography>
-              </Box>
+        <Paper elevation={3} className={classes.root}>
+          <Grid container>
+            <Grid item xs={12} md={4}>
+              <UserCard user={user} />
             </Grid>
-            <Grid item xs={12} className={classes.tables}>
+            <Grid item xs={12} md={8} className={classes.tables}>
               <TabsHeader value={value} onChange={handleChange} />
-              <ChangeName value={value} index={0} />
-              <ChangeEmail value={value} index={1} />
-              <ChangePassword value={value} index={2} />
+              <ChangeName value={value} index={0} user={user} />
+              <ChangeEmail value={value} index={1} user={user} />
+              <ChangePassword value={value} index={2} user={user} />
             </Grid>
           </Grid>
         </Paper>

@@ -6,7 +6,7 @@ export default {
 
   /** Get all records of a User
    * @param {string} userId
-   * @returns {Promise[Record]}
+   * @returns {Promise} record
    */
   getUserRecords: userId => axios.get(`/api/record/${userId}/record`),
   createRecord: record => axios.post('/api/record/', record),

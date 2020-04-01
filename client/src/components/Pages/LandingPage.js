@@ -13,6 +13,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import InstagramIcon from '@material-ui/icons/Instagram';
+
 const useStyles = makeStyles(theme => ({
   root: {
     height: '100vh',
@@ -29,33 +30,35 @@ const useStyles = makeStyles(theme => ({
       fontSize: '2.4rem'
     }
   },
-
+  social: {
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'center'
+    }
+  },
   text: {
     height: '300px',
     padding: '20px',
     borderLeft: '1px solid black',
     textAlign: 'left',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       textAlign: 'center',
       borderLeft: 'none'
     }
   },
-
   icon: {
     transition: 'all .2s linear',
     cursor: 'pointer',
     '&:hover': {
       color: theme.palette.primary.main,
       transform: 'scale(1.1)'
-    },
-    '&:hover:first-child': {
-      background: 'transparent',
-      color: 'black'
     }
   },
   instagram: {
+    cursor: 'pointer',
+    transition: 'all .2s linear',
+    borderRadius: '5px',
     '&:hover': {
-      borderRadius: '5px',
+      transform: 'scale(1.1)',
       background:
         'radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)',
       color: 'white'
@@ -160,15 +163,15 @@ export default function LandingPage() {
               </Typography>
             </Popover>
             <br />
-            <Grid container spacing={4} alignItems='center'>
-              <Grid item className={classes.icon}>
+            <Grid container spacing={4} className={classes.social}>
+              <Grid item>
                 <InstagramIcon className={classes.instagram} />
               </Grid>
-              <Grid item className={classes.icon}>
-                <FacebookIcon />
+              <Grid item>
+                <FacebookIcon className={classes.icon} />
               </Grid>
-              <Grid item className={classes.icon}>
-                <TwitterIcon />
+              <Grid item>
+                <TwitterIcon className={classes.icon} />
               </Grid>
             </Grid>
           </Grid>

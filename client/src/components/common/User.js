@@ -65,7 +65,7 @@ export default function User() {
         className={classes.nav}
       >
         <Grid item>
-          <Typography variant='body1'>{user.name}</Typography>
+          <Typography variant='button'>{user.firstName}</Typography>
         </Grid>
         <Grid item className={classes.user}>
           <Avatar className={classes.avatar}>

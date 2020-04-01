@@ -1,13 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import TabPanel from './TabPanel';
 import { Formik, Form } from 'formik';
 import TableForm from './TableForm';
-import Api from '../../../utils/api';
-
-const initialState = {
-  firstName: 'kostas',
-  lastName: 'Agapov'
-};
 
 let data = {
   text: ` Here you can change your name, please provide your new first name or last name, then press submit`,
@@ -17,8 +11,11 @@ let data = {
   ]
 };
 
-export default function ChangeName({ value, index }) {
-  useEffect(() => {});
+export default function ChangeName({ value, index, user }) {
+  const initialState = {
+    firstName: user.firstName,
+    lastName: user.lastName
+  };
 
   const handleSubmit = async (values, { setErrors }) => {
     console.log('values', values);

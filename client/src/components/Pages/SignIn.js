@@ -11,6 +11,7 @@ import {
   CssBaseline
 } from '@material-ui/core';
 import FaceIcon from '@material-ui/icons/Face';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { makeStyles } from '@material-ui/core/styles';
 import { Formik, Form } from 'formik';
 import { logInValidationSchema } from '../common/Validation';
@@ -37,6 +38,12 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  link: {
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'none'
+    }
   }
 }));
 
@@ -112,6 +119,20 @@ export default function SignIn() {
             </Form>
           )}
         </Formik>
+        <Link
+          className={classes.link}
+          href={`${process.env.REACT_APP_SERVER_API_URL || 'api'}/auth/google`}
+        >
+          <Button
+            fullWidth
+            variant='contained'
+            color='primary'
+            className={classes.submit}
+            startIcon={<ExitToAppIcon />}
+          >
+            Log In with Google
+          </Button>
+        </Link>
       </div>
     </Container>
   );

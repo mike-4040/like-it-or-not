@@ -8,7 +8,8 @@ const passport = require('passport');
 const app = express();
 const routes = require('./routes');
 
-const applyPassportStrategy = require('./utils/applyPassportStrategy');
+const applyPassStratJwt = require('./utils/applyPassStratJwt');
+const applyPassStratGoogle = require('./utils/applyPassStratGoogle');
 const {serverrc, mongorc} = require('./config/config');
 
 const port = serverrc.port;
@@ -30,9 +31,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 /**
- * Apply strategy to passport
+ * Apply strategies to passport
  */ 
-applyPassportStrategy(passport);
+applyPassStratJwt(passport);
+applyPassStratGoogle(passport);
 app.use(passport.initialize());
 
 mongoose
@@ -54,10 +56,10 @@ app.use(function(err, req, res, next) {
     next(err);
 });
 
-// Send every request to the React app
-// app.get('*', function(req, res) {
-//   if (process.env.NODE_ENV === 'production')
-//     res.sendFile(path.join(__dirname, './client/build/index.html'));
-// });
+//Send every request to the React app
+app.get('*', function(req, res) {
+  if (process.env.NODE_ENV === 'production')
+    res.sendFile(path.join(__dirname, './client/build/index.html'));
+});
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));

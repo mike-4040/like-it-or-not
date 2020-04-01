@@ -17,14 +17,15 @@ const userSchema = new Schema({
     unique: true
   },
   password: {
-    type: String,
-    required: true
+    type: String
+    // required: true
   },
-  /** No sense */
-  // recordId: [{
-  //   type: Types.ObjectId,
-  //   ref: 'Record'
-  // }]
+  providers: [
+    {
+      providerName: String,
+      providerId: String
+    }
+  ]
 });
 
 const User = mongoose.model('User', userSchema);

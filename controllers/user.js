@@ -1,15 +1,5 @@
-/**
- * User controller.
- */
-
 const db = require('../models');
 const dbErrors = require('../utils/dbErrors');
-const { hashPassword, checkPassword, createToken } = require('../utils/auth');
-const {
-  serverErrorCode,
-  registerValidation,
-  loginValidation
-} = require('../utils/validators');
 
 module.exports = {
   /**
@@ -33,22 +23,7 @@ module.exports = {
       .then(user => res.json(user))
       .catch(err => dbErrors(err, res));
   },
-  /**
-   * Create one User
-   * @returns {Object} category from db.
-   */
-  create: (req, res) => {
-    const user = req.body;
 
-    user.password = hashPassword(user.password);
-    console.log(user);
-    db.User.create(user)
-      .then(dbUser => {
-        const token = createToken(dbUser.id, dbUser.email, dbUser.firstName);
-        res.json({ token });
-      })
-      .catch(err => dbErrors(err, res));
-  },
   /**
    * Update a User
    * @returns {Object} updated category from db.
@@ -71,21 +46,7 @@ module.exports = {
       .then(dbUser => res.json(dbUser))
       .catch(err => dbErrors(err, res));
   },
-  signin: (req, res) => {
-    const { email, password } = req.body;
-    db.User.findOne({ email })
-      .then(user => {
-        if (!user)
-          res.status(400).json({ code: 1, message: 'Email is not found.' });
-        if (checkPassword(password, user.password)) {
-          const token = createToken(user.id, email, user.firstName);
-          res.status(200).json({ code: 0, token });
-        } else {
-          res.status(400).json({ code: 2, message: 'Wrong password.' });
-        }
-      })
-      .catch(err => dbErrors(err, res));
-  },
+
   userRecords: (req, res) => {
     db.Record.find({ userId: req.params.id })
       .populate('categoryId')

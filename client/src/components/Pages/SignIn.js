@@ -121,7 +121,7 @@ export default function SignIn() {
         </Formik>
         <Link
           className={classes.link}
-          href={`${process.env.REACT_APP_SERVER_API_URL}/auth/google`}
+          href={`${process.env.REACT_APP_SERVER_API_URL || 'api'}/auth/google`}
         >
           <Button
             fullWidth

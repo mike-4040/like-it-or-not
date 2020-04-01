@@ -1,20 +1,7 @@
-/**
- * User controller.
- */
-
 const db = require('../models');
 const dbErrors = require('../utils/dbErrors');
-const {
-  hashPassword,
-  checkPassword,
-  createToken,
-  checkToken
-} = require('../utils/auth');
-const {
-  serverErrorCode,
-  registerValidation,
-  loginValidation
-} = require('../utils/validators');
+const { hashPassword } = require('../utils/auth');
+const { userToFront} = require('../utils/mappers');
 
 module.exports = {
   /**
@@ -26,7 +13,7 @@ module.exports = {
   findAll: (req, res) => {
     db.User.find({})
       .sort({ lastName: 1 })
-      .then(users => res.json(users))
+      .then(users => res.json(users.map(user => userToFront(user))))
       .catch(err => dbErrors(err, res));
   },
   /**
@@ -35,41 +22,19 @@ module.exports = {
    */
   findOne: (req, res) => {
     db.User.findById(req.params.id)
-      .then(user => res.json(user))
+      .then(user => res.json(userToFront(user)))
       .catch(err => dbErrors(err, res));
   },
-  /**
-   * Create one User
-   * @returns {Object} category from db.
-   */
-  create: (req, res) => {
-    const user = req.body;
 
-    user.password = hashPassword(user.password);
-    console.log(user);
-    db.User.create(user)
-      .then(dbUser => {
-        const token = createToken(
-          dbUser.id,
-          dbUser.email,
-          dbUser.firstName,
-          dbUser.lastName
-        );
-        res.json({ token });
-      })
-      .catch(err => dbErrors(err, res));
-  },
-  /**
-   * Update a User
-   * @returns {Object} updated category from db.
-   */
-  update: (req, res) => {
+  update: ({ body }, res) => {
+    if (body.password) body.password = hashPassword(body.password);
+    console.log('Controller / update', body)
     db.User.findOneAndUpdate(
-      { _id: req.params.id },
-      { $set: req.body },
+      { _id: body.id },
+      { $set: body },
       { new: true, useFindAndModify: false }
     )
-      .then(dbUser => res.json(dbUser))
+      .then(dbUser => res.json(userToFront(dbUser)))
       .catch(err => dbErrors(err, res));
   },
   /**
@@ -78,52 +43,14 @@ module.exports = {
    */
   delete: (req, res) => {
     db.User.findByIdAndDelete(req.params.id)
-      .then(dbUser => res.json(dbUser))
+      .then(dbUser => res.json(userToFront(dbUser)))
       .catch(err => dbErrors(err, res));
   },
-  signin: (req, res) => {
-    const { email, password } = req.body;
-    db.User.findOne({ email })
-      .then(user => {
-        if (!user)
-          res.status(400).json({ code: 1, message: 'Email is not found.' });
-        if (checkPassword(password, user.password)) {
-          const token = createToken(
-            user.id,
-            email,
-            user.firstName,
-            user.lastName
-          );
-          res.status(200).json({ code: 0, token });
-        } else {
-          res.status(400).json({ code: 2, message: 'Wrong password.' });
-        }
-      })
-      .catch(err => dbErrors(err, res));
-  },
+
   userRecords: (req, res) => {
     db.Record.find({ userId: req.params.id })
       .populate('categoryId')
       .then(records => res.status(200).json(records))
-      .catch(err => dbErrors(err, res));
-  },
-
-  exchangeToken: (req, res) => {
-    const payload = checkToken(req.params.token);
-    if (!payload) return res.status(400).send('Wrong token');
-
-    console.log(`Route /token: User id: ${JSON.stringify(payload.id)}`);
-    db.User.findById(payload.id)
-      .then(user => {
-        if (!user) res.status(500).send('Server error at "exchangeToken"');
-        const token = createToken(
-          user.id,
-          user.email,
-          user.firstName,
-          user.lastName
-        );
-        res.status(200).send(token);
-      })
       .catch(err => dbErrors(err, res));
   }
 };

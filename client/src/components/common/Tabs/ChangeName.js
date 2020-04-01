@@ -2,6 +2,8 @@ import React from 'react';
 import TabPanel from './TabPanel';
 import { Formik, Form } from 'formik';
 import TableForm from './TableForm';
+import { updateUser } from '../../../utils/api';
+import { changeNameValidationSchema } from '../Validation';
 
 let data = {
   text: ` Here you can change your name, please provide your new first name or last name, then press submit`,
@@ -24,7 +26,7 @@ export default function ChangeName({ value, index, user }) {
   return (
     <TabPanel value={value} index={index}>
       <Formik
-        // validationSchema={signUpValidationSchema}
+        validationSchema={changeNameValidationSchema}
         initialValues={initialState}
         onSubmit={handleSubmit}
       >

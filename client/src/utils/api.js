@@ -4,6 +4,7 @@ export default {
   //User
   getAllUsers: () => axios.get('/api/user'),
   getUser: userId => axios.get(`/api/user/${userId}`),
+  updateUser: userUpdates => axios.put(`/api/user`, userUpdates),
 
   /** Get all records of a User
    * @param {string} userId

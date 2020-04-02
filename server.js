@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 /**
  * Set up CORS
  */ 
-app.use(cors());
+// app.use(cors());
 
 /**
  * Apply strategies to passport

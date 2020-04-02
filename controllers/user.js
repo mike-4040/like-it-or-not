@@ -28,7 +28,6 @@ module.exports = {
 
   update: ({ body }, res) => {
     if (body.password) body.password = hashPassword(body.password);
-    console.log('Controller / update', body)
     db.User.findOneAndUpdate(
       { _id: body.id },
       { $set: body },

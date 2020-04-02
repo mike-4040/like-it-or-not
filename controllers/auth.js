@@ -1,3 +1,5 @@
+// const Joi = require('@hapi/joi');
+
 const db = require('../models');
 const dbErrors = require('../utils/dbErrors');
 const { serverrc } = require('../config/config');
@@ -10,19 +12,14 @@ const {
 } = require('../utils/auth');
 
 module.exports = {
-  signin: (req, res) => {
-    const { email, password } = req.body;
+  signin: ({ body }, res) => {
+    const { email, password } = body;
     db.User.findOne({ email })
       .then(user => {
         if (!user)
           res.status(400).json({ code: 1, message: 'Email is not found.' });
         if (checkPassword(password, user.password)) {
-          const token = createToken(
-            user.id,
-            email,
-            user.firstName,
-            user.lastName
-          );
+          const token = createToken(user.id);
           res.status(200).json({ code: 0, token });
         } else {
           res.status(400).json({ code: 2, message: 'Wrong password.' });
@@ -35,7 +32,6 @@ module.exports = {
     const user = req.body;
 
     user.password = hashPassword(user.password);
-    console.log(user);
     db.User.create(user)
       .then(dbUser => {
         const token = createToken(

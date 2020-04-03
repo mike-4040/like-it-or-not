@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Button, makeStyles } from '@material-ui/core';
+import { Grid, Button, makeStyles, TextareaAutosize } from '@material-ui/core';
 import FormikFieldInput from '../inputElements/FormikFieldInput';
 
 const useStyles = makeStyles(theme => ({
@@ -39,6 +39,11 @@ export default function TableForm({ errors, touched, data }) {
       </Grid>
       <Grid item xs={12} md={5}>
         {data.text}
+        {data?.message && (
+          <div style={{ margin: '10px', color: 'red', textAlign: 'center' }}>
+            <h3>{data.message} </h3>
+          </div>
+        )}
       </Grid>
     </Grid>
   );

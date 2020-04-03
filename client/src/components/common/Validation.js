@@ -28,3 +28,14 @@ export const recordFormValidationSchema = Yup.object({
   subject: Yup.string().required('Required'),
   categoryId: Yup.string().required('Required')
 });
+
+export const changeNameValidationSchema = Yup.object({
+  firstName: Yup.string()
+    .required('Required')
+    .min(2, 'Must be 2 characters or more')
+    .max(15, 'Must be 15 characters or less'),
+  lastName: Yup.string()
+    .required('Required')
+    .min(2, 'Must be 2 characters or more')
+    .max(15, 'Must be 15 characters or less')
+});

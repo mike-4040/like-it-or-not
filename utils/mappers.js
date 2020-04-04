@@ -6,6 +6,6 @@ module.exports = {
     id: dbUser._id,
     firstName: dbUser.firstName,
     lastName: dbUser.lastName,
-    email: dbUser.email
-  })
-}
+    email: dbUser.email,
+  }),
+};

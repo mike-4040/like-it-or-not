@@ -27,5 +27,9 @@ module.exports = {
         ? ''
         : `http://localhost:${localServerPort}`
     }/api/auth/google/callback`
+  },
+  roles: {
+    admin: "admin",
+    user: "user"
   }
 };

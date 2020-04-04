@@ -1,8 +1,6 @@
-// const Joi = require('@hapi/joi');
-
 const db = require('../models');
 const dbErrors = require('../utils/dbErrors');
-const { serverrc } = require('../config/config');
+const { serverrc, roles } = require('../config/config');
 const {
   hashPassword,
   checkPassword,
@@ -12,34 +10,26 @@ const {
 } = require('../utils/auth');
 
 module.exports = {
-  signin: ({ body }, res) => {
-    const { email, password } = body;
+  signin: ({ body: { email, password } }, res) => {
     db.User.findOne({ email })
       .then(user => {
         if (!user)
           res.status(400).json({ code: 1, message: 'Email is not found.' });
         if (checkPassword(password, user.password)) {
-          const token = createToken(user.id);
+          const token = createToken(user._id, user.role);
           res.status(200).json({ code: 0, token });
-        } else {
+        } else
           res.status(400).json({ code: 2, message: 'Wrong password.' });
-        }
       })
       .catch(err => dbErrors(err, res));
   },
 
-  signup: (req, res) => {
-    const user = req.body;
-
+  signup: ({ body: user }, res) => {
     user.password = hashPassword(user.password);
+    user.role = roles.user;
     db.User.create(user)
       .then(dbUser => {
-        const token = createToken(
-          dbUser.id,
-          dbUser.email,
-          dbUser.firstName,
-          dbUser.lastName
-        );
+        const token = createToken(dbUser._id, dbUser.role);
         res.json({ token });
       })
       .catch(err => dbErrors(err, res));
@@ -55,14 +45,10 @@ module.exports = {
 
     db.User.findById(payload.id)
       .then(user => {
-        if (!user) res.status(500).send('Server error at "exchangeToken"');
-        const token = createToken(
-          user.id,
-          user.email,
-          user.firstName,
-          user.lastName
-        );
-        res.status(200).send(token);
+        if (!user)
+          return res.status(500).send('Server error at "exchangeToken"');
+        const token = createToken(user._id, user.role);
+        return res.status(200).send(token);
       })
       .catch(err => dbErrors(err, res));
   }

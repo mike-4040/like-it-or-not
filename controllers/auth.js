@@ -16,7 +16,7 @@ module.exports = {
         if (!user)
           res.status(400).send('Email is not found.');
         if (checkPassword(password, user.password)) {
-          const token = createToken(user._id, user.role);
+          const token = createToken(user._id);
           res.status(200).send(token);
         } else
           res.status(400).send('Wrong password.');
@@ -29,7 +29,7 @@ module.exports = {
     user.role = roles.user;
     db.User.create(user)
       .then(dbUser => {
-        const token = createToken(dbUser._id, dbUser.role);
+        const token = createToken(dbUser._id);
         res.json({ token });
       })
       .catch(err => dbErrors(err, res));
@@ -47,7 +47,7 @@ module.exports = {
       .then(user => {
         if (!user)
           return res.status(500).send('Server error at "exchangeToken"');
-        const token = createToken(user._id, user.role);
+        const token = createToken(user._id);
         return res.status(200).send(token);
       })
       .catch(err => dbErrors(err, res));

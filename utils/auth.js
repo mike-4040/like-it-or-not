@@ -33,8 +33,8 @@ module.exports = {
    *
    * @todo Refactor to consume one object
    */
-  createToken: (id, email, firstName, lastName) =>
-    jwt.sign({ id, email, firstName, lastName }, process.env.SERVER_SECRET, {
+  createToken: (id, role) =>
+    jwt.sign({ id, role }, process.env.SERVER_SECRET, {
       expiresIn: jwtrc.expiresIn
     }),
 
@@ -50,8 +50,7 @@ module.exports = {
    */
   checkToken: token => {
     try {
-      const payload = jwt.verify(token, process.env.SERVER_SECRET);
-      return payload;
+      return jwt.verify(token, process.env.SERVER_SECRET);
     } catch {
       return false;
     }
@@ -62,8 +61,8 @@ module.exports = {
       .then(user => {
         if (user) {
           return done(null, {
-            email: user.email,
-            _id: user._id
+            role: user.role,
+            id: user._id
           });
         }
         return done(null, false);
@@ -72,6 +71,12 @@ module.exports = {
   },
 
   auth: passport.authenticate('jwt', { session: false }),
+
+  /** @param {string[]} roles - an array of roles permitted to access this route */
+  checkRole: roles => (req, res, next) => {
+    if (roles.includes(req.user.role)) next();
+    else return res.status(403).send(`Sorry, only ${roles.toString()} can do this:)`);
+  },
 
   verifyCbGoogle: async (accessToken, refreshToken, profile, done) => {
     const verifiedEmail =
@@ -130,7 +135,7 @@ module.exports = {
       'https://www.googleapis.com/auth/userinfo.profile',
       'https://www.googleapis.com/auth/userinfo.email'
     ],
-    session: false,
+    session: false
     // prompt: 'select_account'
   }),
 

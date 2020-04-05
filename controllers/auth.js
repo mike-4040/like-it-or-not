@@ -14,12 +14,12 @@ module.exports = {
     db.User.findOne({ email })
       .then(user => {
         if (!user)
-          res.status(400).json({ code: 1, message: 'Email is not found.' });
+          res.status(400).send('Email is not found.');
         if (checkPassword(password, user.password)) {
           const token = createToken(user._id, user.role);
-          res.status(200).json({ code: 0, token });
+          res.status(200).send(token);
         } else
-          res.status(400).json({ code: 2, message: 'Wrong password.' });
+          res.status(400).send('Wrong password.');
       })
       .catch(err => dbErrors(err, res));
   },

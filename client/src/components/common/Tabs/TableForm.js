@@ -1,11 +1,12 @@
 import React from 'react';
-import { Grid, Button, makeStyles, TextareaAutosize } from '@material-ui/core';
+import { Grid, Button, makeStyles } from '@material-ui/core';
 import FormikFieldInput from '../inputElements/FormikFieldInput';
+import UpdateMessage from './UpdateMessage';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   button: {
-    margin: '16px 0'
-  }
+    margin: '16px 0',
+  },
 }));
 
 export default function TableForm({ errors, touched, data }) {
@@ -14,7 +15,7 @@ export default function TableForm({ errors, touched, data }) {
   return (
     <Grid container justify='space-around'>
       <Grid item xs={12} md={5}>
-        {data.fields.map(el => {
+        {data.fields.map((el) => {
           return (
             <FormikFieldInput
               key={el.name}
@@ -39,11 +40,8 @@ export default function TableForm({ errors, touched, data }) {
       </Grid>
       <Grid item xs={12} md={5}>
         {data.text}
-        {data?.message && (
-          <div style={{ margin: '10px', color: 'red', textAlign: 'center' }}>
-            <h3>{data.message} </h3>
-          </div>
-        )}
+        {/* Custom Message to User on Update */}
+        {data.message && <UpdateMessage message={data.message} />}
       </Grid>
     </Grid>
   );

@@ -11,7 +11,7 @@ export default function FormikFieldInput({
   margin = 'none',
   type,
   multiline,
-  rows
+  rows,
 }) {
   return (
     <Field

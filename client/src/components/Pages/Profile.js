@@ -4,7 +4,7 @@ import {
   CssBaseline,
   makeStyles,
   Paper,
-  Container
+  Container,
 } from '@material-ui/core';
 import { AppContext } from '../../Context';
 import UserCard from '../common/UserCard';
@@ -14,21 +14,21 @@ import ChangeEmail from '../common/Tabs/ChangeEmail';
 import ChangePassword from '../common/Tabs/ChangePassword';
 import TabsHeader from '../common/Tabs/TabsHeader';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     padding: '20px',
     marginTop: '2rem ',
-    minHeight: '75vh'
+    minHeight: '75vh',
   },
   avatar: {
     alignSelf: 'center',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
 
   tables: {
-    padding: '10px'
-  }
+    padding: '10px',
+  },
 }));
 
 export default function Profile() {

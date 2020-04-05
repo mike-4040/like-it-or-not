@@ -4,94 +4,76 @@ import { Formik, Form } from 'formik';
 import TableForm from './TableForm';
 import Api from '../../../utils/api';
 import { changeNameValidationSchema } from '../Validation';
-import Modal from '../Modals/Modal';
-
-let initialFields = {
-  text: ` Here you can change your name, please provide your new first name or last name, then press submit`,
-  fields: [
-    { name: 'firstName', label: 'First Name', type: 'text' },
-    { name: 'lastName', label: 'Last Name', type: 'text' }
-  ]
-};
+import ProfileModal from '../Modals/ProfileModal';
 
 export default function ChangeName({ value, index, user, setUser }) {
+  // Initial Input fields and State
+  let initialFields = {
+    text: ` Here you can change your name, please provide your new first name or last name, then press submit`,
+    fields: [
+      { name: 'firstName', label: 'First Name', type: 'text' },
+      { name: 'lastName', label: 'Last Name', type: 'text' },
+    ],
+  };
   const initialState = {
-    // firstName: user.firstName,
-    // lastName: user.lastName
     firstName: '',
-    lastName: ''
+    lastName: '',
   };
 
-  const [newName, setNewName] = useState();
-  let [data, setData] = useState(initialFields);
-
+  // Putting initial in state to update UI on change
+  let [fields, setFields] = useState(initialFields);
+  // All input and methods from formik will be passed to state to have access after confirm on modal
+  const [newInput, setNewInput] = useState();
+  // Method passes values from formik to our state, all values and methods can be reached vie newInput object
   const handleSubmit = (values, { setErrors, resetForm }) => {
-    setNewName({ values, setErrors, resetForm });
+    setNewInput({ values, setErrors, resetForm });
   };
-
+  // On succsses or fail to update we will add custom message on screen to inform user
+  const setMessage = (message) => {
+    setFields((data) => {
+      return {
+        ...data,
+        message,
+      };
+    });
+  };
+  //On confirm we trigger this method which is forming final validated objec and send it to DB
   const sendData = async () => {
-    newName.values.id = user.id;
+    newInput.values.id = user.id;
     try {
-      const { data } = await Api.updateUser(newName.values);
+      const { data } = await Api.updateUser(newInput.values);
       setUser(data);
-      setData(data => {
-        return {
-          ...data,
-          message: 'Hurray! You have changed your name successfully'
-        };
-      });
-      newName.resetForm();
-      handleClose();
+      setMessage('Hurray! You have changed your name successfully');
+      // Cleaning state and form on success
+      newInput.resetForm();
+      setNewInput(null);
     } catch ({ response }) {
-      if (response && response.status === 400) {
-        console.log('err.response.data.error: ', response.data.error);
-      }
-      handleClose();
-      newName.setErrors({
-        firstName: 'Can not change name, please try again later'
+      console.log('err.response.data.error: ', response.data.error);
+      // Cleanin input and setting error messages on field and screen
+      setNewInput(null);
+      newInput.setErrors({
+        firstName: 'Can not change name, please try again later',
       });
-      setData(data => {
-        return {
-          ...data,
-          message: 'Opps! Something went wrong, name is not changed'
-        };
-      });
-      console.log('err', response);
+      setMessage('Opps! Something went wrong, name is not changed');
     }
-  };
-
-  const handleClose = () => {
-    setNewName(null);
   };
 
   return (
     <>
-      <Modal open={newName ? true : false} onClose={handleClose}>
-        Are you sure you want to change user name?
-        <button
-          onClick={() => {
-            sendData();
-          }}
-        >
-          yes
-        </button>
-        <button
-          onClick={() => {
-            handleClose();
-          }}
-        >
-          No
-        </button>
-      </Modal>
+      {/* Modal; passing inputs, method to clean inputs and reference to trigger sending to DB*/}
+      <ProfileModal data={newInput} setData={setNewInput} sendData={sendData} />
+      {/* Modal */}
       <TabPanel value={value} index={index}>
         <Formik
+          // Validation from YUP
           validationSchema={changeNameValidationSchema}
+          // Initial values naming must match input fields names
           initialValues={initialState}
           onSubmit={handleSubmit}
         >
           {({ errors, touched }) => (
             <Form>
-              <TableForm errors={errors} touched={touched} data={data} />
+              <TableForm errors={errors} touched={touched} data={fields} />
             </Form>
           )}
         </Formik>

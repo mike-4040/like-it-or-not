@@ -11,10 +11,13 @@ import PageNotFound from './components/Pages/PageNotFound';
 import LandingPage from './components/Pages/LandingPage';
 import ShortTokenHandler from './components/ShortTokenHandler';
 import Profile from './components/Pages/Profile';
+import LoadingSpinner from './components/common/LoadingSpinner';
 
 export default function App() {
-  const { user } = useContext(AppContext);
-
+  const { user, loading } = useContext(AppContext);
+  if (loading) {
+    return <LoadingSpinner />;
+  }
   return (
     <>
       <Switch>

@@ -8,6 +8,8 @@ const Auth = new AuthService();
 const AppContext = createContext();
 
 function ContextProvider({ children }) {
+  //Loading state
+  const [loading, setLoading] = useState(true);
   // User States
   const [user, setUser] = useState();
   // Records States
@@ -44,10 +46,14 @@ function ContextProvider({ children }) {
 
   const getUser = async userId => {
     try {
-      const {data: user} = await Api.getUser(userId);
-      if (user) setUser(user);
+      const { data: user } = await Api.getUser(userId);
+      if (user) {
+        setUser(user);
+        setLoading(false);
+      }
     } catch (err) {
       console.log('err', err);
+      setLoading(false);
     }
   };
 
@@ -64,13 +70,15 @@ function ContextProvider({ children }) {
       Auth.setTokenToHeader();
       getUser(storageUser.id);
       getUserRecords(storageUser.id);
+    } else {
+      setLoading(false);
     }
-
   }, []);
 
   return (
     <AppContext.Provider
       value={{
+        loading,
         user,
         setUser,
         allCategories,

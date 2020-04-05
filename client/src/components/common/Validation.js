@@ -52,8 +52,7 @@ export const changePasswordValidationSchema = Yup.object({
 
 export const changeEmailValidationSchema = Yup.object({
   email: Yup.string().email('Invalid email address').required('Required'),
-  newEmail: Yup.string().email('Invalid email address').required('Required'),
   confirmEmail: Yup.string()
-    .oneOf([Yup.ref('newEmail'), null], 'Email does not match')
+    .oneOf([Yup.ref('email'), null], 'Email does not match')
     .required('Required'),
 });

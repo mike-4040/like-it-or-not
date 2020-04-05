@@ -9,38 +9,36 @@ import {
   CssBaseline,
   Typography,
   Container,
-  makeStyles
+  makeStyles,
 } from '@material-ui/core';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
-
 import { Formik, Form } from 'formik';
 import { signUpValidationSchema } from '../common/Validation';
 import FormikFieldInput from '../common/inputElements/FormikFieldInput';
-
 import { AppContext } from '../../Context';
-
 import AuthService from '../../utils/AuthService';
+import Api from '../../utils/api';
 
 const Auth = new AuthService();
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
-  }
+    margin: theme.spacing(3, 0, 2),
+  },
 }));
 
 const initialState = { firstName: '', lastName: '', email: '', password: '' };
@@ -53,14 +51,17 @@ export default function SignUp() {
   const handleSubmit = async (values, { setErrors }) => {
     try {
       await Auth.signup(values);
-      const user = Auth.getProfile();
+      // getting id from token in localstorage
+      const { id } = Auth.getProfile();
+      //sending another request for user info
+      const { data: user } = await Api.getUser(id);
       setUser(user);
+      //Redirecting to main page after setting user
       history.push('/main');
     } catch ({ response }) {
-      if (response && response.status === 400) {
-        console.log('err.response.data.error: ', response.data.error);
-        setErrors({ email: response.data.message });
-      }
+      //showing errors on fields and in console
+      console.log('err.response.data.error: ', response.data.error);
+      setErrors({ email: response.data.message });
     }
   };
 

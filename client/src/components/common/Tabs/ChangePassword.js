@@ -50,7 +50,7 @@ export default function ChangeEmail({ value, index, user }) {
     // Check this log, it has id and oldPassword and newPassword, we need to validate old password before updating
     console.log('object', newInput.values);
     try {
-      // Sending Inputs to DB, if response has error key then we will show error and exit procces.
+      // Sending Inputs to DB, send me error inside data if old password does not match, if response has error key then we will show error and exit procces.
       const { data } = await Api.updateUser(newInput.values);
       if (data.error) {
         return newInput.setErrors({
@@ -62,7 +62,6 @@ export default function ChangeEmail({ value, index, user }) {
       newInput.resetForm();
       setNewInput(null);
     } catch ({ response }) {
-      console.log('err.response.data.error: ', response.data.error);
       // Cleanin input and setting error messages on field and screen
       setNewInput(null);
       newInput.setErrors({

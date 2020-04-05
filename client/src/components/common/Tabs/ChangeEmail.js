@@ -6,20 +6,18 @@ import ProfileModal from '../Modals/ProfileModal';
 import { changeEmailValidationSchema } from '../Validation';
 import Api from '../../../utils/api';
 
-export default function ChangeEmail({ value, index, user }) {
+export default function ChangeEmail({ value, index, user, setUser }) {
   // Initial Input fields and State
-  const initialState = {
-    email: '',
-    newEmail: '',
-    confirmEmail: '',
-  };
   let initialFields = {
     text: ` Here you can change your email, please provide your new email and confirm it, then press submit`,
     fields: [
-      { name: 'email', label: 'Current email', type: 'email' },
-      { name: 'newEmail', label: 'New email', type: 'email' },
+      { name: 'email', label: 'New email', type: 'email' },
       { name: 'confirmEmail', label: 'Confirm email', type: 'email' },
     ],
+  };
+  const initialState = {
+    email: '',
+    confirmEmail: '',
   };
 
   // Putting initial in state to update UI on change
@@ -43,23 +41,18 @@ export default function ChangeEmail({ value, index, user }) {
   const sendData = async () => {
     newInput.values.id = user.id;
     delete newInput.values.confirmEmail;
-    // As we agreed earlier in order to update email, user has to provide old email.
-    // Check this log, it has old email and new email, we need to validate old email before updating
+    // Check this log
     console.log('object', newInput.values);
     try {
-      // Sending Inputs to DB, if response has error key then we will show error and exit procces.
+      // Sending Inputs to DB
       const { data } = await Api.updateUser(newInput.values);
-      if (data.error) {
-        return newInput.setErrors({
-          oldPassword: 'Email does not match' || data.error,
-        });
-      }
+      console.log('data', data);
+      setUser(data);
       setMessage('Hurray! You have changed your email successfully');
       // Cleaning state and form on success
       newInput.resetForm();
       setNewInput(null);
     } catch ({ response }) {
-      console.log('err.response.data.error: ', response.data.error);
       // Cleanin input and setting error messages on field and screen
       setNewInput(null);
       newInput.setErrors({

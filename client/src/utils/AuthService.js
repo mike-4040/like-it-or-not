@@ -2,16 +2,16 @@ import decode from 'jwt-decode';
 import axios from 'axios';
 
 export default class AuthService {
-  signin = user => {
+  signin = (user) => {
     return axios.post('api/auth/signin', user).then(({ data }) => {
-      if (data.code === 0) this.setToken(data.token);
+      this.setToken(data);
       return data;
     });
   };
 
-  signup = user => {
+  signup = (user) => {
     return axios.post('/api/auth/signup', user).then(({ data }) => {
-      this.setToken(data.token);
+      this.setToken(data);
       return data;
     });
   };
@@ -63,7 +63,7 @@ export default class AuthService {
   }
 
   googlePassportToken(token) {
-    return axios.get(`/api/auth/token/${token}`).then(res => {
+    return axios.get(`/api/auth/token/${token}`).then((res) => {
       if (res.status === 400) {
         throw Error(res.data);
       }

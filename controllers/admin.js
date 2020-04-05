@@ -5,17 +5,14 @@ const { userToFront} = require('../utils/mappers');
 
 module.exports = {
 
-  /**
-   * Find one User
-   * @returns {Object}
-   */
-  findOne: (req, res) => {
-    db.User.findById(req.params.id)
-      .then(user => res.json(userToFront(user)))
+  findAllUsers: (req, res) => {
+    db.User.find({})
+      .sort({ lastName: 1 })
+      .then(users => res.json(users.map(user => userToFront(user))))
       .catch(err => dbErrors(err, res));
   },
-
-  update: ({ body }, res) => {
+  
+  updateUser: ({ body }, res) => {
     if (body.password) body.password = hashPassword(body.password);
     db.User.findOneAndUpdate(
       { _id: body.id },
@@ -25,20 +22,10 @@ module.exports = {
       .then(dbUser => res.json(userToFront(dbUser)))
       .catch(err => dbErrors(err, res));
   },
-  /**
-   * Delete a User
-   * @returns {Object} category from db.
-   */
-  delete: (req, res) => {
+  
+  deleteUser: (req, res) => {
     db.User.findByIdAndDelete(req.params.id)
       .then(dbUser => res.json(userToFront(dbUser)))
       .catch(err => dbErrors(err, res));
   },
-
-  userRecords: (req, res) => {
-    db.Record.find({ userId: req.params.id })
-      .populate('categoryId')
-      .then(records => res.status(200).json(records))
-      .catch(err => dbErrors(err, res));
-  }
 };

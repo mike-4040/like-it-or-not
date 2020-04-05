@@ -1,11 +1,7 @@
-const {dbError: message} = require('../config/errMessages');
-
 const dbErrors = (err, res) => {
-  let error = err.errmsg || err.message;
-  error = error ? `Name: ${err.name}, Message: ${error}` : 'No error';
-  console.log('err', JSON.stringify(err));
-
-  res.status(400).json({message, error});
+  res
+    .status(400)
+    .send({error: err.name, message: err.errmsg || err.message});
 };
 
 module.exports = dbErrors;

@@ -22,7 +22,7 @@ const userSchema = new Schema({
     type: String
     // required: true
   },
-  picture: String,
+  photo: String,
   providers: [
     {
       providerName: String,

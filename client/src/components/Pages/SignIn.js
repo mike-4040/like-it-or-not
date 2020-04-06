@@ -67,7 +67,7 @@ export default function SignIn() {
       history.push('/main');
     } catch ({ response }) {
       //showing errors on fields and in console
-      console.log('err.response.data.error: ', response);
+      console.log('err.response.data.error: ', response.data);
       setErrors({ email: response.data.message });
     }
   };

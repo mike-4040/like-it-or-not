@@ -60,8 +60,7 @@ export default function SignUp() {
       history.push('/main');
     } catch ({ response }) {
       //showing errors on fields and in console
-      console.log('err.response.data.error: ', response.data.error);
-      setErrors({ email: response.data.message });
+      setErrors({ email: response.data || response });
     }
   };
 

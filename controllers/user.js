@@ -1,10 +1,9 @@
 const db = require('../models');
 const dbErrors = require('../utils/dbErrors');
 const { hashPassword } = require('../utils/auth');
-const { userToFront} = require('../utils/mappers');
+const { userToFront } = require('../utils/mappers');
 
 module.exports = {
-
   /**
    * Find one User
    * @returns {Object}
@@ -15,11 +14,15 @@ module.exports = {
       .catch(err => dbErrors(err, res));
   },
 
-  update: ({ body }, res) => {
-    if (body.password) body.password = hashPassword(body.password);
+  update: ({ body: user }, res) => {
+    console.log('Controller/User/update: body', user);
+    if (user.oldPassword) {
+      
+    }
+    if (user.password) user.password = hashPassword(user.password);
     db.User.findOneAndUpdate(
-      { _id: body.id },
-      { $set: body },
+      { _id: user.id },
+      { $set: user },
       { new: true, useFindAndModify: false }
     )
       .then(dbUser => res.json(userToFront(dbUser)))

@@ -2,24 +2,27 @@ import decode from 'jwt-decode';
 import axios from 'axios';
 
 export default class AuthService {
-  signin = (user) => {
+  signin = user => {
     return axios.post('api/auth/signin', user).then(({ data }) => {
       this.setToken(data);
       return data;
     });
   };
 
-  signup = (user) => {
-    return axios.post('/api/auth/signup', user).then(({ data }) => {
-      this.setToken(data);
-      return data;
-    });
+  signup = user => {
+    return axios
+      .post('/api/auth/signup', user)
+      .then(({ data }) => this.setToken(data));
   };
 
   getProfile = () => {
-    let token = this.getToken();
+    const token = this.getToken();
     let expired = this.isTokenExpired(token);
-    return !expired && token ? decode(token) : null;
+    try {
+      return !expired && token ? decode(token) : null;
+    } catch (err) {
+      console.log('AuthService / getProfile - err:', err);
+    }
   };
 
   loggedIn() {
@@ -63,7 +66,7 @@ export default class AuthService {
   }
 
   googlePassportToken(token) {
-    return axios.get(`/api/auth/token/${token}`).then((res) => {
+    return axios.get(`/api/auth/token/${token}`).then(res => {
       if (res.status === 400) {
         throw Error(res.data);
       }

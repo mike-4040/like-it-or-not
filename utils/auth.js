@@ -27,14 +27,10 @@ module.exports = {
 
   /** Create JWT Tocken
    * @param {string} id
-   * @param {string} email
-   * @param {string} firstName
-   * @param {string} lastName
-   *
-   * @todo Refactor to consume one object
+   * @returns {string} JWT
    */
-  createToken: (id, role) =>
-    jwt.sign({ id, role }, process.env.SERVER_SECRET, {
+  createToken: id =>
+    jwt.sign({ id }, process.env.SERVER_SECRET, {
       expiresIn: jwtrc.expiresIn
     }),
 
@@ -75,55 +71,57 @@ module.exports = {
   /** @param {string[]} roles - an array of roles permitted to access this route */
   checkRole: roles => (req, res, next) => {
     if (roles.includes(req.user.role)) next();
-    else return res.status(403).send(`Sorry, only ${roles.toString()} can do this:)`);
+    else
+      return res
+        .status(403)
+        .send(`Sorry, only ${roles.toString()} can do this:)`);
   },
 
   verifyCbGoogle: async (accessToken, refreshToken, profile, done) => {
     const verifiedEmail =
-      profile.emails.find(email => email.verified).value || profile.emails[0];
+      profile.emails.find(email => email.verified).value ||
+      profile.emails[0].value;
 
     try {
       const user = await User.findOne({ email: verifiedEmail });
       if (user) {
+        if (!user.photo && profile.photos) user.photo = profile.photos[0].value;
+
+        //check if db user has creditential from provider
         const dbCreditIndex = user.providers.findIndex(
           provider => provider.providerName === profile.provider
         );
 
-        //check if db user has creditential from provider
         if (dbCreditIndex != -1) {
-          const dbCredit = user.providers[dbCreditIndex];
-          if (dbCredit.providerId != profile.id) {
-            //update providerID
+          const dbProviderId = user.providers[dbCreditIndex].providerId;
+          if (dbProviderId != profile.id)
             user.providers[dbCreditIndex].providerId = profile.id;
-            user.save();
-          }
         } else {
           // create a db user creditential from provider
           user.providers.push({
             providerName: profile.provider,
             providerId: profile.id
           });
-          user.save();
         }
-        return done(null, { email: user.email, _id: user._id });
+        await user.save();
+        return done(null, { id: user._id });
       } else {
         // create a new user
         const newUser = {
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
-          email: verifiedEmail.value,
+          email: verifiedEmail,
           password: null,
-          providers: {
-            provider: profile.provider,
-            providerId: profile.id
-          }
+          photo: profile.photos ? profile.photos[0].value : null,
+          providers: [
+            {
+              provider: profile.provider,
+              providerId: profile.id
+            }
+          ]
         };
         const newDbUser = await User.create(newUser);
-        if (newDbUser)
-          return done(null, {
-            email: newDbUser.email,
-            _id: newDbUser._id
-          });
+        if (newDbUser) return done(null, { id: newDbUser._id });
       }
     } catch (err) {
       done(err, false);
@@ -136,7 +134,6 @@ module.exports = {
       'https://www.googleapis.com/auth/userinfo.email'
     ],
     session: false
-    // prompt: 'select_account'
   }),
 
   passMiddleGoogleCB: passport.authenticate('google', {

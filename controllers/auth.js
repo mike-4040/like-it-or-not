@@ -17,7 +17,7 @@ module.exports = {
           res.status(400).send('Email is not found.');
         if (checkPassword(password, user.password)) {
           const token = createToken(user._id);
-          res.status(200).send(token);
+          res.send(token);
         } else
           res.status(400).send('Wrong password.');
       })
@@ -30,7 +30,7 @@ module.exports = {
     db.User.create(user)
       .then(dbUser => {
         const token = createToken(dbUser._id);
-        res.json({ token });
+        res.send(token);;
       })
       .catch(err => dbErrors(err, res));
   },

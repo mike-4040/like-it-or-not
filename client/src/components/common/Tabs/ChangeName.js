@@ -12,12 +12,12 @@ export default function ChangeName({ value, index, user, setUser }) {
     text: ` Here you can change your name, please provide your new first name or last name, then press submit`,
     fields: [
       { name: 'firstName', label: 'First Name', type: 'text' },
-      { name: 'lastName', label: 'Last Name', type: 'text' },
-    ],
+      { name: 'lastName', label: 'Last Name', type: 'text' }
+    ]
   };
   const initialState = {
     firstName: '',
-    lastName: '',
+    lastName: ''
   };
 
   // Putting initial in state to update UI on change
@@ -29,19 +29,23 @@ export default function ChangeName({ value, index, user, setUser }) {
     setNewInput({ values, setErrors, resetForm });
   };
   // On succsses or fail to update we will add custom message on screen to inform user
-  const setMessage = (message) => {
-    setFields((data) => {
+  const setMessage = message => {
+    setFields(data => {
       return {
         ...data,
-        message,
+        message
       };
     });
   };
   //On confirm we trigger this method which is forming final validated objec and send it to DB
   const sendData = async () => {
-    newInput.values.id = user.id;
+    let input = {
+      firstName: newInput.values.firstName,
+      lastName: newInput.values.lastName,
+      id: user.id
+    };
     try {
-      const { data } = await Api.updateUser(newInput.values);
+      const { data } = await Api.updateUser(input);
       setUser(data);
       setMessage('Hurray! You have changed your name successfully');
       // Cleaning state and form on success
@@ -52,7 +56,7 @@ export default function ChangeName({ value, index, user, setUser }) {
       // Cleanin input and setting error messages on field and screen
       setNewInput(null);
       newInput.setErrors({
-        firstName: 'Can not change name, please try again later',
+        firstName: 'Can not change name, please try again later'
       });
       setMessage('Opps! Something went wrong, name is not changed');
     }

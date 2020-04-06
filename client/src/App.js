@@ -15,9 +15,11 @@ import LoadingSpinner from './components/common/LoadingSpinner';
 
 export default function App() {
   const { user, loading } = useContext(AppContext);
+
   if (loading) {
     return <LoadingSpinner />;
   }
+
   return (
     <>
       <Switch>

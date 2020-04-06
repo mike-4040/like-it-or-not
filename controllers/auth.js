@@ -13,13 +13,11 @@ module.exports = {
   signin: ({ body: { email, password } }, res) => {
     db.User.findOne({ email })
       .then(user => {
-        if (!user)
-          res.status(400).send('Email is not found.');
+        if (!user) res.json({ errmsg: 'Email is not found.' });
         if (checkPassword(password, user.password)) {
           const token = createToken(user._id);
-          res.send(token);
-        } else
-          res.status(400).send('Wrong password.');
+          res.json({ token });
+        } else res.json({ errmsg: 'Wrong password' });
       })
       .catch(err => dbErrors(err, res));
   },
@@ -30,7 +28,7 @@ module.exports = {
     db.User.create(user)
       .then(dbUser => {
         const token = createToken(dbUser._id);
-        res.send(token);;
+        res.send(token);
       })
       .catch(err => dbErrors(err, res));
   },

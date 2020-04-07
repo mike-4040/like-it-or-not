@@ -1,6 +1,6 @@
 const db = require('../models');
 const dbErrors = require('../utils/dbErrors');
-const { hashPassword } = require('../utils/auth');
+const { hashPassword, checkPassword } = require('../utils/auth');
 const { userToFront } = require('../utils/mappers');
 
 module.exports = {
@@ -14,19 +14,31 @@ module.exports = {
       .catch(err => dbErrors(err, res));
   },
 
-  update: ({ body: user }, res) => {
-    console.log('Controller/User/update: body', user);
+  update: async ({ body: user }, res) => {
+    /** updading password */
     if (user.oldPassword) {
-      
+      try {
+        const dbUser = await db.User.findById(user.id);
+        if (checkPassword(user.oldPassword, dbUser.password)) {
+          dbUser.password = hashPassword(user.newPassword);
+          updatedUser = await dbUser.save();
+          return res.json(userToFront(updatedUser));
+        } else return res.json({ errmsg: 'Wrong Password' });
+      } catch (err) {
+        dbErrors(err, res);
+      }
     }
-    if (user.password) user.password = hashPassword(user.password);
-    db.User.findOneAndUpdate(
-      { _id: user.id },
-      { $set: user },
-      { new: true, useFindAndModify: false }
-    )
-      .then(dbUser => res.json(userToFront(dbUser)))
-      .catch(err => dbErrors(err, res));
+    /** updating all other fields */
+    try {
+      const updatedUser = db.User.findOneAndUpdate(
+        { _id: user.id },
+        { $set: user },
+        { new: true, useFindAndModify: false }
+      );
+      res.json(userToFront(updatedUser));
+    } catch (err) {
+      dbErrors(err, res);
+    }
   },
   /**
    * Delete a User

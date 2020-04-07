@@ -45,8 +45,9 @@ export default function ChangeName({ value, index, user, setUser }) {
       id: user.id
     };
     try {
-      const { data } = await Api.updateUser(input);
-      setUser(data);
+      const data = await Api.updateUser(input);
+      console.log('Change name', data);
+      // setUser(data);
       setMessage('Hurray! You have changed your name successfully');
       // Cleaning state and form on success
       newInput.resetForm();

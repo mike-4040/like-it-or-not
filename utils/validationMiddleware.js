@@ -5,7 +5,7 @@ const middleware = schema => {
     if (error) {
       const { details } = error;
       const message = details.map(i => i.message).join(',');
-      res.status(422).send(message);
+      res.send({errmsg: message});
     } else next();
   };
 };

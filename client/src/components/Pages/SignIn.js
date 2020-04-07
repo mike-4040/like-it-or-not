@@ -57,14 +57,18 @@ export default function SignIn() {
 
   const handleSubmit = async (values, { setErrors }) => {
     try {
-      await Auth.signin(values);
-      // getting id from token in localstorage
-      const { id } = Auth.getProfile();
-      //sending another request for user info
-      const { data: user } = await Api.getUser(id);
-      setUser(user);
-      //Redirecting to main page after setting user
-      history.push('/main');
+      const err = await Auth.signin(values);
+      if (err) {
+        setErrors({ email: err.errmsg });
+      } else {
+        // getting id from token in localstorage
+        const { id } = Auth.getProfile();
+        //sending another request for user info
+        const { data: user } = await Api.getUser(id);
+        setUser(user);
+        //Redirecting to main page after setting user
+        history.push('/main');
+      }
     } catch ({ response }) {
       //showing errors on fields and in console
       console.log('err.response.data.error: ', response.data);

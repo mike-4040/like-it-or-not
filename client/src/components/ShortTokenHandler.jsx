@@ -11,8 +11,12 @@ export default function ShortTokenHandler() {
 
   const getToken = async () => {
     try {
-      const user = await Auth.googlePassportToken(token);
-      if (user) window.location.replace('/');
+      const error = await Auth.googlePassportToken(token);
+      if (!error) window.location.replace('/main');
+      else {
+        console.log('Can"t exchenage token', error.errmsg);
+        window.location.replace('/signin');
+      }
     } catch (err) {
       setError(err);
       console.log('getToken / error :', error);
@@ -22,7 +26,7 @@ export default function ShortTokenHandler() {
 
   useEffect(() => {
     getToken();
-  });
+  }, []);
 
 
   let style = {

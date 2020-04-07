@@ -28,25 +28,25 @@ module.exports = {
     db.User.create(user)
       .then(dbUser => {
         const token = createToken(dbUser._id);
-        res.send(token);
+        res.json({ token });
       })
       .catch(err => dbErrors(err, res));
   },
 
   /** After succesfull social auth issue and pass to the frontend a short living token */
   returnShortTocken: ({ user }, res) =>
-    res.redirect(`${serverrc.clientURI}/auth/${shortToken(user._id)}`),
+    res.redirect(`${serverrc.clientURI}/auth/${shortToken(user.id)}`),
 
   exchangeToken: (req, res) => {
     const payload = checkToken(req.params.token);
-    if (!payload) return res.status(400).send('Wrong token');
+    if (!payload) return res.json({ errmsg: 'Wrong token' });
 
     db.User.findById(payload.id)
       .then(user => {
         if (!user)
-          return res.status(500).send('Server error at "exchangeToken"');
+          return res.json({ errmsg: 'Server error at "exchangeToken"' });
         const token = createToken(user._id);
-        return res.status(200).send(token);
+        return res.json({ token });
       })
       .catch(err => dbErrors(err, res));
   }

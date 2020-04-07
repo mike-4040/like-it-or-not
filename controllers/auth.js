@@ -39,17 +39,13 @@ module.exports = {
 
   exchangeToken: (req, res) => {
     const payload = checkToken(req.params.token);
-    console.log('ex token', payload);
     if (!payload) return res.json({ errmsg: 'Wrong token' });
-
 
     db.User.findById(payload.id)
       .then(user => {
         if (!user)
-        return res.json({ errmsg: 'Server error at "exchangeToken"' });
+          return res.json({ errmsg: 'Server error at "exchangeToken"' });
         const token = createToken(user._id);
-        
-        console.log('ex tocken, token: ', token)
         return res.json({ token });
       })
       .catch(err => dbErrors(err, res));

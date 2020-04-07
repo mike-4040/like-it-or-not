@@ -9,7 +9,7 @@ import {
   CssBaseline,
   Typography,
   Container,
-  makeStyles,
+  makeStyles
 } from '@material-ui/core';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
 import { Formik, Form } from 'formik';
@@ -21,24 +21,24 @@ import Api from '../../utils/api';
 
 const Auth = new AuthService();
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(3)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+    margin: theme.spacing(3, 0, 2)
+  }
 }));
 
 const initialState = { firstName: '', lastName: '', email: '', password: '' };
@@ -50,19 +50,41 @@ export default function SignUp() {
 
   const handleSubmit = async (values, { setErrors }) => {
     try {
-      await Auth.signup(values);
-      // getting id from token in localstorage
-      const { id } = Auth.getProfile();
-      //sending another request for user info
-      const { data: user } = await Api.getUser(id);
-      setUser(user);
-      //Redirecting to main page after setting user
-      history.push('/main');
+      const err = await Auth.signup(values); // the only diff with signin
+      if (err) {
+        setErrors({ email: err.errmsg });
+      } else {
+        // getting id from token in localstorage
+        const { id } = Auth.getProfile();
+        //sending another request for user info
+        const { data: user } = await Api.getUser(id);
+        setUser(user);
+        //Redirecting to main page after setting user
+        history.push('/main');
+      }
     } catch ({ response }) {
       //showing errors on fields and in console
-      setErrors({ email: response.data || response });
+      console.log('err.response.data.error: ', response.data);
+      setErrors({ email: response.data.message });
     }
   };
+
+  // const handleSubmit = async (values, { setErrors }) => {
+  //   try {
+  //     await Auth.signup(values);
+  //     // getting id from token in localstorage
+  //     const { id } = Auth.getProfile();
+  //     //sending another request for user info
+  //     const { data: user } = await Api.getUser(id);
+  //     setUser(user);
+  //     //Redirecting to main page after setting user
+  //     history.push('/main');
+  //   } catch ({ response }) {
+  //     //showing errors on fields and in console
+  //     console.log('handle sublit', response);
+  //     setErrors({ email: response.data || response });
+  //   }
+  // };
 
   return (
     <Container component='main' maxWidth='xs'>

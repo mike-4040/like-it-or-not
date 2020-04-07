@@ -50,23 +50,21 @@ export default function ChangeEmail({ value, index, user }) {
       newPassword: newInput.values.newPassword,
       id: user.id
     };
-    // Check this log, it has id and oldPassword and newPassword, we need to validate old password before updating
-    console.log('object', input);
+    setNewInput(null);
     try {
-      // Sending Inputs to DB, send me error inside data if old password does not match, if response has error key then we will show error and exit procces.
       const { data } = await Api.updateUser(input);
-      if (data.error) {
-        return newInput.setErrors({
-          oldPassword: 'Password does not match' || data.error
+      if (data && data.errmsg) {
+        newInput.setErrors({
+          oldPassword: data.errmsg
         });
+         setMessage(null);
+         return;
       }
       setMessage('Hurray! You have changed your password successfully');
       // Cleaning state and form on success
       newInput.resetForm();
-      setNewInput(null);
     } catch ({ response }) {
       // Cleanin input and setting error messages on field and screen
-      setNewInput(null);
       newInput.setErrors({
         oldPassword: 'Can not change password, please try again later'
       });

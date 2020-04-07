@@ -38,29 +38,53 @@ export default function ChangeEmail({ value, index, user, setUser }) {
     });
   };
   //On confirm we trigger this method which is forming final validated objec and send it to DB
+
   const sendData = async () => {
     let input = { email: newInput.values.email, id: user.id };
-    // Check this log
-    console.log('object', input);
+    setNewInput(null);
+
     try {
-      // Sending Inputs to DB
       const { data } = await Api.updateUser(input);
-      console.log('data', data);
+      if (data && data.errmsg) {
+        newInput.setErrors({
+          email: data.errmsg
+        });
+        setMessage(null);
+        return;
+      }
       setUser(data);
       setMessage('Hurray! You have changed your email successfully');
       // Cleaning state and form on success
       newInput.resetForm();
-      setNewInput(null);
     } catch ({ response }) {
+      console.log('err.response.data.error: ', response.data.error);
       // Cleanin input and setting error messages on field and screen
-      setNewInput(null);
-      newInput.setErrors({
-        email: 'Can not change email, please try again later'
-      });
       setMessage('Opps! Something went wrong, email is not changed');
-      console.log('err', response);
     }
   };
+  // const sendData = async () => {
+  //   let input = { email: newInput.values.email, id: user.id };
+  //   // Check this log
+  //   console.log('object', input);
+  //   try {
+  //     // Sending Inputs to DB
+  //     const { data } = await Api.updateUser(input);
+  //     console.log('data', data);
+  //     setUser(data);
+  //     setMessage('Hurray! You have changed your email successfully');
+  //     // Cleaning state and form on success
+  //     newInput.resetForm();
+  //     setNewInput(null);
+  //   } catch ({ response }) {
+  //     // Cleanin input and setting error messages on field and screen
+  //     setNewInput(null);
+  //     newInput.setErrors({
+  //       email: 'Can not change email, please try again later'
+  //     });
+  //     setMessage('Opps! Something went wrong, email is not changed');
+  //     console.log('err', response);
+  //   }
+  // };
 
   return (
     <>

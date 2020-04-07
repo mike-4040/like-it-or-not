@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import TabPanel from './TabPanel';
 import { Formik, Form } from 'formik';
+
+import TabPanel from './TabPanel';
 import TableForm from './TableForm';
+import ProfileModal from '../Modals/ProfileModal';
+
 import Api from '../../../utils/api';
 import { changeNameValidationSchema } from '../Validation';
-import ProfileModal from '../Modals/ProfileModal';
 
 export default function ChangeName({ value, index, user, setUser }) {
   // Initial Input fields and State
   let initialFields = {
-    text: ` Here you can change your name, please provide your new first name or last name, then press submit`,
+    text: ` Here you can change your name, please provide your new First and Last Names, then press submit`,
     fields: [
       { name: 'firstName', label: 'First Name', type: 'text' },
       { name: 'lastName', label: 'Last Name', type: 'text' }
@@ -29,14 +31,11 @@ export default function ChangeName({ value, index, user, setUser }) {
     setNewInput({ values, setErrors, resetForm });
   };
   // On succsses or fail to update we will add custom message on screen to inform user
-  const setMessage = message => {
-    setFields(data => {
-      return {
-        ...data,
-        message
-      };
-    });
-  };
+  const setMessage = message =>
+    setFields(data => ({
+      ...data,
+      message
+    }));
   //On confirm we trigger this method which is forming final validated objec and send it to DB
   const sendData = async () => {
     let input = {
@@ -44,17 +43,25 @@ export default function ChangeName({ value, index, user, setUser }) {
       lastName: newInput.values.lastName,
       id: user.id
     };
+    setNewInput(null);
+
     try {
       const { data } = await Api.updateUser(input);
+      if (data && data.errmsg) {
+        newInput.setErrors({
+          firstName: data.errmsg
+        });
+        setMessage(null);
+        return;
+      }
       setUser(data);
       setMessage('Hurray! You have changed your name successfully');
       // Cleaning state and form on success
       newInput.resetForm();
-      setNewInput(null);
     } catch ({ response }) {
       console.log('err.response.data.error: ', response.data.error);
       // Cleanin input and setting error messages on field and screen
-      setNewInput(null);
+      /** @todo I think it's a duplicate and should be removed */
       newInput.setErrors({
         firstName: 'Can not change name, please try again later'
       });

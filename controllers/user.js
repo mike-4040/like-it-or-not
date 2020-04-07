@@ -10,7 +10,7 @@ module.exports = {
    */
   findOne: (req, res) => {
     db.User.findById(req.params.id)
-      .then(user => res.json(userToFront(user)))
+      .then(dbUser => res.json(userToFront(dbUser)))
       .catch(err => dbErrors(err, res));
   },
 
@@ -30,7 +30,7 @@ module.exports = {
     }
     /** updating all other fields */
     try {
-      const updatedUser = db.User.findOneAndUpdate(
+      const updatedUser = await db.User.findOneAndUpdate(
         { _id: user.id },
         { $set: user },
         { new: true, useFindAndModify: false }

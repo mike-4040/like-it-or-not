@@ -22,7 +22,7 @@ export default function ShortTokenHandler() {
 
   useEffect(() => {
     getToken();
-  });
+  }, []);
 
 
   let style = {

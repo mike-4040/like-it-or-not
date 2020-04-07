@@ -72,7 +72,10 @@ export default class AuthService {
 
   /** helper */
   handleResToken({ data }) {
-    if (data.token) this.setToken(data.token);
+    if (data.token) {
+      this.setToken(data.token);
+      return null;
+    }
     return data;
   }
 }

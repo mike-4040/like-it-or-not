@@ -108,7 +108,7 @@ export default function LandingPage() {
           </Grid>
           <Grid item xs={12} md={6} className={classes.text}>
             <Typography component='p' variant='h6'>
-              Welcome to the most succsesfull app ever
+              Welcome to the most successful app ever
             </Typography>
             <Typography component='p' variant='subtitle1'>
               Here and only here you can truly trust yourself. <br />

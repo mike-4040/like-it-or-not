@@ -4,7 +4,7 @@ import {
   CssBaseline,
   makeStyles,
   Paper,
-  Container,
+  Container
 } from '@material-ui/core';
 import { AppContext } from '../../Context';
 import UserCard from '../common/UserCard';
@@ -14,21 +14,25 @@ import ChangeEmail from '../common/Tabs/ChangeEmail';
 import ChangePassword from '../common/Tabs/ChangePassword';
 import TabsHeader from '../common/Tabs/TabsHeader';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     padding: '20px',
     marginTop: '2rem ',
-    minHeight: '75vh',
+    minHeight: '75vh'
   },
   avatar: {
     alignSelf: 'center',
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'center'
   },
-
+  userCard: {
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 auto'
+    }
+  },
   tables: {
-    padding: '10px',
-  },
+    padding: '10px'
+  }
 }));
 
 export default function Profile() {
@@ -49,7 +53,7 @@ export default function Profile() {
       <Container>
         <Paper elevation={3} className={classes.root}>
           <Grid container>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={8} md={4} className={classes.userCard}>
               <UserCard user={user} />
             </Grid>
             <Grid item xs={12} md={8} className={classes.tables}>

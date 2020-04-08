@@ -84,25 +84,17 @@ export default function User() {
             open={Boolean(anchorEl)}
             onClose={() => setAnchorEl(null)}
           >
-            <MenuItem>
-              <Link component={RouterLink} to='/main' className={classes.link}>
-                {'Main'}
-              </Link>
-            </MenuItem>
-            <MenuItem>
-              <Link
-                component={RouterLink}
-                to='/profile'
-                className={classes.link}
-              >
-                {'Profile'}
-              </Link>
-            </MenuItem>
-            <MenuItem>
+            <Link component={RouterLink} to='/main' className={classes.link}>
+              <MenuItem>{'Main'}</MenuItem>
+            </Link>
+            <Link component={RouterLink} to='/profile' className={classes.link}>
+              <MenuItem>{'Profile'}</MenuItem>
+            </Link>
+            {user.role === 'admin' && (
               <Link component={RouterLink} to='/admin' className={classes.link}>
-                {'Admin dashboard'}
+                <MenuItem>{'Admin dashboard'}</MenuItem>
               </Link>
-            </MenuItem>
+            )}
             <MenuItem onClick={handleClose}>Logout</MenuItem>
           </Menu>
         </Grid>

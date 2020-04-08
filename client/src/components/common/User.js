@@ -68,51 +68,35 @@ export default function User() {
           <Typography variant='button'>{user.firstName}</Typography>
         </Grid>
         <Grid item className={classes.user}>
-          <Avatar className={classes.avatar}>
-            <IconButton
-              aria-controls='simple-menu'
-              aria-haspopup='true'
-              onClick={handleClick}
-            >
+          <IconButton
+            aria-controls='simple-menu'
+            aria-haspopup='true'
+            onClick={handleClick}
+          >
+            <Avatar className={classes.avatar} src={user?.photo}>
               <PersonIcon />
-            </IconButton>
-            <Menu
-              id='simple-menu'
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={() => setAnchorEl(null)}
-            >
-              <MenuItem>
-                <Link
-                  component={RouterLink}
-                  to='/main'
-                  className={classes.link}
-                >
-                  {'Main'}
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link
-                  component={RouterLink}
-                  to='/profile'
-                  className={classes.link}
-                >
-                  {'Profile'}
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link
-                  component={RouterLink}
-                  to='/admin'
-                  className={classes.link}
-                >
-                  {'Admin dashboard'}
-                </Link>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
-            </Menu>
-          </Avatar>
+            </Avatar>
+          </IconButton>
+          <Menu
+            id='simple-menu'
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={() => setAnchorEl(null)}
+          >
+            <Link component={RouterLink} to='/main' className={classes.link}>
+              <MenuItem>{'Main'}</MenuItem>
+            </Link>
+            <Link component={RouterLink} to='/profile' className={classes.link}>
+              <MenuItem>{'Profile'}</MenuItem>
+            </Link>
+            {user.role === 'admin' && (
+              <Link component={RouterLink} to='/admin' className={classes.link}>
+                <MenuItem>{'Admin dashboard'}</MenuItem>
+              </Link>
+            )}
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
         </Grid>
       </Grid>
     </>

@@ -3,23 +3,25 @@ import axios from 'axios';
 
 export default class AuthService {
   signin = user => {
-    return axios.post('api/auth/signin', user).then(({ data }) => {
-      if (data.code === 0) this.setToken(data.token);
-      return data;
-    });
+    return axios
+      .post('api/auth/signin', user)
+      .then(res => this.handleResToken(res));
   };
 
   signup = user => {
-    return axios.post('/api/auth/signup', user).then(({ data }) => {
-      this.setToken(data.token);
-      return data;
-    });
+    return axios
+      .post('/api/auth/signup', user)
+      .then(res => this.handleResToken(res));
   };
 
   getProfile = () => {
-    let token = this.getToken();
+    const token = this.getToken();
     let expired = this.isTokenExpired(token);
-    return !expired && token ? decode(token) : null;
+    try {
+      return !expired && token ? decode(token) : null;
+    } catch (err) {
+      console.log('AuthService / getProfile - err:', err);
+    }
   };
 
   loggedIn() {
@@ -63,15 +65,17 @@ export default class AuthService {
   }
 
   googlePassportToken(token) {
-    return axios.get(`/api/auth/token/${token}`).then(res => {
-      if (res.status === 400) {
-        throw Error(res.data);
-      }
-      if (res.status === 500) throw Error(res.data);
-      if (res.status === 200) {
-        this.setToken(res.data);
-        return res.data;
-      }
-    });
+    return axios
+      .get(`/api/auth/token/${token}`)
+      .then(res => this.handleResToken(res));
+  }
+
+  /** helper */
+  handleResToken({ data }) {
+    if (data.token) {
+      this.setToken(data.token);
+      return null;
+    }
+    return data;
   }
 }

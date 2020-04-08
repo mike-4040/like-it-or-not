@@ -2,5 +2,6 @@
  * Custom error messages to display to User
  */
 module.exports = {
-  dbError: 'Database Error'
+  dbError: 'Database Error',
+  duplEmail: 'Duplicate Email'
 }

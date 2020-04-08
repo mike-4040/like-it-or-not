@@ -28,18 +28,19 @@
   },
   "homepage": "https://github.com/mike-4040/like-it-or-not#readme",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "bcrypt": "^4.0.1",
     "concurrently": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-validator": "^6.4.0",
     "if-env": "^1.0.4",
     "mongoose": "^5.9.3",
     "passport": "^0.4.1",
     "passport-google-oauth": "^2.0.0",
     "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "react-dropzone": "^10.2.2"
   },
   "devDependencies": {
     "jsdoc": "^3.6.3"

@@ -12,14 +12,12 @@ import {
   makeStyles
 } from '@material-ui/core';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
-
 import { Formik, Form } from 'formik';
 import { signUpValidationSchema } from '../common/Validation';
 import FormikFieldInput from '../common/inputElements/FormikFieldInput';
-
 import { AppContext } from '../../Context';
-
 import AuthService from '../../utils/AuthService';
+import Api from '../../utils/api';
 
 const Auth = new AuthService();
 
@@ -52,17 +50,41 @@ export default function SignUp() {
 
   const handleSubmit = async (values, { setErrors }) => {
     try {
-      await Auth.signup(values);
-      const user = Auth.getProfile();
-      setUser({ name: user.firstName, id: user.id });
-      history.push('/main');
-    } catch ({ response }) {
-      if (response && response.status === 400) {
-        console.log('err.response.data.error: ', response.data.error);
-        setErrors({ email: response.data.message });
+      const err = await Auth.signup(values); // the only diff with signin
+      if (err) {
+        setErrors({ email: err.errmsg });
+      } else {
+        // getting id from token in localstorage
+        const { id } = Auth.getProfile();
+        //sending another request for user info
+        const { data: user } = await Api.getUser(id);
+        setUser(user);
+        //Redirecting to main page after setting user
+        history.push('/main');
       }
+    } catch ({ response }) {
+      //showing errors on fields and in console
+      console.log('err.response.data.error: ', response.data);
+      setErrors({ email: response.data.message });
     }
   };
+
+  // const handleSubmit = async (values, { setErrors }) => {
+  //   try {
+  //     await Auth.signup(values);
+  //     // getting id from token in localstorage
+  //     const { id } = Auth.getProfile();
+  //     //sending another request for user info
+  //     const { data: user } = await Api.getUser(id);
+  //     setUser(user);
+  //     //Redirecting to main page after setting user
+  //     history.push('/main');
+  //   } catch ({ response }) {
+  //     //showing errors on fields and in console
+  //     console.log('handle sublit', response);
+  //     setErrors({ email: response.data || response });
+  //   }
+  // };
 
   return (
     <Container component='main' maxWidth='xs'>

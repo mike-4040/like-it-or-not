@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Grid,
   CssBaseline,
@@ -25,7 +25,11 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center'
   },
-
+  userCard: {
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 auto'
+    }
+  },
   tables: {
     padding: '10px'
   }
@@ -34,9 +38,9 @@ const useStyles = makeStyles(theme => ({
 export default function Profile() {
   const classes = useStyles();
 
-  let { user } = useContext(AppContext);
+  let { user, setUser } = useContext(AppContext);
 
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -49,13 +53,23 @@ export default function Profile() {
       <Container>
         <Paper elevation={3} className={classes.root}>
           <Grid container>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={8} md={4} className={classes.userCard}>
               <UserCard user={user} />
             </Grid>
             <Grid item xs={12} md={8} className={classes.tables}>
               <TabsHeader value={value} onChange={handleChange} />
-              <ChangeName value={value} index={0} user={user} />
-              <ChangeEmail value={value} index={1} user={user} />
+              <ChangeName
+                value={value}
+                index={0}
+                user={user}
+                setUser={setUser}
+              />
+              <ChangeEmail
+                value={value}
+                index={1}
+                user={user}
+                setUser={setUser}
+              />
               <ChangePassword value={value} index={2} user={user} />
             </Grid>
           </Grid>

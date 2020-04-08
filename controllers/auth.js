@@ -1,6 +1,6 @@
 const db = require('../models');
 const dbErrors = require('../utils/dbErrors');
-const { serverrc } = require('../config/config');
+const { serverrc, roles } = require('../config/config');
 const {
   hashPassword,
   checkPassword,
@@ -10,40 +10,24 @@ const {
 } = require('../utils/auth');
 
 module.exports = {
-  signin: (req, res) => {
-    const { email, password } = req.body;
+  signin: ({ body: { email, password } }, res) => {
     db.User.findOne({ email })
       .then(user => {
-        if (!user)
-          res.status(400).json({ code: 1, message: 'Email is not found.' });
+        if (!user) res.json({ errmsg: 'Email is not found.' });
         if (checkPassword(password, user.password)) {
-          const token = createToken(
-            user.id,
-            email,
-            user.firstName,
-            user.lastName
-          );
-          res.status(200).json({ code: 0, token });
-        } else {
-          res.status(400).json({ code: 2, message: 'Wrong password.' });
-        }
+          const token = createToken(user._id);
+          res.json({ token });
+        } else res.json({ errmsg: 'Wrong password' });
       })
       .catch(err => dbErrors(err, res));
   },
 
-  signup: (req, res) => {
-    const user = req.body;
-
+  signup: ({ body: user }, res) => {
     user.password = hashPassword(user.password);
-    console.log(user);
+    user.role = roles.user;
     db.User.create(user)
       .then(dbUser => {
-        const token = createToken(
-          dbUser.id,
-          dbUser.email,
-          dbUser.firstName,
-          dbUser.lastName
-        );
+        const token = createToken(dbUser._id);
         res.json({ token });
       })
       .catch(err => dbErrors(err, res));
@@ -51,22 +35,18 @@ module.exports = {
 
   /** After succesfull social auth issue and pass to the frontend a short living token */
   returnShortTocken: ({ user }, res) =>
-    res.redirect(`${serverrc.clientURI}/auth/${shortToken(user._id)}`),
+    res.redirect(`${serverrc.clientURI}/auth/${shortToken(user.id)}`),
 
   exchangeToken: (req, res) => {
     const payload = checkToken(req.params.token);
-    if (!payload) return res.status(400).send('Wrong token');
+    if (!payload) return res.json({ errmsg: 'Wrong token' });
 
     db.User.findById(payload.id)
       .then(user => {
-        if (!user) res.status(500).send('Server error at "exchangeToken"');
-        const token = createToken(
-          user.id,
-          user.email,
-          user.firstName,
-          user.lastName
-        );
-        res.status(200).send(token);
+        if (!user)
+          return res.json({ errmsg: 'Server error at "exchangeToken"' });
+        const token = createToken(user._id);
+        return res.json({ token });
       })
       .catch(err => dbErrors(err, res));
   }

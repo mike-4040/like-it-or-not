@@ -1,11 +1,10 @@
-const {dbError: message} = require('../config/errMessages');
+const errMesseges = require('../config/errMessages');
 
 const dbErrors = (err, res) => {
-  let error = err.errmsg || err.message;
-  error = error ? `Name: ${err.name}, Message: ${error}` : 'No error';
-  console.log('err', JSON.stringify(err));
-
-  res.status(400).json({message, error});
+  let errmsg = '';
+  if (err.code === 11000) errmsg = errMesseges.duplEmail;
+  else errmsg = err.errmsg || err.message;
+  res.json({ errmsg });
 };
 
 module.exports = dbErrors;

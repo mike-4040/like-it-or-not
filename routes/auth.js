@@ -2,9 +2,11 @@ const router = require('express').Router();
 
 const controller = require('../controllers/auth');
 const { passMiddleGoogle, passMiddleGoogleCB } = require('../utils/auth');
+const validationMiddleware = require('../utils/validationMiddleware');
+const { signIn, signUp } = require('../utils/validationSchemas');
 
-router.post('/signin', controller.signin);
-router.post('/signup', controller.signup);
+router.post('/signin', validationMiddleware(signIn), controller.signin);
+router.post('/signup', validationMiddleware(signUp), controller.signup);
 
 /** call google auth */
 router.get('/google', passMiddleGoogle);

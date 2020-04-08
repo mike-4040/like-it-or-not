@@ -4,25 +4,26 @@
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "^1.3.13",
-    "@material-ui/core": "^4.9.5",
+    "@material-ui/core": "^4.9.8",
     "@material-ui/icons": "^4.9.1",
-    "@material-ui/lab": "^4.0.0-alpha.45",
+    "@material-ui/lab": "^4.0.0-alpha.47",
     "@material-ui/pickers": "^3.2.10",
-    "@material-ui/styles": "^4.9.0",
+    "@material-ui/styles": "^4.9.6",
     "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.4.1",
+    "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "acorn": "^7.1.1",
     "axios": "^0.19.2",
-    "date-fns": "^2.10.0",
+    "date-fns": "^2.11.1",
     "eslint-plugin-flowtype": "^3.13.0",
     "formik": "^2.1.4",
     "formik-material-ui": "^2.0.0-beta.1",
     "http-proxy-middleware": "^1.0.3",
     "jwt-decode": "^2.2.0",
     "material-table": "^1.57.2",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
+    "minimist": "^1.2.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "typescript": "^3.8.3",
@@ -32,7 +33,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "preinstall": "npx npm-force-resolutions"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -48,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "resolutions": {
+    "minimist": "^1.2.5"
   }
 }

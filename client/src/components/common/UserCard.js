@@ -1,86 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, makeStyles, Paper, Avatar, Typography } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
+import Modal from './Modals/Modal';
+import UploadAvatar from './UploadAvatar';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
-    justifyContent: 'center',
     marginTop: '20px'
   },
   paper: {
-    padding: '20px',
-    minHeight: theme.spacing(15),
-    minWidth: theme.spacing(40)
+    margin: '0 20px',
+    padding: '20px'
   },
-  large: {
-    width: theme.spacing(7),
-    height: theme.spacing(7)
+  picture: {
+    width: theme.spacing(8),
+    height: theme.spacing(8),
+    margin: 'auto',
+    cursor: 'pointer'
   },
   card: {
     height: '100%'
   },
-  picture: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRight: `1px solid ${theme.palette.divider}`
-  },
   content: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
     justifyContent: 'center'
-  },
-  row: {
-    transition: 'all .4s linear',
-
-    '&:hover': {
-      transform: 'scale(1.1)'
-    }
   }
 }));
 
 export default function UserCard({ user }) {
   const classes = useStyles();
 
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleClose = () => {
+    setOpenModal(false);
+  };
+
   return (
     <div className={classes.root}>
-      <Paper variant='outlined' square className={classes.paper}>
-        <Grid container className={classes.card}>
-          <Grid item xs={4} className={classes.picture}>
-            <Avatar className={(classes.large, classes.row)}>
+      <Modal open={openModal} onClose={handleClose}>
+        <UploadAvatar handleClose={handleClose} />
+      </Modal>
+      <Paper elevation={3} square className={classes.paper}>
+        <Grid container direction='row-reverse' className={classes.card}>
+          <Grid item xs={4}>
+            <Avatar
+              className={classes.picture}
+              src={user?.photo}
+              onClick={() => setOpenModal(true)}
+            >
               <PersonIcon />
             </Avatar>
           </Grid>
           <Grid item xs={8} className={classes.content}>
-            <Typography
-              className={classes.row}
-              component='p'
-              variant='subtitle1'
-            >
+            <Typography component='p' variant='subtitle1'>
               First name : {user.firstName}
             </Typography>
-            <Typography
-              className={classes.row}
-              component='p'
-              variant='subtitle1'
-            >
+            <Typography component='p' variant='subtitle1'>
               Last name : {user.lastName}
             </Typography>
-            <Typography
-              className={classes.row}
-              component='p'
-              variant='subtitle1'
-            >
-              Email : {user.email}
-            </Typography>
-            <Typography
-              className={classes.row}
-              component='p'
-              variant='subtitle1'
-            >
-              Phone : {user?.phone || 'none'}
+            <Typography component='p' variant='subtitle1'>
+              {user.email}
             </Typography>
           </Grid>
         </Grid>

@@ -9,21 +9,25 @@ export default function ShortTokenHandler() {
   const { token } = useParams();
   const [error, setError] = useState();
 
-  const getToken = async () => {
-    try {
-      const user = await Auth.googlePassportToken(token);
-      if (user) window.location.replace('/');
-    } catch (err) {
-      setError(err);
-      console.log('getToken / error :', error);
-      window.location.replace('/signin');
-    }
-  };
-
   useEffect(() => {
-    getToken();
-  });
+    const getToken = async () => {
+      console.log('gettoken');
+      try {
+        const error = await Auth.googlePassportToken(token);
+        if (!error) window.location.replace('/main');
+        else {
+          console.log('Can"t exchenage token', error.errmsg);
+          window.location.replace('/signin');
+        }
+      } catch (err) {
+        setError(err);
+        console.log('getToken / error :', error);
+        window.location.replace('/signin');
+      }
+    };
 
+    getToken();
+  }, [token, error]);
 
   let style = {
     height: '100vh',

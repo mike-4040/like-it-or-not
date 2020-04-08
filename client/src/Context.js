@@ -8,6 +8,8 @@ const Auth = new AuthService();
 const AppContext = createContext();
 
 function ContextProvider({ children }) {
+  //Loading state
+  const [loading, setLoading] = useState(true);
   // User States
   const [user, setUser] = useState();
   // Records States
@@ -42,6 +44,19 @@ function ContextProvider({ children }) {
     }
   };
 
+  const getUser = async userId => {
+    try {
+      const { data: user } = await Api.getUser(userId);
+      if (user) {
+        setUser(user);
+        setLoading(false);
+      }
+    } catch (err) {
+      console.log('err', err);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (user) {
       getUserRecords(user.id);
@@ -49,18 +64,21 @@ function ContextProvider({ children }) {
   }, [user]);
 
   useEffect(() => {
-    const user = Auth.getProfile();
-    if (user) {
-      setUser(user);
-      Auth.setTokenToHeader();
-      getUserRecords(user.id);
-    }
     getCategories();
+    const storageUser = Auth.getProfile();
+    if (storageUser && storageUser.id) {
+      Auth.setTokenToHeader();
+      getUser(storageUser.id);
+      getUserRecords(storageUser.id);
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   return (
     <AppContext.Provider
       value={{
+        loading,
         user,
         setUser,
         allCategories,

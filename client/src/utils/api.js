@@ -1,9 +1,18 @@
 import axios from 'axios';
 
 export default {
+  // Admin role change
+  getAllUsers: () => axios.get('/api/admin'),
+  updateRole: userUpdates => axios.put('/api/admin', userUpdates),
+  deleteUser: userId => axios.delete(`/api/admin/${userId}`),
   //User
-  getUser: () => axios.get('/api/user'),
-
+  getUser: userId => axios.get(`/api/user/${userId}`),
+  updateUser: userUpdates => axios.put(`/api/user`, userUpdates),
+  //  this method shows error CORS
+  uploadAvatar: file =>
+    axios.post('https://api.cloudinary.com/v1_1/lionapp/image/upload/', file, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    }),
   /** Get all records of a User
    * @param {string} userId
    * @returns {Promise} record

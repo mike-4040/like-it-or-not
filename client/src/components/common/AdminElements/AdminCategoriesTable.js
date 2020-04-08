@@ -7,12 +7,13 @@ export default function AdminCategoriesTable() {
   const { allCategories, setAllCategories } = useContext(AppContext);
 
   const columns = [
-    { title: 'Category name', field: 'catName' },
-    { title: 'Category id', field: 'categoryId', editable: 'never' }
+    { title: 'Category name', field: 'catName' }
+    // { title: 'Category id', field: 'categoryId', editable: 'never' }
   ];
 
   return (
     <MaterialTable
+      style={{ height: '100%' }}
       title='Categories'
       columns={columns}
       data={allCategories.map(el => {
@@ -21,6 +22,9 @@ export default function AdminCategoriesTable() {
           categoryId: el._id
         };
       })}
+      options={{
+        actionsColumnIndex: -1
+      }}
       editable={{
         onRowAdd: newData =>
           new Promise(async (resolve, reject) => {

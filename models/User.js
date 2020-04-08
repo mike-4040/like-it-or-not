@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Types = Schema.Types;
 
+const {roles} = require('../config/config');
+
 const userSchema = new Schema({
   firstName: {
     type: String,
@@ -20,12 +22,16 @@ const userSchema = new Schema({
     type: String
     // required: true
   },
+  photo: String,
   providers: [
     {
       providerName: String,
       providerId: String
     }
-  ]
+  ],
+  role: {
+    type: String,
+    default: roles.user}
 });
 
 const User = mongoose.model('User', userSchema);

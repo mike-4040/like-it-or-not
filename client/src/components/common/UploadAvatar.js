@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { makeStyles, Button, Paper, Typography } from '@material-ui/core';
+import { makeStyles, Button, Typography, Avatar } from '@material-ui/core';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import { AppContext } from '../../Context';
+import LoadingSpinner from './LoadingSpinner';
+import Api from '../../utils/api';
 
 const useStyles = makeStyles(theme => ({
   box: {
     outline: 'none',
     padding: '20px',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   button: {
-    margin: '0 10px'
+    margin: '10px'
   },
   thumbsContainer: {
     display: 'flex',
@@ -26,17 +33,21 @@ const useStyles = makeStyles(theme => ({
     overflow: 'hidden'
   },
   img: {
-    display: 'block',
-    width: '100%',
-    height: '100%'
+    width: theme.spacing(13),
+    height: theme.spacing(13),
+    margin: 'auto'
   }
 }));
 
 export default function UploadAvatar({ handleClose }) {
   const classes = useStyles();
 
+  const { setUser, user } = useContext(AppContext);
+
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState();
+
+  const [uploading, setUploading] = useState(false);
 
   const formatBytes = (bytes, decimals = 2) => {
     if (bytes === 0) return '0 Bytes';
@@ -47,7 +58,7 @@ export default function UploadAvatar({ handleClose }) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   };
 
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     multiple: false,
     maxSize: 3000000,
@@ -70,6 +81,48 @@ export default function UploadAvatar({ handleClose }) {
     }
   });
 
+  const sendFile = async () => {
+    console.log('sending file', files[0]);
+    setUploading(true);
+    let data = new FormData();
+    data.append('file', files[0]);
+    data.append('upload_preset', 'lionapp');
+    console.log('data', data);
+    try {
+      // sending file to cloudinary
+      const res = await fetch(
+        'https://api.cloudinary.com/v1_1/lionapp/image/upload/',
+        { method: 'POST', body: data }
+      );
+      const file = await res.json();
+      console.log('file', file);
+      // Updating user in DB
+      try {
+        const { data } = await Api.updateUser({
+          id: user.id,
+          photo: file.secure_url
+        });
+        console.log('data', data);
+        if (data && data.errmsg) {
+          setUploading(false);
+          setErrors('Something went wrong! please try again later');
+        }
+      } catch (err) {
+        setUploading(false);
+        console.log('err', err);
+        setErrors('Something went wrong! please try again later');
+      }
+      // Updating context and closing Modal
+      setUser(user => ({ ...user, photo: file.secure_url }));
+      handleClose();
+      setUploading(false);
+    } catch (err) {
+      setUploading(false);
+      console.log('err', err);
+      setErrors('Something went wrong! please try again later');
+    }
+  };
+
   useEffect(
     () => () => {
       // Make sure to revoke the data uris to avoid memory leaks
@@ -78,22 +131,49 @@ export default function UploadAvatar({ handleClose }) {
     [files]
   );
 
+  if (uploading) {
+    return <LoadingSpinner />;
+  }
+
   return (
-    <section className='container'>
+    <section>
       <aside className={classes.thumbsContainer}>
         {files.map(file => (
-          <div className={classes.thumb} key={file.name}>
-            <img src={file.preview} className={classes.img} />
-          </div>
+          <Avatar key={file.name} className={classes.img} src={file.preview} />
         ))}
+        {files[0] && (
+          <>
+            <Button
+              className={classes.button}
+              onClick={sendFile}
+              variant='contained'
+              color='primary'
+            >
+              Looks cool, I will keep it!
+            </Button>
+            <Button
+              className={classes.button}
+              onClick={() => {
+                handleClose();
+              }}
+              variant='contained'
+              color='secondary'
+            >
+              Cancel
+            </Button>
+          </>
+        )}
         {errors}
       </aside>
-      <Paper elevation={3} {...getRootProps({ className: classes.box })}>
-        <input {...getInputProps()} />
-        <Typography variant='subtitle1' component='p'>
-          Drop you image here on click to open window
-        </Typography>
-      </Paper>
+      <Button>
+        <div elevation={3} {...getRootProps({ className: classes.box })}>
+          <input {...getInputProps()} />
+          <GetAppIcon fontSize='large' />
+          <Typography variant='subtitle1' component='p'>
+            Drop you image here on click to open window
+          </Typography>
+        </div>
+      </Button>
     </section>
   );
 }

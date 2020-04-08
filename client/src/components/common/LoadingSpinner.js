@@ -3,7 +3,7 @@ import { makeStyles, CircularProgress } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   spinner: {
-    height: '100vh',
+    height: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'

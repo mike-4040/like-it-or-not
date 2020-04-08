@@ -1,8 +1,11 @@
 import axios from 'axios';
 
 export default {
+  // Admin role change
+  getAllUsers: () => axios.get('/api/admin'),
+  updateRole: userUpdates => axios.put('/api/admin', userUpdates),
+  deleteUser: userId => axios.delete(`/api/admin/${userId}`),
   //User
-  getAllUsers: () => axios.get('/api/user'),
   getUser: userId => axios.get(`/api/user/${userId}`),
   updateUser: userUpdates => axios.put(`/api/user`, userUpdates),
   //  this method shows error CORS

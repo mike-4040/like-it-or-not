@@ -1,15 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  Grid,
-  Typography,
-  Paper,
-  Container,
-  CssBaseline
-} from '@material-ui/core';
+import { Grid, Container, CssBaseline } from '@material-ui/core';
 import User from '../common/User';
 
 import AdminCategoriesTable from '../common/AdminElements/AdminCategoriesTable';
+import AdminUserTable from '../common/AdminElements/AdminUserTable';
+
 const useStyles = makeStyles(theme => ({
   mainBox: {
     marginTop: '2rem',
@@ -29,16 +25,17 @@ export default function AdminMockup() {
       <User />
       <Container>
         <CssBaseline />
-        <Grid container spacing={2} className={classes.mainBox}>
-          <Grid item xs={12} sm={6}>
+        <Grid
+          container
+          alignItems='stretch'
+          spacing={2}
+          className={classes.mainBox}
+        >
+          <Grid item xs={12} md={6}>
             <AdminCategoriesTable />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Paper className={classes.paper}>
-              <Typography variant='h6' component='h3' align='center'>
-                Users
-              </Typography>
-            </Paper>
+          <Grid item xs={12} md={6}>
+            <AdminUserTable />
           </Grid>
         </Grid>
       </Container>

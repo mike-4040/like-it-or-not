@@ -98,11 +98,17 @@ export default function User() {
                 {'Profile'}
               </Link>
             </MenuItem>
-            <MenuItem>
-              <Link component={RouterLink} to='/admin' className={classes.link}>
-                {'Admin dashboard'}
-              </Link>
-            </MenuItem>
+            {user.role === 'admin' && (
+              <MenuItem>
+                <Link
+                  component={RouterLink}
+                  to='/admin'
+                  className={classes.link}
+                >
+                  {'Admin dashboard'}
+                </Link>
+              </MenuItem>
+            )}
             <MenuItem onClick={handleClose}>Logout</MenuItem>
           </Menu>
         </Grid>

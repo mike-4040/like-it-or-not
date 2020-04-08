@@ -13,6 +13,7 @@ export default function AdminCategoriesTable() {
 
   return (
     <MaterialTable
+      style={{ height: '100%' }}
       title='Categories'
       columns={columns}
       data={allCategories.map(el => {

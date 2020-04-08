@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { makeStyles, Button, Typography, Avatar } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import { AppContext } from '../../Context';
+import LoadingSpinner from './LoadingSpinner';
+import Api from '../../utils/api';
 
 const useStyles = makeStyles(theme => ({
   box: {
@@ -39,8 +42,12 @@ const useStyles = makeStyles(theme => ({
 export default function UploadAvatar({ handleClose }) {
   const classes = useStyles();
 
+  const { setUser, user } = useContext(AppContext);
+
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState();
+
+  const [uploading, setUploading] = useState(false);
 
   const formatBytes = (bytes, decimals = 2) => {
     if (bytes === 0) return '0 Bytes';
@@ -51,7 +58,7 @@ export default function UploadAvatar({ handleClose }) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   };
 
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     multiple: false,
     maxSize: 3000000,
@@ -74,6 +81,48 @@ export default function UploadAvatar({ handleClose }) {
     }
   });
 
+  const sendFile = async () => {
+    console.log('sending file', files[0]);
+    setUploading(true);
+    let data = new FormData();
+    data.append('file', files[0]);
+    data.append('upload_preset', 'lionapp');
+    console.log('data', data);
+    try {
+      // sending file to cloudinary
+      const res = await fetch(
+        'https://api.cloudinary.com/v1_1/lionapp/image/upload/',
+        { method: 'POST', body: data }
+      );
+      const file = await res.json();
+      console.log('file', file);
+      // Updating user in DB
+      try {
+        const { data } = await Api.updateUser({
+          id: user.id,
+          photo: file.secure_url
+        });
+        console.log('data', data);
+        if (data && data.errmsg) {
+          setUploading(false);
+          setErrors('Something went wrong! please try again later');
+        }
+      } catch (err) {
+        setUploading(false);
+        console.log('err', err);
+        setErrors('Something went wrong! please try again later');
+      }
+      // Updating context and closing Modal
+      setUser(user => ({ ...user, photo: file.secure_url }));
+      handleClose();
+      setUploading(false);
+    } catch (err) {
+      setUploading(false);
+      console.log('err', err);
+      setErrors('Something went wrong! please try again later');
+    }
+  };
+
   useEffect(
     () => () => {
       // Make sure to revoke the data uris to avoid memory leaks
@@ -81,6 +130,10 @@ export default function UploadAvatar({ handleClose }) {
     },
     [files]
   );
+
+  if (uploading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <section>
@@ -92,10 +145,7 @@ export default function UploadAvatar({ handleClose }) {
           <>
             <Button
               className={classes.button}
-              onClick={() => {
-                console.log('sending file', files[0]);
-                handleClose();
-              }}
+              onClick={sendFile}
               variant='contained'
               color='primary'
             >

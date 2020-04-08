@@ -9,6 +9,7 @@ const name = Joi.string().alphanum().max(30);
 const firstName = name.label('Fisrt Name');
 const lastName = name.label('Last Name');
 const id = Joi.string().regex(/^[0-9a-fA-F]{24}$/);
+const photo = Joi.string();
 
 const schemas = {
   signIn: Joi.object({
@@ -29,11 +30,12 @@ const schemas = {
     lastName,
     email,
     oldPassword: password,
-    newPassword: password
+    newPassword: password,
+    photo: photo
   })
     .with('oldPassword', 'newPassword')
     .with('newPassword', 'oldPassword')
-    .xor('firstName', 'email', 'newPassword')
+    .xor('firstName', 'email', 'newPassword', 'photo')
     .label('User Data')
 };
 module.exports = schemas;

@@ -14,7 +14,7 @@
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run build",
-    "test": "jest",
+    "test": "./client/node_modules/.bin/jest",
     "docs": "jsdoc -c ./jsdocrc.json ."
   },
   "repository": {
@@ -42,7 +42,6 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "jest": "^25.3.0",
     "jsdoc": "^3.6.3"
   },
   "jest": {

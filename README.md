@@ -52,18 +52,25 @@ $ npm start
 ## Stack
 ### Front
 - React
-- Material-UI
+- Material-UI - component library
+- formik - form helper
+- yup - validation
+
 
 ### Back
 - node
 - express
 - passport
+- joi - validation
+- bcrypt - password 
 - mongo/mongoose
 
 ### Dev
-- Jest
-- Heroku
-- GitHub project
+- jest - testing
+- Heroku - hosting
+- mLab - mongo db hosting
+- GitHub - version control, project
+- jsdoc - documentation
 
 ## Authors
 

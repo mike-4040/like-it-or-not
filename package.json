@@ -39,14 +39,16 @@
     "passport": "^0.4.1",
     "passport-google-oauth": "^2.0.0",
     "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "react-dropzone": "^10.2.2"
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "jest": "^25.3.0",
     "jsdoc": "^3.6.3"
   },
   "jest": {
-    "testPathIgnorePatterns": ["<rootDir>/node_modules/","<rootDir>/client" ]
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/client"
+    ]
   }
 }

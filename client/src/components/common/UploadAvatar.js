@@ -170,7 +170,7 @@ export default function UploadAvatar({ handleClose }) {
           <input {...getInputProps()} />
           <GetAppIcon fontSize='large' />
           <Typography variant='subtitle1' component='p'>
-            Drop you image here on click to open window
+            Drop you image here or click to open window
           </Typography>
         </div>
       </Button>

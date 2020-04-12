@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const passport = require('passport');
 
 const app = express();
@@ -10,7 +9,7 @@ const routes = require('./routes');
 
 const applyPassStratJwt = require('./utils/applyPassStratJwt');
 const applyPassStratGoogle = require('./utils/applyPassStratGoogle');
-const {serverrc, mongorc} = require('./config/config');
+const { serverrc, mongorc } = require('./config/config');
 
 const port = serverrc.port;
 
@@ -26,13 +25,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /**
- * Set up CORS
- */ 
-// app.use(cors());
-
-/**
  * Apply strategies to passport
- */ 
+ */
+
 applyPassStratJwt(passport);
 applyPassStratGoogle(passport);
 app.use(passport.initialize());
@@ -48,16 +43,16 @@ if (process.env.NODE_ENV === 'production')
 
 app.use(routes);
 
-/** Authorization Error handling */ 
-app.use(function(err, req, res, next) {
+/** Authorization Error handling */
+
+app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError')
-    res.status(401).send({message: `${err.name}: ${err.message}`});
-  else 
-    next(err);
+    res.status(401).send({ message: `${err.name}: ${err.message}` });
+  else next(err);
 });
 
 //Send every request to the React app
-app.get('*', function(req, res) {
+app.get('*', function (req, res) {
   if (process.env.NODE_ENV === 'production')
     res.sendFile(path.join(__dirname, './client/build/index.html'));
 });

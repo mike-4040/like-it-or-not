@@ -12,7 +12,7 @@ import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRoun
 
 import UserTop from '../common/User';
 import SearchBar from '../common/SearchBar';
-import Table from '../common/Table';
+import Table from '../common/RecordsTable/Table';
 import ModalComponents from '../common/Modals/ModalComponents';
 
 const useStyles = makeStyles(theme => ({
@@ -71,7 +71,7 @@ export default function MainPage() {
           setEndDate={setEndDate}
         />
         <Table records={records} setRecords={setRecords} />
-        <Grid container justify='center' styles={{ marginTop: '10px' }}>
+        <Grid container justify='center' style={{ marginTop: '20px' }}>
           <Grid item>
             <IconButton
               color='primary'

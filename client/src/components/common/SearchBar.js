@@ -34,7 +34,6 @@ export default function SearchBar({
             size='small'
             name='search'
             label='Search'
-            autoFocus
             style={{ margin: 0 }}
             onChange={e => setSearchText(e.target.value)}
             value={searchText}

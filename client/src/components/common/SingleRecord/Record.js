@@ -1,31 +1,18 @@
 import React from 'react';
-import { makeStyles, ExpansionPanel } from '@material-ui/core';
-
-import RecordPannelHeadings from './RecordPannelHeadings';
-import RecordPannelComment from './RecordPannelComment';
+import { makeStyles, Paper, Typography, Grid } from '@material-ui/core';
+import Rating from '@material-ui/lab/Rating';
+import ManageRecordIcons from './ManageRecordIcons';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    '&:hover': {
-      background: 'rgba(0,0,0,0.014)'
-    },
-    '&::before ': {
-      background: 'none'
-    },
-    transition: 'all .1s linear',
-    width: '100%',
-    borderBottom: '1px solid rgba(0,0,0,0.2)',
-    boxShadow: 'none',
-    margin: '7px 0',
-    '&:first-child ': {
-      margin: '0 0 7px'
-    },
-    '&:last-child ': {
-      marginBottom: '7px'
-    }
+  card: {
+    padding: '20px',
+    height: '350px',
+    margin: '5px',
+    background: 'rgba(0,0,0,0.011)',
+    position: 'relative'
   },
-  heading: {
-    justifyContent: 'space-between'
+  time: {
+    marginTop: 'auto'
   }
 }));
 
@@ -41,18 +28,57 @@ export default function Record({
 
   return (
     <>
-      <ExpansionPanel className={classes.root}>
-        <RecordPannelHeadings
-          subject={subject}
-          rating={rating}
-          catName={catName}
-        />
-        <RecordPannelComment
-          comment={comment}
-          dateTime={dateTime}
-          recordId={_id}
-        />
-      </ExpansionPanel>
+      <Paper square className={classes.card}>
+        <Grid container direction='column' style={{ height: '100%' }}>
+          <Grid
+            item
+            container
+            justify='space-between'
+            alignItems='center'
+            style={{ marginBottom: '5px' }}
+          >
+            <Rating
+              name='size-small'
+              size='small'
+              value={Number(rating)}
+              readOnly
+            />
+            <Typography component='p' variant='subtitle1' align='center'>
+              {catName}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography component='h1' variant='h6'>
+              {subject}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography
+              component='p'
+              variant='body1'
+              style={{ margin: '5px 0' }}
+            >
+              {comment}
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            container
+            justify='space-between'
+            alignItems='baseline'
+            className={classes.time}
+          >
+            <Grid item>
+              <Typography component='p' variant='caption'>
+                {new Date(dateTime).toLocaleString()}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <ManageRecordIcons recordId={_id} />
+            </Grid>
+          </Grid>
+        </Grid>
+      </Paper>
     </>
   );
 }

@@ -7,9 +7,13 @@ const useStyles = makeStyles(theme => ({
   card: {
     padding: '20px',
     height: '350px',
+    width: 596,
     margin: '5px',
     background: 'rgba(0,0,0,0.011)',
-    position: 'relative'
+    display: 'flex',
+    flexDirection: 'column',
+    justifyItems: 'space-between',
+    flexWrap: 'wrap'
   },
   time: {
     marginTop: 'auto'
@@ -29,53 +33,49 @@ export default function Record({
   return (
     <>
       <Paper square className={classes.card}>
-        <Grid container direction='column' style={{ height: '100%' }}>
-          <Grid
-            item
-            container
-            justify='space-between'
-            alignItems='center'
-            style={{ marginBottom: '5px' }}
-          >
-            <Rating
-              name='size-small'
-              size='small'
-              value={Number(rating)}
-              readOnly
-            />
-            <Typography component='p' variant='subtitle1' align='center'>
-              {catName}
-            </Typography>
-          </Grid>
-          <Grid item>
+        <Grid
+          container
+          justify='space-between'
+          alignItems='center'
+          style={{ marginBottom: '5px' }}
+        >
+          <Rating
+            name='size-small'
+            size='small'
+            value={Number(rating)}
+            readOnly
+          />
+          <Typography component='p' variant='subtitle1'>
+            {catName}
+          </Typography>
+        </Grid>
+        {/* main text and heading */}
+        <Grid container direction='column' spacing={2}>
+          <Grid item xs>
             <Typography component='h1' variant='h6'>
               {subject}
             </Typography>
           </Grid>
-          <Grid item>
-            <Typography
-              component='p'
-              variant='body1'
-              style={{ margin: '5px 0' }}
-            >
+          <Grid item xs>
+            <Typography component='p' variant='body1'>
               {comment}
             </Typography>
           </Grid>
-          <Grid
-            item
-            container
-            justify='space-between'
-            alignItems='baseline'
-            className={classes.time}
-          >
-            <Grid item>
-              <Typography component='p' variant='caption'>
-                {new Date(dateTime).toLocaleString()}
-              </Typography>
-            </Grid>
-            <Grid item>
-              <ManageRecordIcons recordId={_id} />
-            </Grid>
+        </Grid>
+        {/* Footer */}
+        <Grid
+          container
+          justify='space-between'
+          alignItems='baseline'
+          className={classes.time}
+        >
+          <Grid item>
+            <Typography component='p' variant='caption'>
+              {new Date(dateTime).toLocaleString()}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <ManageRecordIcons recordId={_id} />
           </Grid>
         </Grid>
       </Paper>

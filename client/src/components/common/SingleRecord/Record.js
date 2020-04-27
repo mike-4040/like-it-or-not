@@ -6,18 +6,10 @@ import ManageRecordIcons from './ManageRecordIcons';
 const useStyles = makeStyles(theme => ({
   card: {
     padding: '20px',
-    height: '350px',
-    width: 596,
-    margin: '5px',
-    background: 'rgba(0,0,0,0.011)',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyItems: 'space-between',
-    flexWrap: 'wrap'
+    minHeight: '350px',
+    background: 'rgba(0,0,0,0.011)'
   },
-  time: {
-    marginTop: 'auto'
-  }
+  time: { marginTop: 'auto' }
 }));
 
 export default function Record({
@@ -32,50 +24,60 @@ export default function Record({
 
   return (
     <>
-      <Paper square className={classes.card}>
-        <Grid
-          container
-          justify='space-between'
-          alignItems='center'
-          style={{ marginBottom: '5px' }}
-        >
-          <Rating
-            name='size-small'
-            size='small'
-            value={Number(rating)}
-            readOnly
-          />
-          <Typography component='p' variant='subtitle1'>
-            {catName}
-          </Typography>
-        </Grid>
-        {/* main text and heading */}
-        <Grid container direction='column' spacing={2}>
-          <Grid item xs>
-            <Typography component='h1' variant='h6'>
-              {subject}
+      <Paper elevation={1} style={{ margin: '5px' }}>
+        <Grid container direction='column' className={classes.card}>
+          <Grid
+            item
+            container
+            justify='space-between'
+            alignItems='center'
+            style={{ marginBottom: '5px' }}
+          >
+            <Rating
+              name='size-small'
+              size='small'
+              value={Number(rating)}
+              readOnly
+            />
+            <Typography component='p' variant='subtitle1'>
+              {catName}
             </Typography>
           </Grid>
-          <Grid item xs>
-            <Typography component='p' variant='body1'>
-              {comment}
-            </Typography>
+          {/* main text and heading */}
+          <Grid
+            item
+            container
+            direction='column'
+            spacing={2}
+            style={{ overflowWrap: ' break-word', wordWrap: 'break-word' }}
+          >
+            <Grid item xs={12}>
+              <Typography component='h1' variant='h6'>
+                {subject}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography component='p' variant='body1'>
+                {comment}
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
-        {/* Footer */}
-        <Grid
-          container
-          justify='space-between'
-          alignItems='baseline'
-          className={classes.time}
-        >
-          <Grid item>
-            <Typography component='p' variant='caption'>
-              {new Date(dateTime).toLocaleString()}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <ManageRecordIcons recordId={_id} />
+          {/* Footer */}
+          <Grid
+            item
+            container
+            justify='space-between'
+            alignItems='baseline'
+            className={classes.time}
+          >
+            <Grid item>
+              <Typography component='p' variant='caption'>
+                {new Date(dateTime).toLocaleString()}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <ManageRecordIcons recordId={_id} />
+            </Grid>
           </Grid>
         </Grid>
       </Paper>

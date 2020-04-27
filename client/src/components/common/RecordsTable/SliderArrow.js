@@ -2,24 +2,29 @@ import React from 'react';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
-export function SampleNextArrow(props) {
-  const { className, onClick } = props;
+export function NextArrow({ onClick, ...rest }) {
+  const {
+    onMove,
+    carouselState: { currentSlide, deviceType }
+  } = rest;
+  // onMove means if dragging or swiping in progress.
+
   return (
     <ArrowForwardIosIcon
       style={{ color: 'grey' }}
-      className={className}
-      onClick={onClick}
+      // className='custom-left-arrow'
+      onClick={() => onClick()}
     />
   );
 }
 
-export function SamplePrevArrow(props) {
-  const { className, onClick } = props;
+export function PrevArrow({ onClick, ...rest }) {
+  const {
+    onMove,
+    carouselState: { currentSlide, deviceType }
+  } = rest;
+  // onMove means if dragging or swiping in progress.
   return (
-    <ArrowBackIosIcon
-      style={{ color: 'grey' }}
-      className={className}
-      onClick={onClick}
-    />
+    <ArrowBackIosIcon style={{ color: 'black' }} onClick={() => onClick()} />
   );
 }

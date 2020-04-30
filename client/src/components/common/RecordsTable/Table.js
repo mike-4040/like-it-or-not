@@ -34,8 +34,8 @@ export default function SimpleExpansionPanel({ records }) {
           arrows
           minimumTouchDrag={80}
           removeArrowOnDeviceType={['tablet', 'mobile']}
-          // customLeftArrow={<PrevArrow />}
-          // customRightArrow={<NextArrow />}
+          customLeftArrow={<PrevArrow />}
+          customRightArrow={<NextArrow />}
         >
           {records
             ? records.map(record => <Record key={record._id} {...record} />)

@@ -41,9 +41,7 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "react-dropzone": "^10.2.2",
-    "react-multi-carousel": "^2.5.5",
-    "react-slick": "^0.25.2",
-    "slick-carousel": "^1.8.1"
+    "react-multi-carousel": "^2.5.5"
   },
   "devDependencies": {
     "jsdoc": "^3.6.3"

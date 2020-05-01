@@ -19,7 +19,8 @@ export default function Record({
   comment,
   dateTime,
   rating,
-  catName
+  catName,
+  imageUrl
 }) {
   const classes = useStyles();
 
@@ -70,6 +71,15 @@ export default function Record({
                 </Typography>
               </Grid>
             </Grid>
+            {/* photo */}
+            {imageUrl && (
+              <Grid item>
+                <img
+                  style={{ width: '100%', height: '100%' }}
+                  src={imageUrl}
+                ></img>
+              </Grid>
+            )}
             {/* Footer */}
             <Grid
               item

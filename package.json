@@ -29,6 +29,9 @@
   "homepage": "https://github.com/mike-4040/like-it-or-not#readme",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
+    "@uppy/core": "^1.10.4",
+    "@uppy/react": "^1.6.5",
+    "@uppy/webcam": "^1.6.5",
     "bcrypt": "^4.0.1",
     "concurrently": "^5.1.0",
     "cors": "^2.8.5",

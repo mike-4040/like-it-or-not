@@ -30,6 +30,9 @@ const recordSchema = new Schema({
   rating: {
     type: String,
     required: true
+  },
+  imageUrl: {
+    type: String
   }
 });
 

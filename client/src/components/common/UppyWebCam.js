@@ -19,7 +19,7 @@ const uppy = Uppy({
 uppy.use(Webcam, {
   id: 'Webcam',
   modes: ['picture'],
-  facingMode: 'environment'
+  facingMode: 'user'
 });
 
 export default function UppyWebCam({ setImage }) {

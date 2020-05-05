@@ -14,9 +14,10 @@
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "docs": "jsdoc -c ./jsdocrc.json -r .",
-    "preinstall": "npx npm-force-resolutions"
+    "preinstall": "npx npm-force-resolutions",
+    "test": "./client/node_modules/.bin/jest",
+    "cypress:open": "cypress open"
   },
   "repository": {
     "type": "git",
@@ -47,9 +48,16 @@
   },
   "devDependencies": {
     "jsdoc": "^3.6.4",
-    "minimist": "^1.2.5"
+    "minimist": "^1.2.5",
+    "cypress": "^4.3.0"
   },
   "resolutions": {
     "minimist": "^1.2.5"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/client"
+    ]
   }
 }

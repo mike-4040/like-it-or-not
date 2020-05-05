@@ -1,32 +1,16 @@
-import React from 'react';
-import { makeStyles, ExpansionPanel } from '@material-ui/core';
-
-import RecordPannelHeadings from './RecordPannelHeadings';
-import RecordPannelComment from './RecordPannelComment';
+import React, { useState, useEffect } from 'react';
+import { makeStyles, Paper, Typography, Grid } from '@material-ui/core';
+import Rating from '@material-ui/lab/Rating';
+import ManageRecordIcons from './ManageRecordIcons';
+import Grow from '@material-ui/core/Grow';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    '&:hover': {
-      background: 'rgba(0,0,0,0.014)'
-    },
-    '&::before ': {
-      background: 'none'
-    },
-    transition: 'all .1s linear',
-    width: '100%',
-    borderBottom: '1px solid rgba(0,0,0,0.2)',
-    boxShadow: 'none',
-    margin: '7px 0',
-    '&:first-child ': {
-      margin: '0 0 7px'
-    },
-    '&:last-child ': {
-      marginBottom: '7px'
-    }
+  card: {
+    padding: '20px',
+    minHeight: '400px',
+    background: 'rgba(0,0,0,0.011)'
   },
-  heading: {
-    justifyContent: 'space-between'
-  }
+  time: { marginTop: 'auto' }
 }));
 
 export default function Record({
@@ -35,24 +19,87 @@ export default function Record({
   comment,
   dateTime,
   rating,
-  catName
+  catName,
+  imageUrl
 }) {
   const classes = useStyles();
 
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    setChecked(prev => !prev);
+  }, []);
+
   return (
     <>
-      <ExpansionPanel className={classes.root}>
-        <RecordPannelHeadings
-          subject={subject}
-          rating={rating}
-          catName={catName}
-        />
-        <RecordPannelComment
-          comment={comment}
-          dateTime={dateTime}
-          recordId={_id}
-        />
-      </ExpansionPanel>
+      <Grow in={checked}>
+        <Paper elevation={3} style={{ margin: '5px' }}>
+          <Grid container direction='column' className={classes.card}>
+            <Grid
+              item
+              container
+              justify='space-between'
+              alignItems='center'
+              style={{ marginBottom: '5px' }}
+            >
+              <Rating
+                name='size-small'
+                size='small'
+                value={Number(rating)}
+                readOnly
+              />
+              <Typography component='p' variant='subtitle1'>
+                {catName}
+              </Typography>
+            </Grid>
+            {/* main text and heading */}
+            <Grid
+              item
+              container
+              direction='column'
+              spacing={2}
+              style={{ overflowWrap: ' break-word', wordWrap: 'break-word' }}
+            >
+              <Grid item xs={12}>
+                <Typography component='h1' variant='h6'>
+                  {subject}
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography component='p' variant='body1'>
+                  {comment}
+                </Typography>
+              </Grid>
+            </Grid>
+            {/* photo */}
+            {imageUrl && (
+              <Grid item>
+                <img
+                  style={{ width: '100%', height: '100%' }}
+                  src={imageUrl}
+                ></img>
+              </Grid>
+            )}
+            {/* Footer */}
+            <Grid
+              item
+              container
+              justify='space-between'
+              alignItems='baseline'
+              className={classes.time}
+            >
+              <Grid item>
+                <Typography component='p' variant='caption'>
+                  {new Date(dateTime).toLocaleString()}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <ManageRecordIcons recordId={_id} />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Grow>
     </>
   );
 }

@@ -9,6 +9,7 @@ export default function AdminUserTable() {
 
   useEffect(() => {
     const getUsers = async () => {
+      // catch errors and display errors
       const { data: users } = await Api.getAllUsers();
       setUsers(users);
     };

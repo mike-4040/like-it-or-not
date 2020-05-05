@@ -24,6 +24,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^10.2.2",
+    "react-multi-carousel": "^2.5.5",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "typescript": "^3.8.3",

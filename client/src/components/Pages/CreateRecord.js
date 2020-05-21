@@ -10,14 +10,14 @@ import {
 import UserTop from '../common/User';
 import CreateRecordForm from '../common/CreateRecordForm';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   section: {
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: '5%'
   }
-}));
+});
 
 export default function CreateRecord() {
   const classes = useStyles();

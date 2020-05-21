@@ -16,27 +16,23 @@ import LoadingSpinner from './components/common/LoadingSpinner';
 export default function App() {
   const { user, loading } = useContext(AppContext);
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  if (loading) return <LoadingSpinner />;
 
   return (
-    <>
-      <Switch>
-        <Route path='/signin'>
-          {user ? <Redirect to='/main' /> : <SignIn />}
-        </Route>
-        <Route path='/signup'>
-          {user ? <Redirect to='/main' /> : <SignUp />}
-        </Route>
-        <ProtectedRoute path='/record' component={CreateRecord} user={user} />
-        <ProtectedRoute path='/main' component={MainPage} user={user} />
-        <ProtectedRoute path='/admin' component={AdminPage} user={user} />
-        <ProtectedRoute path='/profile' component={Profile} user={user} />
-        <Route exact path='/' component={user ? MainPage : LandingPage} />
-        <Route path='/auth/:token' component={ShortTokenHandler} />
-        <Route path='*' component={PageNotFound} />
-      </Switch>
-    </>
+    <Switch>
+      <Route path='/signin'>
+        {user ? <Redirect to='/main' /> : <SignIn />}
+      </Route>
+      <Route path='/signup'>
+        {user ? <Redirect to='/main' /> : <SignUp />}
+      </Route>
+      <ProtectedRoute path='/record' component={CreateRecord} user={user} />
+      <ProtectedRoute path='/main' component={MainPage} user={user} />
+      <ProtectedRoute path='/admin' component={AdminPage} user={user} />
+      <ProtectedRoute path='/profile' component={Profile} user={user} />
+      <Route exact path='/' component={user ? MainPage : LandingPage} />
+      <Route path='/auth/:token' component={ShortTokenHandler} />
+      <Route path='*' component={PageNotFound} />
+    </Switch>
   );
 }

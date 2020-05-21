@@ -27,7 +27,7 @@ export default function UppyWebCam({ setImage }) {
 
   uppy.on('complete', result => {
     setImage(result.successful[0]);
-    console.log('successful files:', result.successful[0]);
+    //console.log('successful files:', result.successful[0]);
     setCamera(false);
   });
 

@@ -38,7 +38,7 @@ export default function RecordForm() {
           'https://api.cloudinary.com/v1_1/lionapp/image/upload/',
           { method: 'POST', body: data }
         );
-        file = res.json();
+        file = await res.json();
         setImage(null);
       }
 
@@ -60,7 +60,7 @@ export default function RecordForm() {
         setErrors({ subject: response.data.message });
       }
     } catch (e) {
-      console.log('response.data.error: ', e);
+      console.log('error saving picture: ', e);
       setErrors({ subject: `Can't save the picture` });
     }
   };

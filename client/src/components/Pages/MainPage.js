@@ -1,23 +1,35 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../../Context';
 import { Link as RouterLink } from 'react-router-dom';
-import {
-  CssBaseline,
-  Container,
-  makeStyles,
-  Grid,
-  IconButton
-} from '@material-ui/core';
+import { CssBaseline, Container, makeStyles, Button } from '@material-ui/core';
 import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import UserTop from '../common/User';
 import SearchBar from '../common/SearchBar';
-import Table from '../common/Table';
+import Table from '../common/RecordsTable/Table';
 import ModalComponents from '../common/Modals/ModalComponents';
 
 const useStyles = makeStyles(theme => ({
   root: {
     height: '100%'
+  },
+  addRecord: {
+    position: 'fixed',
+    bottom: '30px',
+    right: '0px',
+    width: '100px',
+    height: '70px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    [theme.breakpoints.down('md')]: {
+      top: '10px',
+      left: '0px',
+      borderTopLeftRadius: '0%',
+      width: '50px',
+      height: '50px'
+    }
   }
 }));
 
@@ -71,18 +83,19 @@ export default function MainPage() {
           setEndDate={setEndDate}
         />
         <Table records={records} setRecords={setRecords} />
-        <Grid container justify='center' styles={{ marginTop: '10px' }}>
-          <Grid item>
-            <IconButton
-              color='primary'
-              size='medium'
+
+        <div>
+          <Tooltip title='Create new record' placement='top'>
+            <Button
+              className={classes.addRecord}
+              variant='contained'
               component={RouterLink}
               to='/record'
             >
-              <AddCircleOutlineRoundedIcon fontSize='large' />
-            </IconButton>
-          </Grid>
-        </Grid>
+              <AddCircleOutlineRoundedIcon fontSize='large' color='primary' />
+            </Button>
+          </Tooltip>
+        </div>
       </Container>
       {/* Modals */}
       <ModalComponents />

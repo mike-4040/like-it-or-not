@@ -54,7 +54,16 @@ module.exports = {
   }
 };
 cleanRecord = dbRecord => {
-  const { _id, categoryId, rating, dateTime, comment, subject } = dbRecord;
+  const {
+    _id,
+    categoryId,
+    rating,
+    dateTime,
+    comment,
+    subject,
+    imageUrl
+  } = dbRecord;
+
   const cleanRecord = {
     _id,
     catName: (categoryId && categoryId.catName) || 'Undefined',
@@ -62,6 +71,7 @@ cleanRecord = dbRecord => {
     rating,
     dateTime,
     subject,
+    imageUrl,
     comment
   };
   return cleanRecord;

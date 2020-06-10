@@ -1,0 +1,67 @@
+openapi: 3.0.0
+servers:
+  - url: https://lion-staging.herokuapp.com/
+    description: Staging
+  - url: https://ka-mk-lion.herokuapp.com/
+    description: Production
+info:
+  description: Like It Or Not API
+  version: "0.1.0"
+  title: LION API
+  contact:
+    email: mike4040@me.com
+paths:
+  /api/category:
+    get:
+      summary: all categories
+      description: Return a list of all categories
+      responses:
+        '200':
+          description: Successfully returned a list of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    catName:
+                      type: string
+
+        '400':
+          description: bad input parameter
+  /api/category/{id}:
+    get:
+      summary: all categories
+      description: Get Category by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          
+      responses:
+        '200':
+          description: Successfully returned a Category
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  catName:
+                    type: string
+                
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object 
+                properties:           
+                  message:
+                    type: string

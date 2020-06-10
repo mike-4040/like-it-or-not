@@ -77,6 +77,7 @@ export default function Record({
                 <img
                   style={{ width: '100%', height: '100%' }}
                   src={imageUrl}
+                  alt=""
                 ></img>
               </Grid>
             )}

@@ -11,6 +11,49 @@ export default function AdminCategoriesTable() {
     // { title: 'Category id', field: 'categoryId', editable: 'never' }
   ];
 
+  const onRowAdd = newData =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const { data } = await Api.createCategory({
+          catName: newData.catName
+        });
+        if (data) {
+          setAllCategories([...allCategories, data]);
+          resolve();
+        }
+      } catch (err) {
+        reject(err);
+      }
+    });
+  const onRowUpdate = (newData, oldData) =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const { data } = await Api.updateCategory(oldData.categoryId, newData);
+        if (data) {
+          const index = allCategories.findIndex(el => el._id === data._id);
+          allCategories[index] = data;
+          setAllCategories([...allCategories]);
+          resolve();
+        }
+      } catch (err) {
+        reject(err);
+      }
+    });
+  const onRowDelete = oldData =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const { data } = await Api.deleteCategory(oldData.categoryId);
+        if (data) {
+          setAllCategories(categories =>
+            categories.filter(el => el._id !== data._id)
+          );
+          resolve();
+        }
+      } catch (err) {
+        reject(err);
+      }
+    });
+
   return (
     <MaterialTable
       style={{ height: '100%' }}
@@ -26,53 +69,9 @@ export default function AdminCategoriesTable() {
         actionsColumnIndex: -1
       }}
       editable={{
-        onRowAdd: newData =>
-          new Promise(async (resolve, reject) => {
-            try {
-              const { data } = await Api.createCategory({
-                catName: newData.catName
-              });
-              if (data) {
-                setAllCategories([...allCategories, data]);
-                resolve();
-              }
-            } catch (err) {
-              reject(err);
-            }
-          }),
-        onRowUpdate: (newData, oldData) =>
-          new Promise(async (resolve, reject) => {
-            try {
-              const { data } = await Api.updateCategory(
-                oldData.categoryId,
-                newData
-              );
-              if (data) {
-                const index = allCategories.findIndex(
-                  el => el._id === data._id
-                );
-                allCategories[index] = data;
-                setAllCategories([...allCategories]);
-                resolve();
-              }
-            } catch (err) {
-              reject(err);
-            }
-          }),
-        onRowDelete: oldData =>
-          new Promise(async (resolve, reject) => {
-            try {
-              const { data } = await Api.deleteCategory(oldData.categoryId);
-              if (data) {
-                setAllCategories(categories =>
-                  categories.filter(el => el._id !== data._id)
-                );
-                resolve();
-              }
-            } catch (err) {
-              reject(err);
-            }
-          })
+        onRowAdd,
+        onRowUpdate,
+        onRowDelete
       }}
     />
   );

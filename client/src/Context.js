@@ -1,7 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 // import { dummyRecords } from './Dummy';
 import Api from './utils/api';
-
 import AuthService from './utils/AuthService';
 const Auth = new AuthService();
 
@@ -58,9 +57,7 @@ function ContextProvider({ children }) {
   };
 
   useEffect(() => {
-    if (user) {
-      getUserRecords(user.id);
-    }
+    if (user) getUserRecords(user.id);
   }, [user]);
 
   useEffect(() => {

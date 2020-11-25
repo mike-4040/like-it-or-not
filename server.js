@@ -34,7 +34,10 @@ app.use(passport.initialize());
 
 mongoose
   .connect(mongorc.MONGODB_URI, mongorc.options)
-  .then(() => console.log('MongoDB Connected!'))
+  .then(
+    () => console.log('MongoDB Connected!'),
+    app.listen(port, () => console.log(`App listening on port ${port}!`))
+  )
   .catch(err => console.error(err));
 
 // Serve up static assets
@@ -56,5 +59,3 @@ app.get('*', function (req, res) {
   if (process.env.NODE_ENV === 'production')
     res.sendFile(path.join(__dirname, './client/build/index.html'));
 });
-
-app.listen(port, () => console.log(`App listening on port ${port}!`));

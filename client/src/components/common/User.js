@@ -17,6 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AppContext } from '../../Context';
 
 import AuthService from '../../utils/AuthService';
+import Github from './Github';
 
 const Auth = new AuthService();
 
@@ -85,17 +86,20 @@ export default function User() {
             onClose={() => setAnchorEl(null)}
           >
             <Link component={RouterLink} to='/main' className={classes.link}>
-              <MenuItem>{'Main'}</MenuItem>
+              <MenuItem>Main</MenuItem>
             </Link>
             <Link component={RouterLink} to='/profile' className={classes.link}>
-              <MenuItem>{'Profile'}</MenuItem>
+              <MenuItem>Profile</MenuItem>
             </Link>
             {user.role === 'admin' && (
               <Link component={RouterLink} to='/admin' className={classes.link}>
-                <MenuItem>{'Admin dashboard'}</MenuItem>
+                <MenuItem>Admin dashboard </MenuItem>
               </Link>
             )}
             <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem>
+              <Github />
+            </MenuItem>
           </Menu>
         </Grid>
       </Grid>

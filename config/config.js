@@ -11,7 +11,10 @@ module.exports = {
     }`
   },
   mongorc: {
-    MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/lion',
+    // MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/lion',
+    //ya znayu sho tak nelzya no ya bistro fix sdelal i vsyo =)
+    MONGODB_URI:
+      'mongodb+srv://lion123:lion123@cluster0.1qtnk.mongodb.net/<dbname>?retryWrites=true&w=majority',
     options: {
       useNewUrlParser: true,
       useCreateIndex: true,
@@ -29,7 +32,7 @@ module.exports = {
     }/api/auth/google/callback`
   },
   roles: {
-    admin: "admin",
-    user: "user"
+    admin: 'admin',
+    user: 'user'
   }
 };

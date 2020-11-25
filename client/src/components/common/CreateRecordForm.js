@@ -19,49 +19,49 @@ const initialState = {
 };
 
 export default function RecordForm() {
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState();
 
   const { setRecords, user } = useContext(AppContext);
   let history = useHistory();
 
   const handleSubmit = async (values, { setErrors }) => {
-    if (image) {
-      //sending file to cloud
-      let data = new FormData();
-      data.append('file', image.data);
-      data.append('name', image.name);
-      data.append('upload_preset', 'lionapp');
-      console.log('data', data);
-      try {
+    //sending file to cloud
+    let file = {};
+    try {
+      if (image) {
+        let data = new FormData();
+        data.append('file', image.data);
+        data.append('name', image.name);
+        data.append('upload_preset', 'lionapp');
         // sending file to cloudinary
         const res = await fetch(
           'https://api.cloudinary.com/v1_1/lionapp/image/upload/',
           { method: 'POST', body: data }
         );
-        const file = await res.json();
-        console.log('file', file);
-        setImage(img => (img = file));
-      } catch (err) {
-        console.log('err', err);
+        file = await res.json();
+        setImage(null);
       }
-    }
 
-    const newRecord = {
-      userId: user.id,
-      dateTime: Date.now(),
-      imageUrl: image ? image.secure_url : '',
-      ...values
-    };
-    console.log('newRecord', newRecord);
-    try {
-      const { data } = await Api.createRecord(newRecord);
-      if (data) {
-        setRecords(records => (records ? [data, ...records] : [data]));
-        history.push('/main');
+      const newRecord = {
+        userId: user.id,
+        dateTime: Date.now(),
+        imageUrl: file.secure_url ? file.secure_url : '',
+        ...values
+      };
+      /** sending record to the backend */
+      try {
+        const { data } = await Api.createRecord(newRecord);
+        if (data) {
+          setRecords(records => (records ? [data, ...records] : [data]));
+          history.push('/main');
+        }
+      } catch ({ response }) {
+        console.log('response.data.error: ', response.data.error);
+        setErrors({ subject: response.data.message });
       }
-    } catch ({ response }) {
-      console.log('response.data.error: ', response.data.error);
-      setErrors({ subject: response.data.message });
+    } catch (e) {
+      console.log('error saving picture: ', e);
+      setErrors({ subject: `Can't save the picture` });
     }
   };
 
@@ -98,6 +98,7 @@ export default function RecordForm() {
           <img
             style={{ width: '100%', height: 'auto' }}
             src={image.preview}
+            alt=''
           ></img>
         </Paper>
       )}

@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "jsdoc": "^3.6.4",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "cypress": "^4.3.0"
   },
   "resolutions": {
